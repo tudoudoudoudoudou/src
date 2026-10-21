@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gingkoo">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/com/gingkoo.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
