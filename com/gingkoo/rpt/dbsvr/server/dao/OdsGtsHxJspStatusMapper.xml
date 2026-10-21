@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.OdsGtsHxJspStatusMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.OdsGtsHxJspStatus">
+    <result column="NSRSBH" jdbcType="VARCHAR" property="nsrsbh" />
+    <result column="BKPJLX" jdbcType="CHAR" property="bkpjlx" />
+    <result column="FKPJSM" jdbcType="VARCHAR" property="fkpjsm" />
+    <result column="KPDH" jdbcType="VARCHAR" property="kpdh" />
+    <result column="JSSBDQRQ" jdbcType="CHAR" property="jssbdqrq" />
+    <result column="FPSFYW" jdbcType="CHAR" property="fpsfyw" />
+    <result column="SCJZRQ" jdbcType="VARCHAR" property="scjzrq" />
+    <result column="LXSX" jdbcType="VARCHAR" property="lxsx" />
+    <result column="QDCXBBH" jdbcType="VARCHAR" property="qdcxbbh" />
+    <result column="DCCXBBH" jdbcType="VARCHAR" property="dccxbbh" />
+    <result column="JSPBH" jdbcType="VARCHAR" property="jspbh" />
+    <result column="BSPBH" jdbcType="VARCHAR" property="bspbh" />
+    <result column="BSPDCBBH" jdbcType="VARCHAR" property="bspdcbbh" />
+    <result column="HZFWSQ" jdbcType="CHAR" property="hzfwsq" />
+    <result column="FXSQXX" jdbcType="CHAR" property="fxsqxx" />
+    <result column="BSPRL" jdbcType="VARCHAR" property="bsprl" />
+    <result column="SFDCSQ" jdbcType="CHAR" property="sfdcsq" />
+    <result column="SFDSSQ" jdbcType="CHAR" property="sfdssq" />
+    <result column="ZYFPLXXE" jdbcType="NUMERIC" property="zyfplxxe" />
+    <result column="PTFPLXXE" jdbcType="NUMERIC" property="ptfplxxe" />
+    <result column="ZYFPLXSYJE" jdbcType="NUMERIC" property="zyfplxsyje" />
+    <result column="PTFPLXSYJE" jdbcType="NUMERIC" property="ptfplxsyje" />
+    <result column="ZYFPKPXE" jdbcType="NUMERIC" property="zyfpkpxe" />
+    <result column="PTFPKPXE" jdbcType="NUMERIC" property="ptfpkpxe" />
+    <result column="SSRQ" jdbcType="CHAR" property="ssrq" />
+    <result column="SCCBRQ" jdbcType="CHAR" property="sccbrq" />
+    <result column="CSQSRQ" jdbcType="CHAR" property="csqsrq" />
+    <result column="BSZL" jdbcType="CHAR" property="bszl" />
+    <result column="BSCGBZ" jdbcType="CHAR" property="bscgbz" />
+    <result column="GRFPXX" jdbcType="CHAR" property="grfpxx" />
+    <result column="THFPXX" jdbcType="CHAR" property="thfpxx" />
+    <result column="LXXE" jdbcType="NUMERIC" property="lxxe" />
+    <result column="LXSYJE" jdbcType="NUMERIC" property="lxsyje" />
+    <result column="DZKPXE" jdbcType="NUMERIC" property="dzkpxe" />
+    <result column="YLJKPXX" jdbcType="NUMERIC" property="yljkpxx" />
+    <result column="YLJTPXX" jdbcType="NUMERIC" property="yljtpxx" />
+    <result column="BYYKFPJE" jdbcType="NUMERIC" property="byykfpje" />
+    <result column="BYYTFPJE" jdbcType="NUMERIC" property="byytfpje" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    NSRSBH, BKPJLX, FKPJSM, KPDH, JSSBDQRQ, FPSFYW, SCJZRQ, LXSX, QDCXBBH, DCCXBBH, JSPBH, 
+    BSPBH, BSPDCBBH, HZFWSQ, FXSQXX, BSPRL, SFDCSQ, SFDSSQ, ZYFPLXXE, PTFPLXXE, ZYFPLXSYJE, 
+    PTFPLXSYJE, ZYFPKPXE, PTFPKPXE, SSRQ, SCCBRQ, CSQSRQ, BSZL, BSCGBZ, GRFPXX, THFPXX, 
+    LXXE, LXSYJE, DZKPXE, YLJKPXX, YLJTPXX, BYYKFPJE, BYYTFPJE
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsGtsHxJspStatusExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ODS_GTS_HX_JSP_STATUS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsGtsHxJspStatusExample">
+    delete from ODS_GTS_HX_JSP_STATUS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsGtsHxJspStatus">
+    insert into ODS_GTS_HX_JSP_STATUS (NSRSBH, BKPJLX, FKPJSM, 
+      KPDH, JSSBDQRQ, FPSFYW, SCJZRQ, 
+      LXSX, QDCXBBH, DCCXBBH, 
+      JSPBH, BSPBH, BSPDCBBH, 
+      HZFWSQ, FXSQXX, BSPRL, SFDCSQ, 
+      SFDSSQ, ZYFPLXXE, PTFPLXXE, 
+      ZYFPLXSYJE, PTFPLXSYJE, ZYFPKPXE, 
+      PTFPKPXE, SSRQ, SCCBRQ, CSQSRQ, 
+      BSZL, BSCGBZ, GRFPXX, THFPXX, 
+      LXXE, LXSYJE, DZKPXE, 
+      YLJKPXX, YLJTPXX, BYYKFPJE, 
+      BYYTFPJE)
+    values (#{nsrsbh,jdbcType=VARCHAR}, #{bkpjlx,jdbcType=CHAR}, #{fkpjsm,jdbcType=VARCHAR}, 
+      #{kpdh,jdbcType=VARCHAR}, #{jssbdqrq,jdbcType=CHAR}, #{fpsfyw,jdbcType=CHAR}, #{scjzrq,jdbcType=VARCHAR}, 
+      #{lxsx,jdbcType=VARCHAR}, #{qdcxbbh,jdbcType=VARCHAR}, #{dccxbbh,jdbcType=VARCHAR}, 
+      #{jspbh,jdbcType=VARCHAR}, #{bspbh,jdbcType=VARCHAR}, #{bspdcbbh,jdbcType=VARCHAR}, 
+      #{hzfwsq,jdbcType=CHAR}, #{fxsqxx,jdbcType=CHAR}, #{bsprl,jdbcType=VARCHAR}, #{sfdcsq,jdbcType=CHAR}, 
+      #{sfdssq,jdbcType=CHAR}, #{zyfplxxe,jdbcType=NUMERIC}, #{ptfplxxe,jdbcType=NUMERIC}, 
+      #{zyfplxsyje,jdbcType=NUMERIC}, #{ptfplxsyje,jdbcType=NUMERIC}, #{zyfpkpxe,jdbcType=NUMERIC}, 
+      #{ptfpkpxe,jdbcType=NUMERIC}, #{ssrq,jdbcType=CHAR}, #{sccbrq,jdbcType=CHAR}, #{csqsrq,jdbcType=CHAR}, 
+      #{bszl,jdbcType=CHAR}, #{bscgbz,jdbcType=CHAR}, #{grfpxx,jdbcType=CHAR}, #{thfpxx,jdbcType=CHAR}, 
+      #{lxxe,jdbcType=NUMERIC}, #{lxsyje,jdbcType=NUMERIC}, #{dzkpxe,jdbcType=NUMERIC}, 
+      #{yljkpxx,jdbcType=NUMERIC}, #{yljtpxx,jdbcType=NUMERIC}, #{byykfpje,jdbcType=NUMERIC}, 
+      #{byytfpje,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsGtsHxJspStatus">
+    insert into ODS_GTS_HX_JSP_STATUS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nsrsbh != null">
+        NSRSBH,
+      </if>
+      <if test="bkpjlx != null">
+        BKPJLX,
+      </if>
+      <if test="fkpjsm != null">
+        FKPJSM,
+      </if>
+      <if test="kpdh != null">
+        KPDH,
+      </if>
+      <if test="jssbdqrq != null">
+        JSSBDQRQ,
+      </if>
+      <if test="fpsfyw != null">
+        FPSFYW,
+      </if>
+      <if test="scjzrq != null">
+        SCJZRQ,
+      </if>
+      <if test="lxsx != null">
+        LXSX,
+      </if>
+      <if test="qdcxbbh != null">
+        QDCXBBH,
+      </if>
+      <if test="dccxbbh != null">
+        DCCXBBH,
+      </if>
+      <if test="jspbh != null">
+        JSPBH,
+      </if>
+      <if test="bspbh != null">
+        BSPBH,
+      </if>
+      <if test="bspdcbbh != null">
+        BSPDCBBH,
+      </if>
+      <if test="hzfwsq != null">
+        HZFWSQ,
+      </if>
+      <if test="fxsqxx != null">
+        FXSQXX,
+      </if>
+      <if test="bsprl != null">
+        BSPRL,
+      </if>
+      <if test="sfdcsq != null">
+        SFDCSQ,
+      </if>
+      <if test="sfdssq != null">
+        SFDSSQ,
+      </if>
+      <if test="zyfplxxe != null">
+        ZYFPLXXE,
+      </if>
+      <if test="ptfplxxe != null">
+        PTFPLXXE,
+      </if>
+      <if test="zyfplxsyje != null">
+        ZYFPLXSYJE,
+      </if>
+      <if test="ptfplxsyje != null">
+        PTFPLXSYJE,
+      </if>
+      <if test="zyfpkpxe != null">
+        ZYFPKPXE,
+      </if>
+      <if test="ptfpkpxe != null">
+        PTFPKPXE,
+      </if>
+      <if test="ssrq != null">
+        SSRQ,
+      </if>
+      <if test="sccbrq != null">
+        SCCBRQ,
+      </if>
+      <if test="csqsrq != null">
+        CSQSRQ,
+      </if>
+      <if test="bszl != null">
+        BSZL,
+      </if>
+      <if test="bscgbz != null">
+        BSCGBZ,
+      </if>
+      <if test="grfpxx != null">
+        GRFPXX,
+      </if>
+      <if test="thfpxx != null">
+        THFPXX,
+      </if>
+      <if test="lxxe != null">
+        LXXE,
+      </if>
+      <if test="lxsyje != null">
+        LXSYJE,
+      </if>
+      <if test="dzkpxe != null">
+        DZKPXE,
+      </if>
+      <if test="yljkpxx != null">
+        YLJKPXX,
+      </if>
+      <if test="yljtpxx != null">
+        YLJTPXX,
+      </if>
+      <if test="byykfpje != null">
+        BYYKFPJE,
+      </if>
+      <if test="byytfpje != null">
+        BYYTFPJE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nsrsbh != null">
+        #{nsrsbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bkpjlx != null">
+        #{bkpjlx,jdbcType=CHAR},
+      </if>
+      <if test="fkpjsm != null">
+        #{fkpjsm,jdbcType=VARCHAR},
+      </if>
+      <if test="kpdh != null">
+        #{kpdh,jdbcType=VARCHAR},
+      </if>
+      <if test="jssbdqrq != null">
+        #{jssbdqrq,jdbcType=CHAR},
+      </if>
+      <if test="fpsfyw != null">
+        #{fpsfyw,jdbcType=CHAR},
+      </if>
+      <if test="scjzrq != null">
+        #{scjzrq,jdbcType=VARCHAR},
+      </if>
+      <if test="lxsx != null">
+        #{lxsx,jdbcType=VARCHAR},
+      </if>
+      <if test="qdcxbbh != null">
+        #{qdcxbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="dccxbbh != null">
+        #{dccxbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="jspbh != null">
+        #{jspbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bspbh != null">
+        #{bspbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bspdcbbh != null">
+        #{bspdcbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="hzfwsq != null">
+        #{hzfwsq,jdbcType=CHAR},
+      </if>
+      <if test="fxsqxx != null">
+        #{fxsqxx,jdbcType=CHAR},
+      </if>
+      <if test="bsprl != null">
+        #{bsprl,jdbcType=VARCHAR},
+      </if>
+      <if test="sfdcsq != null">
+        #{sfdcsq,jdbcType=CHAR},
+      </if>
+      <if test="sfdssq != null">
+        #{sfdssq,jdbcType=CHAR},
+      </if>
+      <if test="zyfplxxe != null">
+        #{zyfplxxe,jdbcType=NUMERIC},
+      </if>
+      <if test="ptfplxxe != null">
+        #{ptfplxxe,jdbcType=NUMERIC},
+      </if>
+      <if test="zyfplxsyje != null">
+        #{zyfplxsyje,jdbcType=NUMERIC},
+      </if>
+      <if test="ptfplxsyje != null">
+        #{ptfplxsyje,jdbcType=NUMERIC},
+      </if>
+      <if test="zyfpkpxe != null">
+        #{zyfpkpxe,jdbcType=NUMERIC},
+      </if>
+      <if test="ptfpkpxe != null">
+        #{ptfpkpxe,jdbcType=NUMERIC},
+      </if>
+      <if test="ssrq != null">
+        #{ssrq,jdbcType=CHAR},
+      </if>
+      <if test="sccbrq != null">
+        #{sccbrq,jdbcType=CHAR},
+      </if>
+      <if test="csqsrq != null">
+        #{csqsrq,jdbcType=CHAR},
+      </if>
+      <if test="bszl != null">
+        #{bszl,jdbcType=CHAR},
+      </if>
+      <if test="bscgbz != null">
+        #{bscgbz,jdbcType=CHAR},
+      </if>
+      <if test="grfpxx != null">
+        #{grfpxx,jdbcType=CHAR},
+      </if>
+      <if test="thfpxx != null">
+        #{thfpxx,jdbcType=CHAR},
+      </if>
+      <if test="lxxe != null">
+        #{lxxe,jdbcType=NUMERIC},
+      </if>
+      <if test="lxsyje != null">
+        #{lxsyje,jdbcType=NUMERIC},
+      </if>
+      <if test="dzkpxe != null">
+        #{dzkpxe,jdbcType=NUMERIC},
+      </if>
+      <if test="yljkpxx != null">
+        #{yljkpxx,jdbcType=NUMERIC},
+      </if>
+      <if test="yljtpxx != null">
+        #{yljtpxx,jdbcType=NUMERIC},
+      </if>
+      <if test="byykfpje != null">
+        #{byykfpje,jdbcType=NUMERIC},
+      </if>
+      <if test="byytfpje != null">
+        #{byytfpje,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsGtsHxJspStatusExample" resultType="java.lang.Integer">
+    select count(*) from ODS_GTS_HX_JSP_STATUS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ODS_GTS_HX_JSP_STATUS
+    <set>
+      <if test="record.nsrsbh != null">
+        NSRSBH = #{record.nsrsbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkpjlx != null">
+        BKPJLX = #{record.bkpjlx,jdbcType=CHAR},
+      </if>
+      <if test="record.fkpjsm != null">
+        FKPJSM = #{record.fkpjsm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpdh != null">
+        KPDH = #{record.kpdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssbdqrq != null">
+        JSSBDQRQ = #{record.jssbdqrq,jdbcType=CHAR},
+      </if>
+      <if test="record.fpsfyw != null">
+        FPSFYW = #{record.fpsfyw,jdbcType=CHAR},
+      </if>
+      <if test="record.scjzrq != null">
+        SCJZRQ = #{record.scjzrq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxsx != null">
+        LXSX = #{record.lxsx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qdcxbbh != null">
+        QDCXBBH = #{record.qdcxbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dccxbbh != null">
+        DCCXBBH = #{record.dccxbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jspbh != null">
+        JSPBH = #{record.jspbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bspbh != null">
+        BSPBH = #{record.bspbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bspdcbbh != null">
+        BSPDCBBH = #{record.bspdcbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hzfwsq != null">
+        HZFWSQ = #{record.hzfwsq,jdbcType=CHAR},
+      </if>
+      <if test="record.fxsqxx != null">
+        FXSQXX = #{record.fxsqxx,jdbcType=CHAR},
+      </if>
+      <if test="record.bsprl != null">
+        BSPRL = #{record.bsprl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfdcsq != null">
+        SFDCSQ = #{record.sfdcsq,jdbcType=CHAR},
+      </if>
+      <if test="record.sfdssq != null">
+        SFDSSQ = #{record.sfdssq,jdbcType=CHAR},
+      </if>
+      <if test="record.zyfplxxe != null">
+        ZYFPLXXE = #{record.zyfplxxe,jdbcType=NUMERIC},
+      </if>
+      <if test="record.ptfplxxe != null">
+        PTFPLXXE = #{record.ptfplxxe,jdbcType=NUMERIC},
+      </if>
+      <if test="record.zyfplxsyje != null">
+        ZYFPLXSYJE = #{record.zyfplxsyje,jdbcType=NUMERIC},
+      </if>
+      <if test="record.ptfplxsyje != null">
+        PTFPLXSYJE = #{record.ptfplxsyje,jdbcType=NUMERIC},
+      </if>
+      <if test="record.zyfpkpxe != null">
+        ZYFPKPXE = #{record.zyfpkpxe,jdbcType=NUMERIC},
+      </if>
+      <if test="record.ptfpkpxe != null">
+        PTFPKPXE = #{record.ptfpkpxe,jdbcType=NUMERIC},
+      </if>
+      <if test="record.ssrq != null">
+        SSRQ = #{record.ssrq,jdbcType=CHAR},
+      </if>
+      <if test="record.sccbrq != null">
+        SCCBRQ = #{record.sccbrq,jdbcType=CHAR},
+      </if>
+      <if test="record.csqsrq != null">
+        CSQSRQ = #{record.csqsrq,jdbcType=CHAR},
+      </if>
+      <if test="record.bszl != null">
+        BSZL = #{record.bszl,jdbcType=CHAR},
+      </if>
+      <if test="record.bscgbz != null">
+        BSCGBZ = #{record.bscgbz,jdbcType=CHAR},
+      </if>
+      <if test="record.grfpxx != null">
+        GRFPXX = #{record.grfpxx,jdbcType=CHAR},
+      </if>
+      <if test="record.thfpxx != null">
+        THFPXX = #{record.thfpxx,jdbcType=CHAR},
+      </if>
+      <if test="record.lxxe != null">
+        LXXE = #{record.lxxe,jdbcType=NUMERIC},
+      </if>
+      <if test="record.lxsyje != null">
+        LXSYJE = #{record.lxsyje,jdbcType=NUMERIC},
+      </if>
+      <if test="record.dzkpxe != null">
+        DZKPXE = #{record.dzkpxe,jdbcType=NUMERIC},
+      </if>
+      <if test="record.yljkpxx != null">
+        YLJKPXX = #{record.yljkpxx,jdbcType=NUMERIC},
+      </if>
+      <if test="record.yljtpxx != null">
+        YLJTPXX = #{record.yljtpxx,jdbcType=NUMERIC},
+      </if>
+      <if test="record.byykfpje != null">
+        BYYKFPJE = #{record.byykfpje,jdbcType=NUMERIC},
+      </if>
+      <if test="record.byytfpje != null">
+        BYYTFPJE = #{record.byytfpje,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ODS_GTS_HX_JSP_STATUS
+    set NSRSBH = #{record.nsrsbh,jdbcType=VARCHAR},
+      BKPJLX = #{record.bkpjlx,jdbcType=CHAR},
+      FKPJSM = #{record.fkpjsm,jdbcType=VARCHAR},
+      KPDH = #{record.kpdh,jdbcType=VARCHAR},
+      JSSBDQRQ = #{record.jssbdqrq,jdbcType=CHAR},
+      FPSFYW = #{record.fpsfyw,jdbcType=CHAR},
+      SCJZRQ = #{record.scjzrq,jdbcType=VARCHAR},
+      LXSX = #{record.lxsx,jdbcType=VARCHAR},
+      QDCXBBH = #{record.qdcxbbh,jdbcType=VARCHAR},
+      DCCXBBH = #{record.dccxbbh,jdbcType=VARCHAR},
+      JSPBH = #{record.jspbh,jdbcType=VARCHAR},
+      BSPBH = #{record.bspbh,jdbcType=VARCHAR},
+      BSPDCBBH = #{record.bspdcbbh,jdbcType=VARCHAR},
+      HZFWSQ = #{record.hzfwsq,jdbcType=CHAR},
+      FXSQXX = #{record.fxsqxx,jdbcType=CHAR},
+      BSPRL = #{record.bsprl,jdbcType=VARCHAR},
+      SFDCSQ = #{record.sfdcsq,jdbcType=CHAR},
+      SFDSSQ = #{record.sfdssq,jdbcType=CHAR},
+      ZYFPLXXE = #{record.zyfplxxe,jdbcType=NUMERIC},
+      PTFPLXXE = #{record.ptfplxxe,jdbcType=NUMERIC},
+      ZYFPLXSYJE = #{record.zyfplxsyje,jdbcType=NUMERIC},
+      PTFPLXSYJE = #{record.ptfplxsyje,jdbcType=NUMERIC},
+      ZYFPKPXE = #{record.zyfpkpxe,jdbcType=NUMERIC},
+      PTFPKPXE = #{record.ptfpkpxe,jdbcType=NUMERIC},
+      SSRQ = #{record.ssrq,jdbcType=CHAR},
+      SCCBRQ = #{record.sccbrq,jdbcType=CHAR},
+      CSQSRQ = #{record.csqsrq,jdbcType=CHAR},
+      BSZL = #{record.bszl,jdbcType=CHAR},
+      BSCGBZ = #{record.bscgbz,jdbcType=CHAR},
+      GRFPXX = #{record.grfpxx,jdbcType=CHAR},
+      THFPXX = #{record.thfpxx,jdbcType=CHAR},
+      LXXE = #{record.lxxe,jdbcType=NUMERIC},
+      LXSYJE = #{record.lxsyje,jdbcType=NUMERIC},
+      DZKPXE = #{record.dzkpxe,jdbcType=NUMERIC},
+      YLJKPXX = #{record.yljkpxx,jdbcType=NUMERIC},
+      YLJTPXX = #{record.yljtpxx,jdbcType=NUMERIC},
+      BYYKFPJE = #{record.byykfpje,jdbcType=NUMERIC},
+      BYYTFPJE = #{record.byytfpje,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

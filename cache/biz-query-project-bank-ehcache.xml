@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache>
+	
+	<diskStore path="java.io.tmpdir" />
+	
+	<defaultCache 
+		maxElementsInMemory="60000" 
+		memoryStoreEvictionPolicy="LRU" 
+		eternal="false"
+		timeToIdleSeconds="300" 
+		timeToLiveSeconds="300" 
+		overflowToDisk="false" 
+		diskPersistent="false" 
+	/>
+		
+	<cache 
+		name="cnapsBankEhcache" 
+		maxElementsInMemory="200000"
+		memoryStoreEvictionPolicy="LRU" 
+		timeToLiveSeconds="3600" 
+		timeToIdleSeconds="3600"
+		eternal="true"
+		overflowToDisk="false" 
+		diskPersistent="false"
+	/>
+	
+</ehcache>

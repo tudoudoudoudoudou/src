@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.PmVatTxMRuleMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRule">
+    <id column="DATA_ID" jdbcType="CHAR" property="dataId" />
+    <result column="DATA_DATE" jdbcType="CHAR" property="dataDate" />
+    <result column="CORP_ID" jdbcType="VARCHAR" property="corpId" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+    <result column="INQ_ORG_ID" jdbcType="CHAR" property="inqOrgId" />
+    <result column="INQ_GROUP_ID" jdbcType="CHAR" property="inqGroupId" />
+    <result column="BOUC_MONTH" jdbcType="CHAR" property="boucMonth" />
+    <result column="ALL_CUST" jdbcType="CHAR" property="allCust" />
+    <result column="IS_SEQ_MERGE" jdbcType="CHAR" property="isSeqMerge" />
+    <result column="SEQ_MERGE_TYPE" jdbcType="CHAR" property="seqMergeType" />
+    <result column="SEQ_MERGE_DAY_NUM" jdbcType="NUMERIC" property="seqMergeDayNum" />
+    <result column="VOC_MONTH_OF_DAY" jdbcType="CHAR" property="vocMonthOfDay" />
+    <result column="TX_CODE" jdbcType="VARCHAR" property="txCode" />
+    <result column="TX_NAME" jdbcType="VARCHAR" property="txName" />
+    <result column="MAX_AMT" jdbcType="NUMERIC" property="maxAmt" />
+    <result column="AMT_TYPE" jdbcType="CHAR" property="amtType" />
+    <result column="IS_SEQ_BRANCH" jdbcType="CHAR" property="isSeqBranch" />
+    <result column="SEQ_BRANCH_TYPE" jdbcType="CHAR" property="seqBranchType" />
+    <result column="TX_CODES" jdbcType="VARCHAR" property="txCodes" />
+    <result column="ALL_TX_CODE" jdbcType="CHAR" property="allTxCode" />
+    <result column="RULE_ORDER" jdbcType="NUMERIC" property="ruleOrder" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="CHECK_FLAG" jdbcType="CHAR" property="checkFlag" />
+    <result column="CHECK_DESC" jdbcType="VARCHAR" property="checkDesc" />
+    <result column="NEXT_ACTION" jdbcType="CHAR" property="nextAction" />
+    <result column="DATA_STATUS" jdbcType="CHAR" property="dataStatus" />
+    <result column="DATA_FLAG" jdbcType="CHAR" property="dataFlag" />
+    <result column="DATA_SOURCE" jdbcType="CHAR" property="dataSource" />
+    <result column="DATA_VERSION" jdbcType="NUMERIC" property="dataVersion" />
+    <result column="DATA_REJ_DESC" jdbcType="VARCHAR" property="dataRejDesc" />
+    <result column="DATA_DEL_DESC" jdbcType="VARCHAR" property="dataDelDesc" />
+    <result column="DATA_CRT_USER" jdbcType="VARCHAR" property="dataCrtUser" />
+    <result column="DATA_CRT_DATE" jdbcType="CHAR" property="dataCrtDate" />
+    <result column="DATA_CRT_TIME" jdbcType="CHAR" property="dataCrtTime" />
+    <result column="DATA_CHG_USER" jdbcType="VARCHAR" property="dataChgUser" />
+    <result column="DATA_CHG_DATE" jdbcType="CHAR" property="dataChgDate" />
+    <result column="DATA_CHG_TIME" jdbcType="CHAR" property="dataChgTime" />
+    <result column="DATA_APV_USER" jdbcType="VARCHAR" property="dataApvUser" />
+    <result column="DATA_APV_DATE" jdbcType="CHAR" property="dataApvDate" />
+    <result column="DATA_APV_TIME" jdbcType="CHAR" property="dataApvTime" />
+    <result column="MIN_AMT" jdbcType="NUMERIC" property="minAmt" />
+    <result column="RSV1" jdbcType="VARCHAR" property="rsv1" />
+    <result column="RSV2" jdbcType="VARCHAR" property="rsv2" />
+    <result column="RSV3" jdbcType="VARCHAR" property="rsv3" />
+    <result column="RSV4" jdbcType="VARCHAR" property="rsv4" />
+    <result column="RSV5" jdbcType="VARCHAR" property="rsv5" />
+    <result column="CHECK_ERR_TYPE" jdbcType="CHAR" property="checkErrType" />
+    <result column="RULE_NAME" jdbcType="VARCHAR" property="ruleName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DATA_ID, DATA_DATE, CORP_ID, ORG_ID, GROUP_ID, INQ_ORG_ID, INQ_GROUP_ID, BOUC_MONTH, 
+    ALL_CUST, IS_SEQ_MERGE, SEQ_MERGE_TYPE, SEQ_MERGE_DAY_NUM, VOC_MONTH_OF_DAY, TX_CODE, 
+    TX_NAME, MAX_AMT, AMT_TYPE, IS_SEQ_BRANCH, SEQ_BRANCH_TYPE, TX_CODES, ALL_TX_CODE, 
+    RULE_ORDER, REMARKS, CHECK_FLAG, CHECK_DESC, NEXT_ACTION, DATA_STATUS, DATA_FLAG, 
+    DATA_SOURCE, DATA_VERSION, DATA_REJ_DESC, DATA_DEL_DESC, DATA_CRT_USER, DATA_CRT_DATE, 
+    DATA_CRT_TIME, DATA_CHG_USER, DATA_CHG_DATE, DATA_CHG_TIME, DATA_APV_USER, DATA_APV_DATE, 
+    DATA_APV_TIME, MIN_AMT, RSV1, RSV2, RSV3, RSV4, RSV5, CHECK_ERR_TYPE, RULE_NAME
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PM_VAT_TX_M_RULE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PM_VAT_TX_M_RULE
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from PM_VAT_TX_M_RULE
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRuleExample">
+    delete from PM_VAT_TX_M_RULE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRule">
+    insert into PM_VAT_TX_M_RULE (DATA_ID, DATA_DATE, CORP_ID, 
+      ORG_ID, GROUP_ID, INQ_ORG_ID, 
+      INQ_GROUP_ID, BOUC_MONTH, ALL_CUST, 
+      IS_SEQ_MERGE, SEQ_MERGE_TYPE, SEQ_MERGE_DAY_NUM, 
+      VOC_MONTH_OF_DAY, TX_CODE, TX_NAME, 
+      MAX_AMT, AMT_TYPE, IS_SEQ_BRANCH, 
+      SEQ_BRANCH_TYPE, TX_CODES, ALL_TX_CODE, 
+      RULE_ORDER, REMARKS, CHECK_FLAG, 
+      CHECK_DESC, NEXT_ACTION, DATA_STATUS, 
+      DATA_FLAG, DATA_SOURCE, DATA_VERSION, 
+      DATA_REJ_DESC, DATA_DEL_DESC, DATA_CRT_USER, 
+      DATA_CRT_DATE, DATA_CRT_TIME, DATA_CHG_USER, 
+      DATA_CHG_DATE, DATA_CHG_TIME, DATA_APV_USER, 
+      DATA_APV_DATE, DATA_APV_TIME, MIN_AMT, 
+      RSV1, RSV2, RSV3, RSV4, 
+      RSV5, CHECK_ERR_TYPE, RULE_NAME
+      )
+    values (#{dataId,jdbcType=CHAR}, #{dataDate,jdbcType=CHAR}, #{corpId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{inqOrgId,jdbcType=CHAR}, 
+      #{inqGroupId,jdbcType=CHAR}, #{boucMonth,jdbcType=CHAR}, #{allCust,jdbcType=CHAR}, 
+      #{isSeqMerge,jdbcType=CHAR}, #{seqMergeType,jdbcType=CHAR}, #{seqMergeDayNum,jdbcType=NUMERIC}, 
+      #{vocMonthOfDay,jdbcType=CHAR}, #{txCode,jdbcType=VARCHAR}, #{txName,jdbcType=VARCHAR}, 
+      #{maxAmt,jdbcType=NUMERIC}, #{amtType,jdbcType=CHAR}, #{isSeqBranch,jdbcType=CHAR}, 
+      #{seqBranchType,jdbcType=CHAR}, #{txCodes,jdbcType=VARCHAR}, #{allTxCode,jdbcType=CHAR}, 
+      #{ruleOrder,jdbcType=NUMERIC}, #{remarks,jdbcType=VARCHAR}, #{checkFlag,jdbcType=CHAR}, 
+      #{checkDesc,jdbcType=VARCHAR}, #{nextAction,jdbcType=CHAR}, #{dataStatus,jdbcType=CHAR}, 
+      #{dataFlag,jdbcType=CHAR}, #{dataSource,jdbcType=CHAR}, #{dataVersion,jdbcType=NUMERIC}, 
+      #{dataRejDesc,jdbcType=VARCHAR}, #{dataDelDesc,jdbcType=VARCHAR}, #{dataCrtUser,jdbcType=VARCHAR}, 
+      #{dataCrtDate,jdbcType=CHAR}, #{dataCrtTime,jdbcType=CHAR}, #{dataChgUser,jdbcType=VARCHAR}, 
+      #{dataChgDate,jdbcType=CHAR}, #{dataChgTime,jdbcType=CHAR}, #{dataApvUser,jdbcType=VARCHAR}, 
+      #{dataApvDate,jdbcType=CHAR}, #{dataApvTime,jdbcType=CHAR}, #{minAmt,jdbcType=NUMERIC}, 
+      #{rsv1,jdbcType=VARCHAR}, #{rsv2,jdbcType=VARCHAR}, #{rsv3,jdbcType=VARCHAR}, #{rsv4,jdbcType=VARCHAR}, 
+      #{rsv5,jdbcType=VARCHAR}, #{checkErrType,jdbcType=CHAR}, #{ruleName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRule">
+    insert into PM_VAT_TX_M_RULE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        DATA_ID,
+      </if>
+      <if test="dataDate != null">
+        DATA_DATE,
+      </if>
+      <if test="corpId != null">
+        CORP_ID,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="groupId != null">
+        GROUP_ID,
+      </if>
+      <if test="inqOrgId != null">
+        INQ_ORG_ID,
+      </if>
+      <if test="inqGroupId != null">
+        INQ_GROUP_ID,
+      </if>
+      <if test="boucMonth != null">
+        BOUC_MONTH,
+      </if>
+      <if test="allCust != null">
+        ALL_CUST,
+      </if>
+      <if test="isSeqMerge != null">
+        IS_SEQ_MERGE,
+      </if>
+      <if test="seqMergeType != null">
+        SEQ_MERGE_TYPE,
+      </if>
+      <if test="seqMergeDayNum != null">
+        SEQ_MERGE_DAY_NUM,
+      </if>
+      <if test="vocMonthOfDay != null">
+        VOC_MONTH_OF_DAY,
+      </if>
+      <if test="txCode != null">
+        TX_CODE,
+      </if>
+      <if test="txName != null">
+        TX_NAME,
+      </if>
+      <if test="maxAmt != null">
+        MAX_AMT,
+      </if>
+      <if test="amtType != null">
+        AMT_TYPE,
+      </if>
+      <if test="isSeqBranch != null">
+        IS_SEQ_BRANCH,
+      </if>
+      <if test="seqBranchType != null">
+        SEQ_BRANCH_TYPE,
+      </if>
+      <if test="txCodes != null">
+        TX_CODES,
+      </if>
+      <if test="allTxCode != null">
+        ALL_TX_CODE,
+      </if>
+      <if test="ruleOrder != null">
+        RULE_ORDER,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="checkFlag != null">
+        CHECK_FLAG,
+      </if>
+      <if test="checkDesc != null">
+        CHECK_DESC,
+      </if>
+      <if test="nextAction != null">
+        NEXT_ACTION,
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS,
+      </if>
+      <if test="dataFlag != null">
+        DATA_FLAG,
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE,
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION,
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC,
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC,
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER,
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE,
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME,
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER,
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE,
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME,
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER,
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE,
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME,
+      </if>
+      <if test="minAmt != null">
+        MIN_AMT,
+      </if>
+      <if test="rsv1 != null">
+        RSV1,
+      </if>
+      <if test="rsv2 != null">
+        RSV2,
+      </if>
+      <if test="rsv3 != null">
+        RSV3,
+      </if>
+      <if test="rsv4 != null">
+        RSV4,
+      </if>
+      <if test="rsv5 != null">
+        RSV5,
+      </if>
+      <if test="checkErrType != null">
+        CHECK_ERR_TYPE,
+      </if>
+      <if test="ruleName != null">
+        RULE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=CHAR},
+      </if>
+      <if test="dataDate != null">
+        #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="inqOrgId != null">
+        #{inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="inqGroupId != null">
+        #{inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="boucMonth != null">
+        #{boucMonth,jdbcType=CHAR},
+      </if>
+      <if test="allCust != null">
+        #{allCust,jdbcType=CHAR},
+      </if>
+      <if test="isSeqMerge != null">
+        #{isSeqMerge,jdbcType=CHAR},
+      </if>
+      <if test="seqMergeType != null">
+        #{seqMergeType,jdbcType=CHAR},
+      </if>
+      <if test="seqMergeDayNum != null">
+        #{seqMergeDayNum,jdbcType=NUMERIC},
+      </if>
+      <if test="vocMonthOfDay != null">
+        #{vocMonthOfDay,jdbcType=CHAR},
+      </if>
+      <if test="txCode != null">
+        #{txCode,jdbcType=VARCHAR},
+      </if>
+      <if test="txName != null">
+        #{txName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxAmt != null">
+        #{maxAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="amtType != null">
+        #{amtType,jdbcType=CHAR},
+      </if>
+      <if test="isSeqBranch != null">
+        #{isSeqBranch,jdbcType=CHAR},
+      </if>
+      <if test="seqBranchType != null">
+        #{seqBranchType,jdbcType=CHAR},
+      </if>
+      <if test="txCodes != null">
+        #{txCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="allTxCode != null">
+        #{allTxCode,jdbcType=CHAR},
+      </if>
+      <if test="ruleOrder != null">
+        #{ruleOrder,jdbcType=NUMERIC},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null">
+        #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="checkDesc != null">
+        #{checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="nextAction != null">
+        #{nextAction,jdbcType=CHAR},
+      </if>
+      <if test="dataStatus != null">
+        #{dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="dataFlag != null">
+        #{dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="minAmt != null">
+        #{minAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="rsv1 != null">
+        #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        #{rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="checkErrType != null">
+        #{checkErrType,jdbcType=CHAR},
+      </if>
+      <if test="ruleName != null">
+        #{ruleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRuleExample" resultType="java.lang.Integer">
+    select count(*) from PM_VAT_TX_M_RULE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PM_VAT_TX_M_RULE
+    <set>
+      <if test="record.dataId != null">
+        DATA_ID = #{record.dataId,jdbcType=CHAR},
+      </if>
+      <if test="record.dataDate != null">
+        DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      </if>
+      <if test="record.corpId != null">
+        CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupId != null">
+        GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqOrgId != null">
+        INQ_ORG_ID = #{record.inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="record.inqGroupId != null">
+        INQ_GROUP_ID = #{record.inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="record.boucMonth != null">
+        BOUC_MONTH = #{record.boucMonth,jdbcType=CHAR},
+      </if>
+      <if test="record.allCust != null">
+        ALL_CUST = #{record.allCust,jdbcType=CHAR},
+      </if>
+      <if test="record.isSeqMerge != null">
+        IS_SEQ_MERGE = #{record.isSeqMerge,jdbcType=CHAR},
+      </if>
+      <if test="record.seqMergeType != null">
+        SEQ_MERGE_TYPE = #{record.seqMergeType,jdbcType=CHAR},
+      </if>
+      <if test="record.seqMergeDayNum != null">
+        SEQ_MERGE_DAY_NUM = #{record.seqMergeDayNum,jdbcType=NUMERIC},
+      </if>
+      <if test="record.vocMonthOfDay != null">
+        VOC_MONTH_OF_DAY = #{record.vocMonthOfDay,jdbcType=CHAR},
+      </if>
+      <if test="record.txCode != null">
+        TX_CODE = #{record.txCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.txName != null">
+        TX_NAME = #{record.txName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxAmt != null">
+        MAX_AMT = #{record.maxAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="record.amtType != null">
+        AMT_TYPE = #{record.amtType,jdbcType=CHAR},
+      </if>
+      <if test="record.isSeqBranch != null">
+        IS_SEQ_BRANCH = #{record.isSeqBranch,jdbcType=CHAR},
+      </if>
+      <if test="record.seqBranchType != null">
+        SEQ_BRANCH_TYPE = #{record.seqBranchType,jdbcType=CHAR},
+      </if>
+      <if test="record.txCodes != null">
+        TX_CODES = #{record.txCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allTxCode != null">
+        ALL_TX_CODE = #{record.allTxCode,jdbcType=CHAR},
+      </if>
+      <if test="record.ruleOrder != null">
+        RULE_ORDER = #{record.ruleOrder,jdbcType=NUMERIC},
+      </if>
+      <if test="record.remarks != null">
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkFlag != null">
+        CHECK_FLAG = #{record.checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.checkDesc != null">
+        CHECK_DESC = #{record.checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextAction != null">
+        NEXT_ACTION = #{record.nextAction,jdbcType=CHAR},
+      </if>
+      <if test="record.dataStatus != null">
+        DATA_STATUS = #{record.dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.dataFlag != null">
+        DATA_FLAG = #{record.dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.dataSource != null">
+        DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      </if>
+      <if test="record.dataVersion != null">
+        DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="record.dataRejDesc != null">
+        DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataDelDesc != null">
+        DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtUser != null">
+        DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtDate != null">
+        DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataCrtTime != null">
+        DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgUser != null">
+        DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataChgDate != null">
+        DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgTime != null">
+        DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvUser != null">
+        DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataApvDate != null">
+        DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvTime != null">
+        DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="record.minAmt != null">
+        MIN_AMT = #{record.minAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="record.rsv1 != null">
+        RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv2 != null">
+        RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv3 != null">
+        RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv4 != null">
+        RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv5 != null">
+        RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkErrType != null">
+        CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR},
+      </if>
+      <if test="record.ruleName != null">
+        RULE_NAME = #{record.ruleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PM_VAT_TX_M_RULE
+    set DATA_ID = #{record.dataId,jdbcType=CHAR},
+      DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      INQ_ORG_ID = #{record.inqOrgId,jdbcType=CHAR},
+      INQ_GROUP_ID = #{record.inqGroupId,jdbcType=CHAR},
+      BOUC_MONTH = #{record.boucMonth,jdbcType=CHAR},
+      ALL_CUST = #{record.allCust,jdbcType=CHAR},
+      IS_SEQ_MERGE = #{record.isSeqMerge,jdbcType=CHAR},
+      SEQ_MERGE_TYPE = #{record.seqMergeType,jdbcType=CHAR},
+      SEQ_MERGE_DAY_NUM = #{record.seqMergeDayNum,jdbcType=NUMERIC},
+      VOC_MONTH_OF_DAY = #{record.vocMonthOfDay,jdbcType=CHAR},
+      TX_CODE = #{record.txCode,jdbcType=VARCHAR},
+      TX_NAME = #{record.txName,jdbcType=VARCHAR},
+      MAX_AMT = #{record.maxAmt,jdbcType=NUMERIC},
+      AMT_TYPE = #{record.amtType,jdbcType=CHAR},
+      IS_SEQ_BRANCH = #{record.isSeqBranch,jdbcType=CHAR},
+      SEQ_BRANCH_TYPE = #{record.seqBranchType,jdbcType=CHAR},
+      TX_CODES = #{record.txCodes,jdbcType=VARCHAR},
+      ALL_TX_CODE = #{record.allTxCode,jdbcType=CHAR},
+      RULE_ORDER = #{record.ruleOrder,jdbcType=NUMERIC},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      CHECK_FLAG = #{record.checkFlag,jdbcType=CHAR},
+      CHECK_DESC = #{record.checkDesc,jdbcType=VARCHAR},
+      NEXT_ACTION = #{record.nextAction,jdbcType=CHAR},
+      DATA_STATUS = #{record.dataStatus,jdbcType=CHAR},
+      DATA_FLAG = #{record.dataFlag,jdbcType=CHAR},
+      DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      MIN_AMT = #{record.minAmt,jdbcType=NUMERIC},
+      RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR},
+      RULE_NAME = #{record.ruleName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRule">
+    update PM_VAT_TX_M_RULE
+    <set>
+      <if test="dataDate != null">
+        DATA_DATE = #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        CORP_ID = #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="inqOrgId != null">
+        INQ_ORG_ID = #{inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="inqGroupId != null">
+        INQ_GROUP_ID = #{inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="boucMonth != null">
+        BOUC_MONTH = #{boucMonth,jdbcType=CHAR},
+      </if>
+      <if test="allCust != null">
+        ALL_CUST = #{allCust,jdbcType=CHAR},
+      </if>
+      <if test="isSeqMerge != null">
+        IS_SEQ_MERGE = #{isSeqMerge,jdbcType=CHAR},
+      </if>
+      <if test="seqMergeType != null">
+        SEQ_MERGE_TYPE = #{seqMergeType,jdbcType=CHAR},
+      </if>
+      <if test="seqMergeDayNum != null">
+        SEQ_MERGE_DAY_NUM = #{seqMergeDayNum,jdbcType=NUMERIC},
+      </if>
+      <if test="vocMonthOfDay != null">
+        VOC_MONTH_OF_DAY = #{vocMonthOfDay,jdbcType=CHAR},
+      </if>
+      <if test="txCode != null">
+        TX_CODE = #{txCode,jdbcType=VARCHAR},
+      </if>
+      <if test="txName != null">
+        TX_NAME = #{txName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxAmt != null">
+        MAX_AMT = #{maxAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="amtType != null">
+        AMT_TYPE = #{amtType,jdbcType=CHAR},
+      </if>
+      <if test="isSeqBranch != null">
+        IS_SEQ_BRANCH = #{isSeqBranch,jdbcType=CHAR},
+      </if>
+      <if test="seqBranchType != null">
+        SEQ_BRANCH_TYPE = #{seqBranchType,jdbcType=CHAR},
+      </if>
+      <if test="txCodes != null">
+        TX_CODES = #{txCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="allTxCode != null">
+        ALL_TX_CODE = #{allTxCode,jdbcType=CHAR},
+      </if>
+      <if test="ruleOrder != null">
+        RULE_ORDER = #{ruleOrder,jdbcType=NUMERIC},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null">
+        CHECK_FLAG = #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="checkDesc != null">
+        CHECK_DESC = #{checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="nextAction != null">
+        NEXT_ACTION = #{nextAction,jdbcType=CHAR},
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS = #{dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="dataFlag != null">
+        DATA_FLAG = #{dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="minAmt != null">
+        MIN_AMT = #{minAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="rsv1 != null">
+        RSV1 = #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        RSV2 = #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        RSV3 = #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        RSV4 = #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        RSV5 = #{rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="checkErrType != null">
+        CHECK_ERR_TYPE = #{checkErrType,jdbcType=CHAR},
+      </if>
+      <if test="ruleName != null">
+        RULE_NAME = #{ruleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.PmVatTxMRule">
+    update PM_VAT_TX_M_RULE
+    set DATA_DATE = #{dataDate,jdbcType=CHAR},
+      CORP_ID = #{corpId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      INQ_ORG_ID = #{inqOrgId,jdbcType=CHAR},
+      INQ_GROUP_ID = #{inqGroupId,jdbcType=CHAR},
+      BOUC_MONTH = #{boucMonth,jdbcType=CHAR},
+      ALL_CUST = #{allCust,jdbcType=CHAR},
+      IS_SEQ_MERGE = #{isSeqMerge,jdbcType=CHAR},
+      SEQ_MERGE_TYPE = #{seqMergeType,jdbcType=CHAR},
+      SEQ_MERGE_DAY_NUM = #{seqMergeDayNum,jdbcType=NUMERIC},
+      VOC_MONTH_OF_DAY = #{vocMonthOfDay,jdbcType=CHAR},
+      TX_CODE = #{txCode,jdbcType=VARCHAR},
+      TX_NAME = #{txName,jdbcType=VARCHAR},
+      MAX_AMT = #{maxAmt,jdbcType=NUMERIC},
+      AMT_TYPE = #{amtType,jdbcType=CHAR},
+      IS_SEQ_BRANCH = #{isSeqBranch,jdbcType=CHAR},
+      SEQ_BRANCH_TYPE = #{seqBranchType,jdbcType=CHAR},
+      TX_CODES = #{txCodes,jdbcType=VARCHAR},
+      ALL_TX_CODE = #{allTxCode,jdbcType=CHAR},
+      RULE_ORDER = #{ruleOrder,jdbcType=NUMERIC},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CHECK_FLAG = #{checkFlag,jdbcType=CHAR},
+      CHECK_DESC = #{checkDesc,jdbcType=VARCHAR},
+      NEXT_ACTION = #{nextAction,jdbcType=CHAR},
+      DATA_STATUS = #{dataStatus,jdbcType=CHAR},
+      DATA_FLAG = #{dataFlag,jdbcType=CHAR},
+      DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      MIN_AMT = #{minAmt,jdbcType=NUMERIC},
+      RSV1 = #{rsv1,jdbcType=VARCHAR},
+      RSV2 = #{rsv2,jdbcType=VARCHAR},
+      RSV3 = #{rsv3,jdbcType=VARCHAR},
+      RSV4 = #{rsv4,jdbcType=VARCHAR},
+      RSV5 = #{rsv5,jdbcType=VARCHAR},
+      CHECK_ERR_TYPE = #{checkErrType,jdbcType=CHAR},
+      RULE_NAME = #{ruleName,jdbcType=VARCHAR}
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </update>
+</mapper>

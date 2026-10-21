@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gingkoo.vat.server.EvatCommonSql">
+	<update id="updateDigitalUpload" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set
+		VOC_NO = #{SDPHM,jdbcType=VARCHAR},
+		SALE_NAME = #{XFMC,jdbcType=VARCHAR},
+		BUY_NAME = #{GMFMC,jdbcType=VARCHAR},
+		VOC_DATE = #{KPRQ,jdbcType=VARCHAR},
+		VOC_STAT = 2,
+		VOC_USER = #{KPR,jdbcType=VARCHAR},
+		REMARKS = #{BZ,jdbcType=VARCHAR}
+		WHERE
+		DATA_ID =
+		(SELECT TOP 1 DATA_ID FROM PM_VAT_O_VOC
+		WHERE VOC_STAT != 2 AND	
+		SALE_TAX_NO = #{XFSBH,jdbcType=VARCHAR} AND BUY_TAX_NO = #{GFSBH,jdbcType=VARCHAR} AND
+		AMOUNT= #{JE,jdbcType=VARCHAR} AND TAX_AMT = #{SE,jdbcType=VARCHAR})
+
+	</update>
+
+    <update id="updateCommonUpload" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set
+		VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR},
+		VOC_NO = #{VOC_NO,jdbcType=VARCHAR},
+		SALE_NAME = #{XFMC,jdbcType=VARCHAR},
+		BUY_NAME = #{GMFMC,jdbcType=VARCHAR},
+		VOC_DATE = #{KPRQ,jdbcType=VARCHAR},
+		VOC_STAT = 2,
+		VOC_USER = #{KPR,jdbcType=VARCHAR},
+		REMARKS = #{BZ,jdbcType=VARCHAR}
+		WHERE
+		DATA_ID =
+		(SELECT TOP 1 DATA_ID FROM PM_VAT_O_VOC
+		WHERE VOC_STAT != 2 AND
+		SALE_TAX_NO = #{XFSBH,jdbcType=VARCHAR} AND BUY_TAX_NO = #{GFSBH,jdbcType=VARCHAR} AND
+		AMOUNT= #{JE,jdbcType=VARCHAR} AND TAX_AMT = #{SE,jdbcType=VARCHAR})
+	</update>
+
+	<insert id="insertVocUploadLogs" parameterType="java.util.HashMap">
+ 		insert into PM_DIGITAL_VOC_UPLOAD_LOG
+		 ( DATA_ID,UPLOAD_ID,DATA_DATE,FILE_NAME,VOC_CODE,VOC_NO,SDHM,XFSBH,XFMC,GFSBH,GMFMC,KPRQ,JE,SE,
+		 FPLY,FPPZ,FPZT,FPFXDJ,KPR,BZ,MATCH_FLAG,OP_USER,FPLSH)
+		VALUES
+		  (#{DATA_ID,jdbcType=VARCHAR},
+		   #{UPLOAD_ID,jdbcType=VARCHAR},
+		   #{DATA_DATE,jdbcType=VARCHAR},
+		   #{FILE_NAME,jdbcType=VARCHAR},
+		   #{VOC_CODE,jdbcType=VARCHAR},
+		   #{VOC_NO,jdbcType=VARCHAR},
+		   #{SDPHM,jdbcType=VARCHAR},
+		   #{XFSBH,jdbcType=VARCHAR},
+		   #{XFMC,jdbcType=VARCHAR},
+		   #{GFSBH,jdbcType=VARCHAR},
+		   #{GMFMC,jdbcType=VARCHAR},
+		   #{KPRQ,jdbcType=VARCHAR},
+		   #{JE,jdbcType=VARCHAR},
+		   #{SE,jdbcType=VARCHAR},
+		   #{FPLY,jdbcType=VARCHAR},
+		   #{FPPZ,jdbcType=VARCHAR},
+		   #{FPZT,jdbcType=VARCHAR},
+		   #{FPFXDJ,jdbcType=VARCHAR},
+		   #{KPR,jdbcType=VARCHAR},
+		   #{BZ,jdbcType=VARCHAR},
+		   #{MATCH_FLAG,jdbcType=VARCHAR},
+		   #{OP_USER,jdbcType=VARCHAR},
+		   #{FPLSH,jdbcType=VARCHAR}
+		   )
+    </insert>
+
+	<insert id="saveEmailLogInfo" parameterType="java.util.HashMap">
+		INSERT INTO PM_VOC_SEND_EMAIL(DATA_ID,DATA_DATE,RECIPIENT,CONTENT,ATTACHMENTS,TITLE,CUST_NO,VOC_CODE,VOC_NO,OCC_TIME,OCC_STATUS)
+		VALUES(#{DATA_ID,jdbcType=VARCHAR},
+			   #{DATA_DATE,jdbcType=VARCHAR},
+			   #{RECIPIENT,jdbcType=VARCHAR},
+			   #{CONTENT,jdbcType=VARCHAR},
+			   #{ATTACHMENTS,jdbcType=VARCHAR},
+			   #{TITLE,jdbcType=VARCHAR},
+			   #{CUST_NO,jdbcType=VARCHAR},
+			   #{VOC_CODE,jdbcType=VARCHAR},
+			   #{VOC_NO,jdbcType=VARCHAR},
+			   #{OCC_TIME,jdbcType=VARCHAR},
+			   #{OCC_STATUS,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="updateVocSendStatus" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC SET
+		SEND_STATUS = #{SEND_STATUS,jdbcType=VARCHAR}
+		WHERE
+		VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateListVocNo" parameterType="java.util.HashMap">
+		UPDATE PM_VAT_O_VOC_LIST
+		SET VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR},
+			VOC_NO   = #{VOC_NO,jdbcType=VARCHAR}
+		WHERE PDATA_ID IN (SELECT DATA_ID FROM PM_VAT_O_VOC_DTL WHERE PDATA_ID = #{DATA_ID,jdbcType=VARCHAR})
+	</update>
+
+	<select id="selectCustEmailByVocNo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select A.VOC_CODE,A.VOC_NO,A.VOC_DATE,A.BUY_NAME,A.CUST_NO,A.BUY_TAX_NO,A.AMOUNT,B.EMAIL from PM_VAT_O_VOC A INNER JOIN PM_VAT_CUSTOMER B ON A.CUST_NO = B.CUST_NO
+		where A.VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} AND A.VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectEmailMess" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM EMAIL_CONFIG
+	</select>
+
+	<select id="selectEmailByCustno" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM Cust_CASH_Psw WHERE GCN = #{CUST_NO,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<select id="selectExportData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT *
+		FROM PM_VAT_O_VOC v
+		WHERE 1 = 1
+		AND next_action IN ('02','04')
+		AND rev_flag = '0'
+		AND MEDIA_TYPE = 'E'
+		AND (VOC_CHANNEL = '02' OR VOC_CHANNEL IS NULL)
+		AND ORG_ID = #{ORG_ID}
+		<if test="VOC_TYPE != null and  VOC_TYPE != ''">
+			AND VOC_TYPE = #{VOC_TYPE}
+		</if>
+		<if test="VOC_FLAG != null and  VOC_FLAG != ''">
+			AND VOC_FLAG  = #{VOC_FLAG}
+		</if>
+		<if test="MADE_TYPE != null and  MADE_TYPE != ''">
+			AND MADE_TYPE  = #{MADE_TYPE}
+		</if>
+		<if test="VOC_STAT != null and  VOC_STAT != ''">
+			AND VOC_STAT = #{VOC_STAT}
+		</if>
+		<if test="START_VOC_DATE != null and  START_VOC_DATE != ''">
+			AND VOC_DATE &gt;= #{START_VOC_DATE}
+		</if>
+		<if test="END_VOC_DATE != null and  END_VOC_DATE != ''">
+			AND VOC_DATE &lt;= #{END_VOC_DATE}
+		</if>
+		<if test="START_VOC_NO != null and  START_VOC_NO != ''">
+			AND VOC_NO &gt;= #{START_VOC_NO}
+		</if>
+		<if test="END_VOC_NO != null and  END_VOC_NO != ''">
+			AND VOC_NO &lt;= #{END_VOC_NO}
+		</if>
+		<if test="CUST_NO != null and  CUST_NO != ''">
+			AND CUST_NO = #{CUST_NO}
+		</if>
+	</select>
+
+        <select id="exportRedVoc" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT *
+        FROM PM_VAT_O_VOC v
+        WHERE 1 = 1
+        AND next_action IN ('02','04')
+        AND rev_flag = '0'
+        AND MEDIA_TYPE = 'E'
+        AND VOC_TYPE ='2'
+        AND (VOC_CHANNEL = '02' OR VOC_CHANNEL IS NULL)
+        <if test="VOC_TYPE != null and  VOC_TYPE != ''">
+            AND VOC_TYPE = #{VOC_TYPE}
+        </if>
+        <if test="VOC_FLAG != null and  VOC_FLAG != ''">
+            AND VOC_FLAG = #{VOC_FLAG}
+        </if>
+        <if test="MADE_TYPE != null and  MADE_TYPE != ''">
+            AND MADE_TYPE = #{MADE_TYPE}
+        </if>
+        <if test="VOC_STAT != null and  VOC_STAT != ''">
+            AND VOC_STAT = #{VOC_STAT}
+        </if>
+        <if test="START_VOC_DATE != null and  START_VOC_DATE != ''">
+            AND VOC_DATE &gt;= #{START_VOC_DATE}
+        </if>
+        <if test="END_VOC_DATE != null and  END_VOC_DATE != ''">
+            AND VOC_DATE &lt;= #{END_VOC_DATE}
+        </if>
+        <if test="START_VOC_NO != null and  START_VOC_NO != ''">
+            AND VOC_NO &gt;= #{START_VOC_NO}
+        </if>
+        <if test="END_VOC_NO != null and  END_VOC_NO != ''">
+            AND VOC_NO &lt;= #{END_VOC_NO}
+        </if>
+        <if test="CUST_NO != null and  CUST_NO != ''">
+            AND CUST_NO = #{CUST_NO}
+        </if>
+    </select>
+    
+    
+    
+    
+
+    <!--add by wyq 20240418 根据发票号码修改发票表中文件路径 -->
+    <update id="updateXmlPathByVocNo" parameterType="java.util.HashMap">
+        update PM_VAT_O_VOC
+        SET XML_PATH = #{XML_PATH,jdbcType=VARCHAR}
+        WHERE VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+    </update>
+
+    <!--add by wyq 20240418 根据发票号码修改发票表中文件路径 -->
+    <update id="updatePdfPathByVocNo" parameterType="java.util.HashMap">
+        update PM_VAT_O_VOC
+        SET PDF_PATH = #{PDF_PATH,jdbcType=VARCHAR}
+        WHERE VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+    </update>
+
+    <!--add by wyq 20240418 根据发票号码修改发票表中文件路径 -->
+    <update id="updateOfdPathByVocNo" parameterType="java.util.HashMap">
+        update PM_VAT_O_VOC
+        SET OFD_PATH = #{OFD_PATH,jdbcType=VARCHAR}
+        WHERE VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+    </update>
+
+
+    <select id="selectVocNoCount" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT VOC_NO
+        FROM PM_VAT_O_VOC
+        WHERE VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+        GROUP BY VOC_NO
+    </select>
+
+
+    <!-- 将发票的发票状态 -->
+    <update id="updateVoc" parameterType="java.util.HashMap" >
+		update PM_VAT_O_VOC
+		set
+		    DATA_ID=DATA_ID
+		<if test="voc_stat != null">
+	      ,voc_stat=#{voc_stat,jdbcType=CHAR}
+	    </if>
+		<if test="data_rej_desc != null">
+	      ,data_rej_desc = #{data_rej_desc,jdbcType=CHAR}
+	    </if>
+	    <if test="next_action != null">
+	      ,next_action = #{next_action,jdbcType=CHAR}
+	    </if>
+	    <if test="data_status != null">
+	      ,data_status = #{data_status,jdbcType=CHAR}
+	    </if>
+	    <if test="rsp_no != null">
+	      ,rsp_no = #{rsp_no,jdbcType=VARCHAR}
+	    </if>
+	    <if test="voc_no != null">
+	      ,voc_no = #{voc_no,jdbcType=VARCHAR}
+	    </if>
+	    <if test="voc_date != null">
+	      ,voc_date = #{voc_date,jdbcType=VARCHAR}
+	    </if>
+	    <if test="voc_user != null">
+	      ,voc_user = #{voc_user,jdbcType=VARCHAR}
+	    </if>
+	    <if test="rsp_status != null">
+	      ,rsp_status = #{rsp_status,jdbcType=VARCHAR}
+	    </if>
+		<if test="al_red_amt != null">
+	      ,al_red_amt = #{al_red_amt,jdbcType=VARCHAR}
+	    </if>
+		<if test="al_red_amount != null">
+	      ,al_red_amount = #{al_red_amount,jdbcType=VARCHAR}
+	    </if>
+		<if test="al_red_taxAmt != null">
+	      ,al_red_taxAmt = #{al_red_taxAmt,jdbcType=VARCHAR}
+	    </if>
+		where data_id = #{data_id,jdbcType=CHAR}
+
+	</update>
+    	<!-- 将发票的交易状态 -->
+    <update id="updateVatTxAfterVoc" parameterType="java.util.HashMap">
+		update PM_VAT_TX
+		set
+ 	    <if test="data_status != null">
+	      data_status = #{data_status,jdbcType=VARCHAR}
+  	    </if>
+ 	    <if test="next_action != null">
+	      ,next_action = #{next_action,jdbcType=VARCHAR}
+ 	    </if>
+		where TX_ID in (SELECT TX_ID FROM PM_VAT_O_VOC_LIST WHERE PDATA_ID IN
+		            (select DATA_ID from PM_VAT_O_VOC_DTL where PDATA_ID = #{data_id,jdbcType=CHAR}))
+
+	</update>
+
+</mapper>

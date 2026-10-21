@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.TbRoleMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.TbRole">
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="DESCN" jdbcType="VARCHAR" property="descn" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATED_DATE" jdbcType="VARCHAR" property="createdDate" />
+    <result column="MOD_USER" jdbcType="VARCHAR" property="modUser" />
+    <result column="MOD_DATE" jdbcType="VARCHAR" property="modDate" />
+    <result column="CHECK_USER" jdbcType="VARCHAR" property="checkUser" />
+    <result column="CHECK_DATE" jdbcType="VARCHAR" property="checkDate" />
+    <result column="DEL_FLAG" jdbcType="CHAR" property="delFlag" />
+    <result column="VARSION_NO" jdbcType="NUMERIC" property="varsionNo" />
+    <result column="CORP_ID" jdbcType="VARCHAR" property="corpId" />
+    <result column="ROLE_TYPE" jdbcType="VARCHAR" property="roleType" />
+    <result column="RSV1" jdbcType="VARCHAR" property="rsv1" />
+    <result column="RSV2" jdbcType="VARCHAR" property="rsv2" />
+    <result column="RSV3" jdbcType="VARCHAR" property="rsv3" />
+    <result column="RSV4" jdbcType="VARCHAR" property="rsv4" />
+    <result column="RSV5" jdbcType="VARCHAR" property="rsv5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ROLE_ID, ROLE_NAME, DESCN, CREATER, CREATED_DATE, MOD_USER, MOD_DATE, CHECK_USER, 
+    CHECK_DATE, DEL_FLAG, VARSION_NO, CORP_ID, ROLE_TYPE, RSV1, RSV2, RSV3, RSV4, RSV5
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbRoleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TB_ROLE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbRoleExample">
+    delete from TB_ROLE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbRole">
+    insert into TB_ROLE (ROLE_ID, ROLE_NAME, DESCN, 
+      CREATER, CREATED_DATE, MOD_USER, 
+      MOD_DATE, CHECK_USER, CHECK_DATE, 
+      DEL_FLAG, VARSION_NO, CORP_ID, 
+      ROLE_TYPE, RSV1, RSV2, 
+      RSV3, RSV4, RSV5)
+    values (#{roleId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{descn,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{createdDate,jdbcType=VARCHAR}, #{modUser,jdbcType=VARCHAR}, 
+      #{modDate,jdbcType=VARCHAR}, #{checkUser,jdbcType=VARCHAR}, #{checkDate,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR}, #{varsionNo,jdbcType=NUMERIC}, #{corpId,jdbcType=VARCHAR}, 
+      #{roleType,jdbcType=VARCHAR}, #{rsv1,jdbcType=VARCHAR}, #{rsv2,jdbcType=VARCHAR}, 
+      #{rsv3,jdbcType=VARCHAR}, #{rsv4,jdbcType=VARCHAR}, #{rsv5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbRole">
+    insert into TB_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME,
+      </if>
+      <if test="descn != null">
+        DESCN,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="createdDate != null">
+        CREATED_DATE,
+      </if>
+      <if test="modUser != null">
+        MOD_USER,
+      </if>
+      <if test="modDate != null">
+        MOD_DATE,
+      </if>
+      <if test="checkUser != null">
+        CHECK_USER,
+      </if>
+      <if test="checkDate != null">
+        CHECK_DATE,
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG,
+      </if>
+      <if test="varsionNo != null">
+        VARSION_NO,
+      </if>
+      <if test="corpId != null">
+        CORP_ID,
+      </if>
+      <if test="roleType != null">
+        ROLE_TYPE,
+      </if>
+      <if test="rsv1 != null">
+        RSV1,
+      </if>
+      <if test="rsv2 != null">
+        RSV2,
+      </if>
+      <if test="rsv3 != null">
+        RSV3,
+      </if>
+      <if test="rsv4 != null">
+        RSV4,
+      </if>
+      <if test="rsv5 != null">
+        RSV5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="descn != null">
+        #{descn,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=VARCHAR},
+      </if>
+      <if test="modUser != null">
+        #{modUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modDate != null">
+        #{modDate,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUser != null">
+        #{checkUser,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null">
+        #{checkDate,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="varsionNo != null">
+        #{varsionNo,jdbcType=NUMERIC},
+      </if>
+      <if test="corpId != null">
+        #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleType != null">
+        #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv1 != null">
+        #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        #{rsv5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbRoleExample" resultType="java.lang.Integer">
+    select count(*) from TB_ROLE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update TB_ROLE
+    <set>
+      <if test="record.roleId != null">
+        ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleName != null">
+        ROLE_NAME = #{record.roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descn != null">
+        DESCN = #{record.descn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null">
+        CREATER = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDate != null">
+        CREATED_DATE = #{record.createdDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modUser != null">
+        MOD_USER = #{record.modUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modDate != null">
+        MOD_DATE = #{record.modDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkUser != null">
+        CHECK_USER = #{record.checkUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkDate != null">
+        CHECK_DATE = #{record.checkDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        DEL_FLAG = #{record.delFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.varsionNo != null">
+        VARSION_NO = #{record.varsionNo,jdbcType=NUMERIC},
+      </if>
+      <if test="record.corpId != null">
+        CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleType != null">
+        ROLE_TYPE = #{record.roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv1 != null">
+        RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv2 != null">
+        RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv3 != null">
+        RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv4 != null">
+        RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv5 != null">
+        RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update TB_ROLE
+    set ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+      ROLE_NAME = #{record.roleName,jdbcType=VARCHAR},
+      DESCN = #{record.descn,jdbcType=VARCHAR},
+      CREATER = #{record.creater,jdbcType=VARCHAR},
+      CREATED_DATE = #{record.createdDate,jdbcType=VARCHAR},
+      MOD_USER = #{record.modUser,jdbcType=VARCHAR},
+      MOD_DATE = #{record.modDate,jdbcType=VARCHAR},
+      CHECK_USER = #{record.checkUser,jdbcType=VARCHAR},
+      CHECK_DATE = #{record.checkDate,jdbcType=VARCHAR},
+      DEL_FLAG = #{record.delFlag,jdbcType=CHAR},
+      VARSION_NO = #{record.varsionNo,jdbcType=NUMERIC},
+      CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      ROLE_TYPE = #{record.roleType,jdbcType=VARCHAR},
+      RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      RSV5 = #{record.rsv5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

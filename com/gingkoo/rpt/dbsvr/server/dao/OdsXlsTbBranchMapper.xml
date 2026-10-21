@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.OdsXlsTbBranchMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.OdsXlsTbBranch">
+    <result column="DEPART_ID" jdbcType="VARCHAR" property="departId" />
+    <result column="PDEPART_ID" jdbcType="VARCHAR" property="pdepartId" />
+    <result column="DEPART_CODE" jdbcType="VARCHAR" property="departCode" />
+    <result column="DEPART_NAME" jdbcType="VARCHAR" property="departName" />
+    <result column="DEPART_ADDRESS" jdbcType="VARCHAR" property="departAddress" />
+    <result column="AREA_CODE" jdbcType="VARCHAR" property="areaCode" />
+    <result column="ZIP_CODE" jdbcType="VARCHAR" property="zipCode" />
+    <result column="PHONE_NO" jdbcType="VARCHAR" property="phoneNo" />
+    <result column="REPORT_CODE" jdbcType="VARCHAR" property="reportCode" />
+    <result column="REPORT_NAME" jdbcType="VARCHAR" property="reportName" />
+    <result column="CALENDAR_NO" jdbcType="VARCHAR" property="calendarNo" />
+    <result column="INQ_ID" jdbcType="VARCHAR" property="inqId" />
+    <result column="CORP_ID" jdbcType="VARCHAR" property="corpId" />
+    <result column="RSV1" jdbcType="VARCHAR" property="rsv1" />
+    <result column="RSV2" jdbcType="VARCHAR" property="rsv2" />
+    <result column="RSV3" jdbcType="VARCHAR" property="rsv3" />
+    <result column="RSV4" jdbcType="VARCHAR" property="rsv4" />
+    <result column="RSV5" jdbcType="VARCHAR" property="rsv5" />
+    <result column="CHECK_ERR_TYPE" jdbcType="CHAR" property="checkErrType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DEPART_ID, PDEPART_ID, DEPART_CODE, DEPART_NAME, DEPART_ADDRESS, AREA_CODE, ZIP_CODE, 
+    PHONE_NO, REPORT_CODE, REPORT_NAME, CALENDAR_NO, INQ_ID, CORP_ID, RSV1, RSV2, RSV3, 
+    RSV4, RSV5, CHECK_ERR_TYPE
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsXlsTbBranchExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ODS_XLS_TB_BRANCH
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsXlsTbBranchExample">
+    delete from ODS_XLS_TB_BRANCH
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsXlsTbBranch">
+    insert into ODS_XLS_TB_BRANCH (DEPART_ID, PDEPART_ID, DEPART_CODE, 
+      DEPART_NAME, DEPART_ADDRESS, AREA_CODE, 
+      ZIP_CODE, PHONE_NO, REPORT_CODE, 
+      REPORT_NAME, CALENDAR_NO, INQ_ID, 
+      CORP_ID, RSV1, RSV2, 
+      RSV3, RSV4, RSV5, CHECK_ERR_TYPE
+      )
+    values (#{departId,jdbcType=VARCHAR}, #{pdepartId,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR}, 
+      #{departName,jdbcType=VARCHAR}, #{departAddress,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, 
+      #{zipCode,jdbcType=VARCHAR}, #{phoneNo,jdbcType=VARCHAR}, #{reportCode,jdbcType=VARCHAR}, 
+      #{reportName,jdbcType=VARCHAR}, #{calendarNo,jdbcType=VARCHAR}, #{inqId,jdbcType=VARCHAR}, 
+      #{corpId,jdbcType=VARCHAR}, #{rsv1,jdbcType=VARCHAR}, #{rsv2,jdbcType=VARCHAR}, 
+      #{rsv3,jdbcType=VARCHAR}, #{rsv4,jdbcType=VARCHAR}, #{rsv5,jdbcType=VARCHAR}, #{checkErrType,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsXlsTbBranch">
+    insert into ODS_XLS_TB_BRANCH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="departId != null">
+        DEPART_ID,
+      </if>
+      <if test="pdepartId != null">
+        PDEPART_ID,
+      </if>
+      <if test="departCode != null">
+        DEPART_CODE,
+      </if>
+      <if test="departName != null">
+        DEPART_NAME,
+      </if>
+      <if test="departAddress != null">
+        DEPART_ADDRESS,
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE,
+      </if>
+      <if test="zipCode != null">
+        ZIP_CODE,
+      </if>
+      <if test="phoneNo != null">
+        PHONE_NO,
+      </if>
+      <if test="reportCode != null">
+        REPORT_CODE,
+      </if>
+      <if test="reportName != null">
+        REPORT_NAME,
+      </if>
+      <if test="calendarNo != null">
+        CALENDAR_NO,
+      </if>
+      <if test="inqId != null">
+        INQ_ID,
+      </if>
+      <if test="corpId != null">
+        CORP_ID,
+      </if>
+      <if test="rsv1 != null">
+        RSV1,
+      </if>
+      <if test="rsv2 != null">
+        RSV2,
+      </if>
+      <if test="rsv3 != null">
+        RSV3,
+      </if>
+      <if test="rsv4 != null">
+        RSV4,
+      </if>
+      <if test="rsv5 != null">
+        RSV5,
+      </if>
+      <if test="checkErrType != null">
+        CHECK_ERR_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="departId != null">
+        #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="pdepartId != null">
+        #{pdepartId,jdbcType=VARCHAR},
+      </if>
+      <if test="departCode != null">
+        #{departCode,jdbcType=VARCHAR},
+      </if>
+      <if test="departName != null">
+        #{departName,jdbcType=VARCHAR},
+      </if>
+      <if test="departAddress != null">
+        #{departAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        #{zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNo != null">
+        #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reportCode != null">
+        #{reportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportName != null">
+        #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="calendarNo != null">
+        #{calendarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inqId != null">
+        #{inqId,jdbcType=VARCHAR},
+      </if>
+      <if test="corpId != null">
+        #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv1 != null">
+        #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        #{rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="checkErrType != null">
+        #{checkErrType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsXlsTbBranchExample" resultType="java.lang.Integer">
+    select count(*) from ODS_XLS_TB_BRANCH
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ODS_XLS_TB_BRANCH
+    <set>
+      <if test="record.departId != null">
+        DEPART_ID = #{record.departId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pdepartId != null">
+        PDEPART_ID = #{record.pdepartId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departCode != null">
+        DEPART_CODE = #{record.departCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departName != null">
+        DEPART_NAME = #{record.departName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departAddress != null">
+        DEPART_ADDRESS = #{record.departAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaCode != null">
+        AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zipCode != null">
+        ZIP_CODE = #{record.zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNo != null">
+        PHONE_NO = #{record.phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportCode != null">
+        REPORT_CODE = #{record.reportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportName != null">
+        REPORT_NAME = #{record.reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calendarNo != null">
+        CALENDAR_NO = #{record.calendarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqId != null">
+        INQ_ID = #{record.inqId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corpId != null">
+        CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv1 != null">
+        RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv2 != null">
+        RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv3 != null">
+        RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv4 != null">
+        RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv5 != null">
+        RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkErrType != null">
+        CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ODS_XLS_TB_BRANCH
+    set DEPART_ID = #{record.departId,jdbcType=VARCHAR},
+      PDEPART_ID = #{record.pdepartId,jdbcType=VARCHAR},
+      DEPART_CODE = #{record.departCode,jdbcType=VARCHAR},
+      DEPART_NAME = #{record.departName,jdbcType=VARCHAR},
+      DEPART_ADDRESS = #{record.departAddress,jdbcType=VARCHAR},
+      AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+      ZIP_CODE = #{record.zipCode,jdbcType=VARCHAR},
+      PHONE_NO = #{record.phoneNo,jdbcType=VARCHAR},
+      REPORT_CODE = #{record.reportCode,jdbcType=VARCHAR},
+      REPORT_NAME = #{record.reportName,jdbcType=VARCHAR},
+      CALENDAR_NO = #{record.calendarNo,jdbcType=VARCHAR},
+      INQ_ID = #{record.inqId,jdbcType=VARCHAR},
+      CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

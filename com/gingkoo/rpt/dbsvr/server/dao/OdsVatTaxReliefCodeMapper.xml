@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.OdsVatTaxReliefCodeMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCode">
+    <id column="SEQ_NUM" jdbcType="VARCHAR" property="seqNum" />
+    <result column="RELIEF_CODE" jdbcType="CHAR" property="reliefCode" />
+    <result column="RELIEF_NAME" jdbcType="VARCHAR" property="reliefName" />
+    <result column="INC_TYPE" jdbcType="VARCHAR" property="incType" />
+    <result column="RELIEF_CATEGORIES" jdbcType="VARCHAR" property="reliefCategories" />
+    <result column="RELIEF_SUBCLASSES" jdbcType="VARCHAR" property="reliefSubclasses" />
+    <result column="FAVORS_ITEM" jdbcType="VARCHAR" property="favorsItem" />
+    <result column="FAVORS_NAME" jdbcType="VARCHAR" property="favorsName" />
+    <result column="POLICY_RELATE" jdbcType="VARCHAR" property="policyRelate" />
+    <result column="POLICY_CONTENT" jdbcType="VARCHAR" property="policyContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SEQ_NUM, RELIEF_CODE, RELIEF_NAME, INC_TYPE, RELIEF_CATEGORIES, RELIEF_SUBCLASSES, 
+    FAVORS_ITEM, FAVORS_NAME, POLICY_RELATE, POLICY_CONTENT
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ODS_VAT_TAX_RELIEF_CODE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_VAT_TAX_RELIEF_CODE
+    where SEQ_NUM = #{seqNum,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ODS_VAT_TAX_RELIEF_CODE
+    where SEQ_NUM = #{seqNum,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCodeExample">
+    delete from ODS_VAT_TAX_RELIEF_CODE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCode">
+    insert into ODS_VAT_TAX_RELIEF_CODE (SEQ_NUM, RELIEF_CODE, RELIEF_NAME, 
+      INC_TYPE, RELIEF_CATEGORIES, RELIEF_SUBCLASSES, 
+      FAVORS_ITEM, FAVORS_NAME, POLICY_RELATE, 
+      POLICY_CONTENT)
+    values (#{seqNum,jdbcType=VARCHAR}, #{reliefCode,jdbcType=CHAR}, #{reliefName,jdbcType=VARCHAR}, 
+      #{incType,jdbcType=VARCHAR}, #{reliefCategories,jdbcType=VARCHAR}, #{reliefSubclasses,jdbcType=VARCHAR}, 
+      #{favorsItem,jdbcType=VARCHAR}, #{favorsName,jdbcType=VARCHAR}, #{policyRelate,jdbcType=VARCHAR}, 
+      #{policyContent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCode">
+    insert into ODS_VAT_TAX_RELIEF_CODE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seqNum != null">
+        SEQ_NUM,
+      </if>
+      <if test="reliefCode != null">
+        RELIEF_CODE,
+      </if>
+      <if test="reliefName != null">
+        RELIEF_NAME,
+      </if>
+      <if test="incType != null">
+        INC_TYPE,
+      </if>
+      <if test="reliefCategories != null">
+        RELIEF_CATEGORIES,
+      </if>
+      <if test="reliefSubclasses != null">
+        RELIEF_SUBCLASSES,
+      </if>
+      <if test="favorsItem != null">
+        FAVORS_ITEM,
+      </if>
+      <if test="favorsName != null">
+        FAVORS_NAME,
+      </if>
+      <if test="policyRelate != null">
+        POLICY_RELATE,
+      </if>
+      <if test="policyContent != null">
+        POLICY_CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seqNum != null">
+        #{seqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="reliefCode != null">
+        #{reliefCode,jdbcType=CHAR},
+      </if>
+      <if test="reliefName != null">
+        #{reliefName,jdbcType=VARCHAR},
+      </if>
+      <if test="incType != null">
+        #{incType,jdbcType=VARCHAR},
+      </if>
+      <if test="reliefCategories != null">
+        #{reliefCategories,jdbcType=VARCHAR},
+      </if>
+      <if test="reliefSubclasses != null">
+        #{reliefSubclasses,jdbcType=VARCHAR},
+      </if>
+      <if test="favorsItem != null">
+        #{favorsItem,jdbcType=VARCHAR},
+      </if>
+      <if test="favorsName != null">
+        #{favorsName,jdbcType=VARCHAR},
+      </if>
+      <if test="policyRelate != null">
+        #{policyRelate,jdbcType=VARCHAR},
+      </if>
+      <if test="policyContent != null">
+        #{policyContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCodeExample" resultType="java.lang.Integer">
+    select count(*) from ODS_VAT_TAX_RELIEF_CODE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ODS_VAT_TAX_RELIEF_CODE
+    <set>
+      <if test="record.seqNum != null">
+        SEQ_NUM = #{record.seqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reliefCode != null">
+        RELIEF_CODE = #{record.reliefCode,jdbcType=CHAR},
+      </if>
+      <if test="record.reliefName != null">
+        RELIEF_NAME = #{record.reliefName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incType != null">
+        INC_TYPE = #{record.incType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reliefCategories != null">
+        RELIEF_CATEGORIES = #{record.reliefCategories,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reliefSubclasses != null">
+        RELIEF_SUBCLASSES = #{record.reliefSubclasses,jdbcType=VARCHAR},
+      </if>
+      <if test="record.favorsItem != null">
+        FAVORS_ITEM = #{record.favorsItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.favorsName != null">
+        FAVORS_NAME = #{record.favorsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyRelate != null">
+        POLICY_RELATE = #{record.policyRelate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyContent != null">
+        POLICY_CONTENT = #{record.policyContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ODS_VAT_TAX_RELIEF_CODE
+    set SEQ_NUM = #{record.seqNum,jdbcType=VARCHAR},
+      RELIEF_CODE = #{record.reliefCode,jdbcType=CHAR},
+      RELIEF_NAME = #{record.reliefName,jdbcType=VARCHAR},
+      INC_TYPE = #{record.incType,jdbcType=VARCHAR},
+      RELIEF_CATEGORIES = #{record.reliefCategories,jdbcType=VARCHAR},
+      RELIEF_SUBCLASSES = #{record.reliefSubclasses,jdbcType=VARCHAR},
+      FAVORS_ITEM = #{record.favorsItem,jdbcType=VARCHAR},
+      FAVORS_NAME = #{record.favorsName,jdbcType=VARCHAR},
+      POLICY_RELATE = #{record.policyRelate,jdbcType=VARCHAR},
+      POLICY_CONTENT = #{record.policyContent,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCode">
+    update ODS_VAT_TAX_RELIEF_CODE
+    <set>
+      <if test="reliefCode != null">
+        RELIEF_CODE = #{reliefCode,jdbcType=CHAR},
+      </if>
+      <if test="reliefName != null">
+        RELIEF_NAME = #{reliefName,jdbcType=VARCHAR},
+      </if>
+      <if test="incType != null">
+        INC_TYPE = #{incType,jdbcType=VARCHAR},
+      </if>
+      <if test="reliefCategories != null">
+        RELIEF_CATEGORIES = #{reliefCategories,jdbcType=VARCHAR},
+      </if>
+      <if test="reliefSubclasses != null">
+        RELIEF_SUBCLASSES = #{reliefSubclasses,jdbcType=VARCHAR},
+      </if>
+      <if test="favorsItem != null">
+        FAVORS_ITEM = #{favorsItem,jdbcType=VARCHAR},
+      </if>
+      <if test="favorsName != null">
+        FAVORS_NAME = #{favorsName,jdbcType=VARCHAR},
+      </if>
+      <if test="policyRelate != null">
+        POLICY_RELATE = #{policyRelate,jdbcType=VARCHAR},
+      </if>
+      <if test="policyContent != null">
+        POLICY_CONTENT = #{policyContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SEQ_NUM = #{seqNum,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxReliefCode">
+    update ODS_VAT_TAX_RELIEF_CODE
+    set RELIEF_CODE = #{reliefCode,jdbcType=CHAR},
+      RELIEF_NAME = #{reliefName,jdbcType=VARCHAR},
+      INC_TYPE = #{incType,jdbcType=VARCHAR},
+      RELIEF_CATEGORIES = #{reliefCategories,jdbcType=VARCHAR},
+      RELIEF_SUBCLASSES = #{reliefSubclasses,jdbcType=VARCHAR},
+      FAVORS_ITEM = #{favorsItem,jdbcType=VARCHAR},
+      FAVORS_NAME = #{favorsName,jdbcType=VARCHAR},
+      POLICY_RELATE = #{policyRelate,jdbcType=VARCHAR},
+      POLICY_CONTENT = #{policyContent,jdbcType=VARCHAR}
+    where SEQ_NUM = #{seqNum,jdbcType=VARCHAR}
+  </update>
+</mapper>

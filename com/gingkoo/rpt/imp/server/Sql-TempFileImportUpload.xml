@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gingkoo.rpt.imp.server.TempFileImportUploadSql">
+
+    <!-- 模板文件数据查询 -->
+    <select id="select_tempFileUploadLog" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        ${pageBegin}
+        select WORK_DATE,
+        FILE_NAME,
+        TARGET_PATH,
+        SND_IP,
+        REC_IP,
+        UPLOAD_TIME,
+        UPLOADER,
+        FILLER1,
+        FILLER2,
+        FILLER3
+        FROM DIGITAL_TEMPLATE_UPLOADLOG
+        ${pageEnd}
+    </select>
+
+    <select id="select_tempFileUploadLog_totalCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from DIGITAL_TEMPLATE_UPLOADLOG
+    </select>
+
+    <select id="select_tempFileUploadLogByDataId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from DIGITAL_TEMPLATE_UPLOADLOG where DATA_ID = #{DATA_ID,jdbcType=VARCHAR}
+    </select>
+
+	<select id="select_tempFileUploadLogByLatestTime" parameterType="java.util.HashMap" resultType="java.util.HashMap" databaseId="sqlserver">
+        select TOP 1 DATA_ID,WORK_DATE,FILE_NAME,TARGET_PATH,SND_IP,REC_IP,UPLOAD_TIME,UPLOADER,FILLER1,FILLER2,FILLER3
+        from DIGITAL_TEMPLATE_UPLOADLOG
+        where FILLER1 = #{FILLER1,jdbcType=VARCHAR}
+          and FILE_NAME = #{FILE_NAME,jdbcType=VARCHAR}
+          and UPLOAD_TIME like #{UPLOAD_TIME,jdbcType=VARCHAR}
+        order by UPLOAD_TIME desc
+    </select>
+    
+    <select id="select_tempFileUploadLogByLatestTime" parameterType="java.util.HashMap" resultType="java.util.HashMap" databaseId='oracle'>
+        select  DATA_ID,WORK_DATE,FILE_NAME,TARGET_PATH,SND_IP,REC_IP,UPLOAD_TIME,UPLOADER,FILLER1,FILLER2,FILLER3
+        from DIGITAL_TEMPLATE_UPLOADLOG
+        where FILLER1 = #{FILLER1,jdbcType=VARCHAR}
+          and FILE_NAME = #{FILE_NAME,jdbcType=VARCHAR}
+          and UPLOAD_TIME like #{UPLOAD_TIME,jdbcType=VARCHAR}
+          and rownum=1
+        order by UPLOAD_TIME desc
+    </select>
+
+    <insert id="insert_tempFileUploadLog" parameterType="java.util.HashMap">
+        insert into DIGITAL_TEMPLATE_UPLOADLOG (DATA_ID,WORK_DATE,FILE_NAME,TARGET_PATH,SND_IP,REC_IP,UPLOAD_TIME,UPLOADER,FILLER1,FILLER2,FILLER3)
+        values (#{DATA_ID,jdbcType=VARCHAR},
+                #{WORK_DATE,jdbcType=VARCHAR},
+                #{FILE_NAME,jdbcType=VARCHAR},
+                #{TARGET_PATH,jdbcType=VARCHAR},
+                #{SND_IP,jdbcType=INTEGER},
+                #{REC_IP,jdbcType=VARCHAR},
+                #{UPLOAD_TIME,jdbcType=VARCHAR},
+                #{UPLOADER,jdbcType=VARCHAR},
+                #{FILLER1,jdbcType=VARCHAR},
+                #{FILLER2,jdbcType=VARCHAR},
+                #{FILLER3,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update_tempFileUploadLogByDataId" parameterType="java.util.HashMap">
+        update DIGITAL_TEMPLATE_UPLOADLOG
+            set FILLER1 = #{FILLER1,jdbcType=VARCHAR}
+        where DATA_ID = #{DATA_ID,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

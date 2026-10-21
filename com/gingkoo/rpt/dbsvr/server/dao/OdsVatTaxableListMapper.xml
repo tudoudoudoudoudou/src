@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.OdsVatTaxableListMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableList">
+    <id column="TAXABLE_CODE" jdbcType="CHAR" property="taxableCode" />
+    <result column="TAXABLE_NAME" jdbcType="VARCHAR" property="taxableName" />
+    <result column="SEQ_NUM" jdbcType="VARCHAR" property="seqNum" />
+    <result column="TAXABLE_INDUSTRY" jdbcType="VARCHAR" property="taxableIndustry" />
+    <result column="TAXABLE_SUBCLASSES" jdbcType="VARCHAR" property="taxableSubclasses" />
+    <result column="ILLUSTRATION" jdbcType="VARCHAR" property="illustration" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TAXABLE_CODE, TAXABLE_NAME, SEQ_NUM, TAXABLE_INDUSTRY, TAXABLE_SUBCLASSES, ILLUSTRATION
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableListExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ODS_VAT_TAXABLE_LIST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_VAT_TAXABLE_LIST
+    where TAXABLE_CODE = #{taxableCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ODS_VAT_TAXABLE_LIST
+    where TAXABLE_CODE = #{taxableCode,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableListExample">
+    delete from ODS_VAT_TAXABLE_LIST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableList">
+    insert into ODS_VAT_TAXABLE_LIST (TAXABLE_CODE, TAXABLE_NAME, SEQ_NUM, 
+      TAXABLE_INDUSTRY, TAXABLE_SUBCLASSES, ILLUSTRATION
+      )
+    values (#{taxableCode,jdbcType=CHAR}, #{taxableName,jdbcType=VARCHAR}, #{seqNum,jdbcType=VARCHAR}, 
+      #{taxableIndustry,jdbcType=VARCHAR}, #{taxableSubclasses,jdbcType=VARCHAR}, #{illustration,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableList">
+    insert into ODS_VAT_TAXABLE_LIST
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taxableCode != null">
+        TAXABLE_CODE,
+      </if>
+      <if test="taxableName != null">
+        TAXABLE_NAME,
+      </if>
+      <if test="seqNum != null">
+        SEQ_NUM,
+      </if>
+      <if test="taxableIndustry != null">
+        TAXABLE_INDUSTRY,
+      </if>
+      <if test="taxableSubclasses != null">
+        TAXABLE_SUBCLASSES,
+      </if>
+      <if test="illustration != null">
+        ILLUSTRATION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taxableCode != null">
+        #{taxableCode,jdbcType=CHAR},
+      </if>
+      <if test="taxableName != null">
+        #{taxableName,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNum != null">
+        #{seqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="taxableIndustry != null">
+        #{taxableIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="taxableSubclasses != null">
+        #{taxableSubclasses,jdbcType=VARCHAR},
+      </if>
+      <if test="illustration != null">
+        #{illustration,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableListExample" resultType="java.lang.Integer">
+    select count(*) from ODS_VAT_TAXABLE_LIST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ODS_VAT_TAXABLE_LIST
+    <set>
+      <if test="record.taxableCode != null">
+        TAXABLE_CODE = #{record.taxableCode,jdbcType=CHAR},
+      </if>
+      <if test="record.taxableName != null">
+        TAXABLE_NAME = #{record.taxableName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.seqNum != null">
+        SEQ_NUM = #{record.seqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxableIndustry != null">
+        TAXABLE_INDUSTRY = #{record.taxableIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxableSubclasses != null">
+        TAXABLE_SUBCLASSES = #{record.taxableSubclasses,jdbcType=VARCHAR},
+      </if>
+      <if test="record.illustration != null">
+        ILLUSTRATION = #{record.illustration,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ODS_VAT_TAXABLE_LIST
+    set TAXABLE_CODE = #{record.taxableCode,jdbcType=CHAR},
+      TAXABLE_NAME = #{record.taxableName,jdbcType=VARCHAR},
+      SEQ_NUM = #{record.seqNum,jdbcType=VARCHAR},
+      TAXABLE_INDUSTRY = #{record.taxableIndustry,jdbcType=VARCHAR},
+      TAXABLE_SUBCLASSES = #{record.taxableSubclasses,jdbcType=VARCHAR},
+      ILLUSTRATION = #{record.illustration,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableList">
+    update ODS_VAT_TAXABLE_LIST
+    <set>
+      <if test="taxableName != null">
+        TAXABLE_NAME = #{taxableName,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNum != null">
+        SEQ_NUM = #{seqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="taxableIndustry != null">
+        TAXABLE_INDUSTRY = #{taxableIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="taxableSubclasses != null">
+        TAXABLE_SUBCLASSES = #{taxableSubclasses,jdbcType=VARCHAR},
+      </if>
+      <if test="illustration != null">
+        ILLUSTRATION = #{illustration,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TAXABLE_CODE = #{taxableCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatTaxableList">
+    update ODS_VAT_TAXABLE_LIST
+    set TAXABLE_NAME = #{taxableName,jdbcType=VARCHAR},
+      SEQ_NUM = #{seqNum,jdbcType=VARCHAR},
+      TAXABLE_INDUSTRY = #{taxableIndustry,jdbcType=VARCHAR},
+      TAXABLE_SUBCLASSES = #{taxableSubclasses,jdbcType=VARCHAR},
+      ILLUSTRATION = #{illustration,jdbcType=VARCHAR}
+    where TAXABLE_CODE = #{taxableCode,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gingkoo.vat.server.VocSendEmailSql">
+
+    <select id="select_emailContentParam" resultType="java.util.HashMap">
+        select TMP_PARAM_FIELD,SQL_FIELD,BEAN_FIELD,TAB_SOURCE
+        FROM EMAIL_CONTENT_PARAM_CONFIG
+    </select>
+
+    <select id="select_emailContentTemp" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from GNO_TPL where TPL_ID = #{EMAIL_TYPE,jdbcType=VARCHAR}
+    </select>
+
+    <select id="select_sendEmailVoc" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from PM_VAT_O_VOC
+        where VOC_STAT = '2' AND MEDIA_TYPE = 'E'
+              AND (EMAIL_SEND_STATUS IS NULL OR EMAIL_SEND_STATUS != 'Y') AND PDF_PATH IS NOT NULL
+    </select>
+
+    <insert id="insert_vocSendEmailLog" parameterType="java.util.HashMap">
+        insert into PM_VOC_SEND_EMAIL(DATA_ID,DATA_DATE,RECIPIENT,CONTENT,ATTACHMENTS,TITLE,CC,CUST_NO,VOC_CODE,VOC_NO,OCC_TIME,OCC_STATUS,ANNEX_EXISTS,ANNEX_PATH,RSV1,RSV2,RSV3)
+        values (#{DATA_ID,jdbcType=VARCHAR},
+            #{DATA_DATE,jdbcType=VARCHAR},
+            #{RECIPIENT,jdbcType=VARCHAR},
+            #{CONTENT,jdbcType=VARCHAR},
+            #{ATTACHMENTS,jdbcType=VARCHAR},
+            #{TITLE,jdbcType=VARCHAR},
+            #{CC,jdbcType=VARCHAR},
+            #{CUST_NO,jdbcType=VARCHAR},
+            #{VOC_CODE,jdbcType=VARCHAR},
+            #{VOC_NO,jdbcType=VARCHAR},
+            #{OCC_TIME,jdbcType=VARCHAR},
+            #{OCC_STATUS,jdbcType=VARCHAR},
+            #{ANNEX_EXISTS,jdbcType=VARCHAR},
+            #{ANNEX_PATH,jdbcType=VARCHAR},
+            #{RSV1,jdbcType=VARCHAR},
+            #{RSV2,jdbcType=VARCHAR},
+            #{RSV3,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update_vocSendEmailLogByData_id" parameterType="java.util.HashMap">
+        update PM_VOC_SEND_EMAIL
+        set
+            DATA_DATE = #{DATA_DATE,jdbcType=VARCHAR},
+            OCC_STATUS = #{OCC_STATUS,jdbcType=VARCHAR},
+            RECIPIENT = #{RECIPIENT,jdbcType=VARCHAR},
+            CONTENT = #{CONTENT,jdbcType=VARCHAR},
+            TITLE = #{TITLE,jdbcType=VARCHAR},
+            CC = #{CC,jdbcType=VARCHAR},
+            OCC_TIME = #{OCC_TIME,jdbcType=VARCHAR},
+            VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR},
+            RSV1 = #{RSV1,jdbcType=VARCHAR}
+        where data_id = #{DATA_ID,jdbcType=VARCHAR}
+    </update>
+
+    <update id="update_vat_o_vocByVocNo" parameterType="java.util.HashMap">
+        update PM_VAT_O_VOC
+        set EMAIL_SEND_STATUS = #{EMAIL_SEND_STATUS,jdbcType=VARCHAR},
+            EMAIL_SEND_TIME = #{EMAIL_SEND_TIME,jdbcType=VARCHAR},
+            EMAIL_ANNEX_EXISTS = #{EMAIL_ANNEX_EXISTS,jdbcType=VARCHAR},
+            EMAIL_ANNEX_PATH = #{EMAIL_ANNEX_PATH,jdbcType=VARCHAR}
+        where VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

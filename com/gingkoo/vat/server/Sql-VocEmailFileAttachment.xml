@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gingkoo.vat.server.VocEmailFileAttachmentSql">
+
+    <select id="select_vocListByVocDataId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select t.ORG_ID,t.CUST_NO,t.CUST_NAME,v.VOC_FLAG,t.GOOD_CODE,t.GOOD_NAME,t.TAX_RATE ,t.O_AMT , t.EXCHAGE_RATE,l.TAX_AMT,l.INS_AMT,t.TX_CODE,t.TX_DATE,t.DC_FLAG,t.VALUE_DATE,t.CCY,t.SEQ_NO,v.VOC_CODE,v.VOC_NO
+        from pm_vat_o_voc_list l
+            left join pm_vat_tx t  on l.tx_id = t.tx_id
+            left join pm_vat_o_voc_dtl dtl on l.pdata_id= dtl.data_id
+            left join pm_vat_o_voc v on dtl.pdata_id=v.data_id
+        where v.DATA_ID in (#{DATA_ID,jdbcType=VARCHAR})  order BY l.VOC_CODE,l.VOC_NO,t.CUST_NO
+    </select>
+
+    <select id="select_getAnnexList"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT * FROM TB_SYSPARAMS WHERE PARAMGROUP_ID = '2105' AND (PARAM_ID LIKE 'annex.%' or PARAM_ID like '${ORG_ID}.annex.%')
+    </select>
+
+    <select id="select_getRecords_path" parameterType="java.util.HashMap" resultType="java.lang.String">
+        ${sql}
+    </select>
+
+    <select id="select_getRecords_hashMap" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        ${sql}
+    </select>
+
+    <select id="select_getSQLBySqlId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from tb_sql_cfg where sql_id = #{SQL_ID,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

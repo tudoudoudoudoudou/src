@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.TbMenuMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.TbMenu">
+    <id column="MENU_ID" jdbcType="VARCHAR" property="menuId" />
+    <result column="PMENU_ID" jdbcType="VARCHAR" property="pmenuId" />
+    <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName" />
+    <result column="CMD" jdbcType="VARCHAR" property="cmd" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="SEPARATOR" jdbcType="CHAR" property="separator" />
+    <result column="MORDER" jdbcType="NUMERIC" property="morder" />
+    <result column="MODULE_ID" jdbcType="VARCHAR" property="moduleId" />
+    <result column="NODEFLAG" jdbcType="VARCHAR" property="nodeflag" />
+    <result column="TXNO" jdbcType="VARCHAR" property="txno" />
+    <result column="SYS_ID" jdbcType="VARCHAR" property="sysId" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="RSV1" jdbcType="VARCHAR" property="rsv1" />
+    <result column="RSV2" jdbcType="VARCHAR" property="rsv2" />
+    <result column="RSV3" jdbcType="VARCHAR" property="rsv3" />
+    <result column="RSV4" jdbcType="VARCHAR" property="rsv4" />
+    <result column="RSV5" jdbcType="VARCHAR" property="rsv5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    MENU_ID, PMENU_ID, MENU_NAME, CMD, ICON, SEPARATOR, MORDER, MODULE_ID, NODEFLAG, 
+    TXNO, SYS_ID, STATUS, RSV1, RSV2, RSV3, RSV4, RSV5
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbMenuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TB_MENU
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TB_MENU
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TB_MENU
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbMenuExample">
+    delete from TB_MENU
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbMenu">
+    insert into TB_MENU (MENU_ID, PMENU_ID, MENU_NAME, 
+      CMD, ICON, SEPARATOR, 
+      MORDER, MODULE_ID, NODEFLAG, 
+      TXNO, SYS_ID, STATUS, 
+      RSV1, RSV2, RSV3, RSV4, 
+      RSV5)
+    values (#{menuId,jdbcType=VARCHAR}, #{pmenuId,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+      #{cmd,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{separator,jdbcType=CHAR}, 
+      #{morder,jdbcType=NUMERIC}, #{moduleId,jdbcType=VARCHAR}, #{nodeflag,jdbcType=VARCHAR}, 
+      #{txno,jdbcType=VARCHAR}, #{sysId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{rsv1,jdbcType=VARCHAR}, #{rsv2,jdbcType=VARCHAR}, #{rsv3,jdbcType=VARCHAR}, #{rsv4,jdbcType=VARCHAR}, 
+      #{rsv5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbMenu">
+    insert into TB_MENU
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        MENU_ID,
+      </if>
+      <if test="pmenuId != null">
+        PMENU_ID,
+      </if>
+      <if test="menuName != null">
+        MENU_NAME,
+      </if>
+      <if test="cmd != null">
+        CMD,
+      </if>
+      <if test="icon != null">
+        ICON,
+      </if>
+      <if test="separator != null">
+        SEPARATOR,
+      </if>
+      <if test="morder != null">
+        MORDER,
+      </if>
+      <if test="moduleId != null">
+        MODULE_ID,
+      </if>
+      <if test="nodeflag != null">
+        NODEFLAG,
+      </if>
+      <if test="txno != null">
+        TXNO,
+      </if>
+      <if test="sysId != null">
+        SYS_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="rsv1 != null">
+        RSV1,
+      </if>
+      <if test="rsv2 != null">
+        RSV2,
+      </if>
+      <if test="rsv3 != null">
+        RSV3,
+      </if>
+      <if test="rsv4 != null">
+        RSV4,
+      </if>
+      <if test="rsv5 != null">
+        RSV5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="pmenuId != null">
+        #{pmenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="cmd != null">
+        #{cmd,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="separator != null">
+        #{separator,jdbcType=CHAR},
+      </if>
+      <if test="morder != null">
+        #{morder,jdbcType=NUMERIC},
+      </if>
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeflag != null">
+        #{nodeflag,jdbcType=VARCHAR},
+      </if>
+      <if test="txno != null">
+        #{txno,jdbcType=VARCHAR},
+      </if>
+      <if test="sysId != null">
+        #{sysId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv1 != null">
+        #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        #{rsv5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbMenuExample" resultType="java.lang.Integer">
+    select count(*) from TB_MENU
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update TB_MENU
+    <set>
+      <if test="record.menuId != null">
+        MENU_ID = #{record.menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pmenuId != null">
+        PMENU_ID = #{record.pmenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuName != null">
+        MENU_NAME = #{record.menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmd != null">
+        CMD = #{record.cmd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null">
+        ICON = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.separator != null">
+        SEPARATOR = #{record.separator,jdbcType=CHAR},
+      </if>
+      <if test="record.morder != null">
+        MORDER = #{record.morder,jdbcType=NUMERIC},
+      </if>
+      <if test="record.moduleId != null">
+        MODULE_ID = #{record.moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nodeflag != null">
+        NODEFLAG = #{record.nodeflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.txno != null">
+        TXNO = #{record.txno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysId != null">
+        SYS_ID = #{record.sysId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv1 != null">
+        RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv2 != null">
+        RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv3 != null">
+        RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv4 != null">
+        RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv5 != null">
+        RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update TB_MENU
+    set MENU_ID = #{record.menuId,jdbcType=VARCHAR},
+      PMENU_ID = #{record.pmenuId,jdbcType=VARCHAR},
+      MENU_NAME = #{record.menuName,jdbcType=VARCHAR},
+      CMD = #{record.cmd,jdbcType=VARCHAR},
+      ICON = #{record.icon,jdbcType=VARCHAR},
+      SEPARATOR = #{record.separator,jdbcType=CHAR},
+      MORDER = #{record.morder,jdbcType=NUMERIC},
+      MODULE_ID = #{record.moduleId,jdbcType=VARCHAR},
+      NODEFLAG = #{record.nodeflag,jdbcType=VARCHAR},
+      TXNO = #{record.txno,jdbcType=VARCHAR},
+      SYS_ID = #{record.sysId,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      RSV5 = #{record.rsv5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbMenu">
+    update TB_MENU
+    <set>
+      <if test="pmenuId != null">
+        PMENU_ID = #{pmenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="cmd != null">
+        CMD = #{cmd,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        ICON = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="separator != null">
+        SEPARATOR = #{separator,jdbcType=CHAR},
+      </if>
+      <if test="morder != null">
+        MORDER = #{morder,jdbcType=NUMERIC},
+      </if>
+      <if test="moduleId != null">
+        MODULE_ID = #{moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeflag != null">
+        NODEFLAG = #{nodeflag,jdbcType=VARCHAR},
+      </if>
+      <if test="txno != null">
+        TXNO = #{txno,jdbcType=VARCHAR},
+      </if>
+      <if test="sysId != null">
+        SYS_ID = #{sysId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv1 != null">
+        RSV1 = #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        RSV2 = #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        RSV3 = #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        RSV4 = #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        RSV5 = #{rsv5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbMenu">
+    update TB_MENU
+    set PMENU_ID = #{pmenuId,jdbcType=VARCHAR},
+      MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      CMD = #{cmd,jdbcType=VARCHAR},
+      ICON = #{icon,jdbcType=VARCHAR},
+      SEPARATOR = #{separator,jdbcType=CHAR},
+      MORDER = #{morder,jdbcType=NUMERIC},
+      MODULE_ID = #{moduleId,jdbcType=VARCHAR},
+      NODEFLAG = #{nodeflag,jdbcType=VARCHAR},
+      TXNO = #{txno,jdbcType=VARCHAR},
+      SYS_ID = #{sysId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      RSV1 = #{rsv1,jdbcType=VARCHAR},
+      RSV2 = #{rsv2,jdbcType=VARCHAR},
+      RSV3 = #{rsv3,jdbcType=VARCHAR},
+      RSV4 = #{rsv4,jdbcType=VARCHAR},
+      RSV5 = #{rsv5,jdbcType=VARCHAR}
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </update>
+</mapper>

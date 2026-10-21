@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.OdsCsvVatVendorMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendor">
+    <id column="DATA_ID" jdbcType="CHAR" property="dataId" />
+    <result column="DATA_DATE" jdbcType="CHAR" property="dataDate" />
+    <result column="CORP_ID" jdbcType="VARCHAR" property="corpId" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+    <result column="INQ_ORG_ID" jdbcType="CHAR" property="inqOrgId" />
+    <result column="INQ_GROUP_ID" jdbcType="CHAR" property="inqGroupId" />
+    <result column="VENDOR_NO" jdbcType="VARCHAR" property="vendorNo" />
+    <result column="VENDOR_BRNO" jdbcType="VARCHAR" property="vendorBrno" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ADDR" jdbcType="VARCHAR" property="addr" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="ZIP_CODE" jdbcType="VARCHAR" property="zipCode" />
+    <result column="CITY" jdbcType="VARCHAR" property="city" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="TAX_NO" jdbcType="VARCHAR" property="taxNo" />
+    <result column="BRNAME" jdbcType="VARCHAR" property="brname" />
+    <result column="ACCTNO" jdbcType="VARCHAR" property="acctno" />
+    <result column="OF_FLAG" jdbcType="CHAR" property="ofFlag" />
+    <result column="IMP_FILE_NAME" jdbcType="VARCHAR" property="impFileName" />
+    <result column="IMP_TIME" jdbcType="VARCHAR" property="impTime" />
+    <result column="CHECK_FLAG" jdbcType="CHAR" property="checkFlag" />
+    <result column="CHECK_DESC" jdbcType="VARCHAR" property="checkDesc" />
+    <result column="CHECK_ERR_TYPE" jdbcType="CHAR" property="checkErrType" />
+    <result column="NEXT_ACTION" jdbcType="CHAR" property="nextAction" />
+    <result column="DATA_STATUS" jdbcType="CHAR" property="dataStatus" />
+    <result column="DATA_FLAG" jdbcType="CHAR" property="dataFlag" />
+    <result column="DATA_SOURCE" jdbcType="CHAR" property="dataSource" />
+    <result column="DATA_VERSION" jdbcType="NUMERIC" property="dataVersion" />
+    <result column="DATA_REJ_DESC" jdbcType="VARCHAR" property="dataRejDesc" />
+    <result column="DATA_DEL_DESC" jdbcType="VARCHAR" property="dataDelDesc" />
+    <result column="DATA_CRT_USER" jdbcType="VARCHAR" property="dataCrtUser" />
+    <result column="DATA_CRT_DATE" jdbcType="CHAR" property="dataCrtDate" />
+    <result column="DATA_CRT_TIME" jdbcType="CHAR" property="dataCrtTime" />
+    <result column="DATA_CHG_USER" jdbcType="VARCHAR" property="dataChgUser" />
+    <result column="DATA_CHG_DATE" jdbcType="CHAR" property="dataChgDate" />
+    <result column="DATA_CHG_TIME" jdbcType="CHAR" property="dataChgTime" />
+    <result column="DATA_APV_USER" jdbcType="VARCHAR" property="dataApvUser" />
+    <result column="DATA_APV_DATE" jdbcType="CHAR" property="dataApvDate" />
+    <result column="DATA_APV_TIME" jdbcType="CHAR" property="dataApvTime" />
+    <result column="EXT1" jdbcType="VARCHAR" property="ext1" />
+    <result column="EXT2" jdbcType="VARCHAR" property="ext2" />
+    <result column="EXT3" jdbcType="VARCHAR" property="ext3" />
+    <result column="EXT4" jdbcType="VARCHAR" property="ext4" />
+    <result column="EXT5" jdbcType="VARCHAR" property="ext5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DATA_ID, DATA_DATE, CORP_ID, ORG_ID, GROUP_ID, INQ_ORG_ID, INQ_GROUP_ID, VENDOR_NO, 
+    VENDOR_BRNO, NAME, ADDR, TEL, ZIP_CODE, CITY, EMAIL, TAX_NO, BRNAME, ACCTNO, OF_FLAG, 
+    IMP_FILE_NAME, IMP_TIME, CHECK_FLAG, CHECK_DESC, CHECK_ERR_TYPE, NEXT_ACTION, DATA_STATUS, 
+    DATA_FLAG, DATA_SOURCE, DATA_VERSION, DATA_REJ_DESC, DATA_DEL_DESC, DATA_CRT_USER, 
+    DATA_CRT_DATE, DATA_CRT_TIME, DATA_CHG_USER, DATA_CHG_DATE, DATA_CHG_TIME, DATA_APV_USER, 
+    DATA_APV_DATE, DATA_APV_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ODS_CSV_VAT_VENDOR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_CSV_VAT_VENDOR
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ODS_CSV_VAT_VENDOR
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendorExample">
+    delete from ODS_CSV_VAT_VENDOR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendor">
+    insert into ODS_CSV_VAT_VENDOR (DATA_ID, DATA_DATE, CORP_ID, 
+      ORG_ID, GROUP_ID, INQ_ORG_ID, 
+      INQ_GROUP_ID, VENDOR_NO, VENDOR_BRNO, 
+      NAME, ADDR, TEL, ZIP_CODE, 
+      CITY, EMAIL, TAX_NO, 
+      BRNAME, ACCTNO, OF_FLAG, 
+      IMP_FILE_NAME, IMP_TIME, CHECK_FLAG, 
+      CHECK_DESC, CHECK_ERR_TYPE, NEXT_ACTION, 
+      DATA_STATUS, DATA_FLAG, DATA_SOURCE, 
+      DATA_VERSION, DATA_REJ_DESC, DATA_DEL_DESC, 
+      DATA_CRT_USER, DATA_CRT_DATE, DATA_CRT_TIME, 
+      DATA_CHG_USER, DATA_CHG_DATE, DATA_CHG_TIME, 
+      DATA_APV_USER, DATA_APV_DATE, DATA_APV_TIME, 
+      EXT1, EXT2, EXT3, EXT4, 
+      EXT5)
+    values (#{dataId,jdbcType=CHAR}, #{dataDate,jdbcType=CHAR}, #{corpId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{inqOrgId,jdbcType=CHAR}, 
+      #{inqGroupId,jdbcType=CHAR}, #{vendorNo,jdbcType=VARCHAR}, #{vendorBrno,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{taxNo,jdbcType=VARCHAR}, 
+      #{brname,jdbcType=VARCHAR}, #{acctno,jdbcType=VARCHAR}, #{ofFlag,jdbcType=CHAR}, 
+      #{impFileName,jdbcType=VARCHAR}, #{impTime,jdbcType=VARCHAR}, #{checkFlag,jdbcType=CHAR}, 
+      #{checkDesc,jdbcType=VARCHAR}, #{checkErrType,jdbcType=CHAR}, #{nextAction,jdbcType=CHAR}, 
+      #{dataStatus,jdbcType=CHAR}, #{dataFlag,jdbcType=CHAR}, #{dataSource,jdbcType=CHAR}, 
+      #{dataVersion,jdbcType=NUMERIC}, #{dataRejDesc,jdbcType=VARCHAR}, #{dataDelDesc,jdbcType=VARCHAR}, 
+      #{dataCrtUser,jdbcType=VARCHAR}, #{dataCrtDate,jdbcType=CHAR}, #{dataCrtTime,jdbcType=CHAR}, 
+      #{dataChgUser,jdbcType=VARCHAR}, #{dataChgDate,jdbcType=CHAR}, #{dataChgTime,jdbcType=CHAR}, 
+      #{dataApvUser,jdbcType=VARCHAR}, #{dataApvDate,jdbcType=CHAR}, #{dataApvTime,jdbcType=CHAR}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{ext4,jdbcType=VARCHAR}, 
+      #{ext5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendor">
+    insert into ODS_CSV_VAT_VENDOR
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        DATA_ID,
+      </if>
+      <if test="dataDate != null">
+        DATA_DATE,
+      </if>
+      <if test="corpId != null">
+        CORP_ID,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="groupId != null">
+        GROUP_ID,
+      </if>
+      <if test="inqOrgId != null">
+        INQ_ORG_ID,
+      </if>
+      <if test="inqGroupId != null">
+        INQ_GROUP_ID,
+      </if>
+      <if test="vendorNo != null">
+        VENDOR_NO,
+      </if>
+      <if test="vendorBrno != null">
+        VENDOR_BRNO,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="addr != null">
+        ADDR,
+      </if>
+      <if test="tel != null">
+        TEL,
+      </if>
+      <if test="zipCode != null">
+        ZIP_CODE,
+      </if>
+      <if test="city != null">
+        CITY,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="taxNo != null">
+        TAX_NO,
+      </if>
+      <if test="brname != null">
+        BRNAME,
+      </if>
+      <if test="acctno != null">
+        ACCTNO,
+      </if>
+      <if test="ofFlag != null">
+        OF_FLAG,
+      </if>
+      <if test="impFileName != null">
+        IMP_FILE_NAME,
+      </if>
+      <if test="impTime != null">
+        IMP_TIME,
+      </if>
+      <if test="checkFlag != null">
+        CHECK_FLAG,
+      </if>
+      <if test="checkDesc != null">
+        CHECK_DESC,
+      </if>
+      <if test="checkErrType != null">
+        CHECK_ERR_TYPE,
+      </if>
+      <if test="nextAction != null">
+        NEXT_ACTION,
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS,
+      </if>
+      <if test="dataFlag != null">
+        DATA_FLAG,
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE,
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION,
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC,
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC,
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER,
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE,
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME,
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER,
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE,
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME,
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER,
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE,
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME,
+      </if>
+      <if test="ext1 != null">
+        EXT1,
+      </if>
+      <if test="ext2 != null">
+        EXT2,
+      </if>
+      <if test="ext3 != null">
+        EXT3,
+      </if>
+      <if test="ext4 != null">
+        EXT4,
+      </if>
+      <if test="ext5 != null">
+        EXT5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=CHAR},
+      </if>
+      <if test="dataDate != null">
+        #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="inqOrgId != null">
+        #{inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="inqGroupId != null">
+        #{inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="vendorNo != null">
+        #{vendorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorBrno != null">
+        #{vendorBrno,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        #{zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNo != null">
+        #{taxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="brname != null">
+        #{brname,jdbcType=VARCHAR},
+      </if>
+      <if test="acctno != null">
+        #{acctno,jdbcType=VARCHAR},
+      </if>
+      <if test="ofFlag != null">
+        #{ofFlag,jdbcType=CHAR},
+      </if>
+      <if test="impFileName != null">
+        #{impFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="impTime != null">
+        #{impTime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null">
+        #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="checkDesc != null">
+        #{checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkErrType != null">
+        #{checkErrType,jdbcType=CHAR},
+      </if>
+      <if test="nextAction != null">
+        #{nextAction,jdbcType=CHAR},
+      </if>
+      <if test="dataStatus != null">
+        #{dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="dataFlag != null">
+        #{dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="ext1 != null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null">
+        #{ext5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendorExample" resultType="java.lang.Integer">
+    select count(*) from ODS_CSV_VAT_VENDOR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ODS_CSV_VAT_VENDOR
+    <set>
+      <if test="record.dataId != null">
+        DATA_ID = #{record.dataId,jdbcType=CHAR},
+      </if>
+      <if test="record.dataDate != null">
+        DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      </if>
+      <if test="record.corpId != null">
+        CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupId != null">
+        GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqOrgId != null">
+        INQ_ORG_ID = #{record.inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="record.inqGroupId != null">
+        INQ_GROUP_ID = #{record.inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="record.vendorNo != null">
+        VENDOR_NO = #{record.vendorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vendorBrno != null">
+        VENDOR_BRNO = #{record.vendorBrno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addr != null">
+        ADDR = #{record.addr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null">
+        TEL = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zipCode != null">
+        ZIP_CODE = #{record.zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        CITY = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxNo != null">
+        TAX_NO = #{record.taxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brname != null">
+        BRNAME = #{record.brname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acctno != null">
+        ACCTNO = #{record.acctno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ofFlag != null">
+        OF_FLAG = #{record.ofFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.impFileName != null">
+        IMP_FILE_NAME = #{record.impFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impTime != null">
+        IMP_TIME = #{record.impTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkFlag != null">
+        CHECK_FLAG = #{record.checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.checkDesc != null">
+        CHECK_DESC = #{record.checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkErrType != null">
+        CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR},
+      </if>
+      <if test="record.nextAction != null">
+        NEXT_ACTION = #{record.nextAction,jdbcType=CHAR},
+      </if>
+      <if test="record.dataStatus != null">
+        DATA_STATUS = #{record.dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.dataFlag != null">
+        DATA_FLAG = #{record.dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.dataSource != null">
+        DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      </if>
+      <if test="record.dataVersion != null">
+        DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="record.dataRejDesc != null">
+        DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataDelDesc != null">
+        DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtUser != null">
+        DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtDate != null">
+        DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataCrtTime != null">
+        DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgUser != null">
+        DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataChgDate != null">
+        DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgTime != null">
+        DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvUser != null">
+        DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataApvDate != null">
+        DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvTime != null">
+        DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="record.ext1 != null">
+        EXT1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null">
+        EXT2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext3 != null">
+        EXT3 = #{record.ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext4 != null">
+        EXT4 = #{record.ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext5 != null">
+        EXT5 = #{record.ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ODS_CSV_VAT_VENDOR
+    set DATA_ID = #{record.dataId,jdbcType=CHAR},
+      DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      INQ_ORG_ID = #{record.inqOrgId,jdbcType=CHAR},
+      INQ_GROUP_ID = #{record.inqGroupId,jdbcType=CHAR},
+      VENDOR_NO = #{record.vendorNo,jdbcType=VARCHAR},
+      VENDOR_BRNO = #{record.vendorBrno,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      ADDR = #{record.addr,jdbcType=VARCHAR},
+      TEL = #{record.tel,jdbcType=VARCHAR},
+      ZIP_CODE = #{record.zipCode,jdbcType=VARCHAR},
+      CITY = #{record.city,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      TAX_NO = #{record.taxNo,jdbcType=VARCHAR},
+      BRNAME = #{record.brname,jdbcType=VARCHAR},
+      ACCTNO = #{record.acctno,jdbcType=VARCHAR},
+      OF_FLAG = #{record.ofFlag,jdbcType=CHAR},
+      IMP_FILE_NAME = #{record.impFileName,jdbcType=VARCHAR},
+      IMP_TIME = #{record.impTime,jdbcType=VARCHAR},
+      CHECK_FLAG = #{record.checkFlag,jdbcType=CHAR},
+      CHECK_DESC = #{record.checkDesc,jdbcType=VARCHAR},
+      CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR},
+      NEXT_ACTION = #{record.nextAction,jdbcType=CHAR},
+      DATA_STATUS = #{record.dataStatus,jdbcType=CHAR},
+      DATA_FLAG = #{record.dataFlag,jdbcType=CHAR},
+      DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      EXT1 = #{record.ext1,jdbcType=VARCHAR},
+      EXT2 = #{record.ext2,jdbcType=VARCHAR},
+      EXT3 = #{record.ext3,jdbcType=VARCHAR},
+      EXT4 = #{record.ext4,jdbcType=VARCHAR},
+      EXT5 = #{record.ext5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendor">
+    update ODS_CSV_VAT_VENDOR
+    <set>
+      <if test="dataDate != null">
+        DATA_DATE = #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        CORP_ID = #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="inqOrgId != null">
+        INQ_ORG_ID = #{inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="inqGroupId != null">
+        INQ_GROUP_ID = #{inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="vendorNo != null">
+        VENDOR_NO = #{vendorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorBrno != null">
+        VENDOR_BRNO = #{vendorBrno,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        ZIP_CODE = #{zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNo != null">
+        TAX_NO = #{taxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="brname != null">
+        BRNAME = #{brname,jdbcType=VARCHAR},
+      </if>
+      <if test="acctno != null">
+        ACCTNO = #{acctno,jdbcType=VARCHAR},
+      </if>
+      <if test="ofFlag != null">
+        OF_FLAG = #{ofFlag,jdbcType=CHAR},
+      </if>
+      <if test="impFileName != null">
+        IMP_FILE_NAME = #{impFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="impTime != null">
+        IMP_TIME = #{impTime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null">
+        CHECK_FLAG = #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="checkDesc != null">
+        CHECK_DESC = #{checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkErrType != null">
+        CHECK_ERR_TYPE = #{checkErrType,jdbcType=CHAR},
+      </if>
+      <if test="nextAction != null">
+        NEXT_ACTION = #{nextAction,jdbcType=CHAR},
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS = #{dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="dataFlag != null">
+        DATA_FLAG = #{dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="ext1 != null">
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        EXT2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        EXT3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        EXT4 = #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null">
+        EXT5 = #{ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsCsvVatVendor">
+    update ODS_CSV_VAT_VENDOR
+    set DATA_DATE = #{dataDate,jdbcType=CHAR},
+      CORP_ID = #{corpId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      INQ_ORG_ID = #{inqOrgId,jdbcType=CHAR},
+      INQ_GROUP_ID = #{inqGroupId,jdbcType=CHAR},
+      VENDOR_NO = #{vendorNo,jdbcType=VARCHAR},
+      VENDOR_BRNO = #{vendorBrno,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      ZIP_CODE = #{zipCode,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      TAX_NO = #{taxNo,jdbcType=VARCHAR},
+      BRNAME = #{brname,jdbcType=VARCHAR},
+      ACCTNO = #{acctno,jdbcType=VARCHAR},
+      OF_FLAG = #{ofFlag,jdbcType=CHAR},
+      IMP_FILE_NAME = #{impFileName,jdbcType=VARCHAR},
+      IMP_TIME = #{impTime,jdbcType=VARCHAR},
+      CHECK_FLAG = #{checkFlag,jdbcType=CHAR},
+      CHECK_DESC = #{checkDesc,jdbcType=VARCHAR},
+      CHECK_ERR_TYPE = #{checkErrType,jdbcType=CHAR},
+      NEXT_ACTION = #{nextAction,jdbcType=CHAR},
+      DATA_STATUS = #{dataStatus,jdbcType=CHAR},
+      DATA_FLAG = #{dataFlag,jdbcType=CHAR},
+      DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      EXT1 = #{ext1,jdbcType=VARCHAR},
+      EXT2 = #{ext2,jdbcType=VARCHAR},
+      EXT3 = #{ext3,jdbcType=VARCHAR},
+      EXT4 = #{ext4,jdbcType=VARCHAR},
+      EXT5 = #{ext5,jdbcType=VARCHAR}
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </update>
+</mapper>

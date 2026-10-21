@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.HisHptReqMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.HisHptReq">
+    <id column="DATA_ID" jdbcType="CHAR" property="dataId" />
+    <result column="DATA_DATE" jdbcType="CHAR" property="dataDate" />
+    <result column="CORP_ID" jdbcType="VARCHAR" property="corpId" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+    <result column="INQ_ORG_ID" jdbcType="CHAR" property="inqOrgId" />
+    <result column="INQ_GROUP_ID" jdbcType="CHAR" property="inqGroupId" />
+    <result column="HS_NO" jdbcType="VARCHAR" property="hsNo" />
+    <result column="HS_OWER" jdbcType="VARCHAR" property="hsOwer" />
+    <result column="HS_LOCATION" jdbcType="VARCHAR" property="hsLocation" />
+    <result column="HS_BUL_AREA" jdbcType="NUMERIC" property="hsBulArea" />
+    <result column="HS_USE_AREA" jdbcType="NUMERIC" property="hsUseArea" />
+    <result column="REG_DATE" jdbcType="VARCHAR" property="regDate" />
+    <result column="HS_USAGE" jdbcType="VARCHAR" property="hsUsage" />
+    <result column="HS_RENT_AMT" jdbcType="NUMERIC" property="hsRentAmt" />
+    <result column="HS_ORG_AMT" jdbcType="NUMERIC" property="hsOrgAmt" />
+    <result column="HS_LEFT_AMT" jdbcType="NUMERIC" property="hsLeftAmt" />
+    <result column="HS_FLOOR" jdbcType="VARCHAR" property="hsFloor" />
+    <result column="HS_TYPE" jdbcType="VARCHAR" property="hsType" />
+    <result column="TAX_RATE" jdbcType="NUMERIC" property="taxRate" />
+    <result column="REF_ID" jdbcType="VARCHAR" property="refId" />
+    <result column="IMP_FILE_NAME" jdbcType="VARCHAR" property="impFileName" />
+    <result column="IMP_TIME" jdbcType="VARCHAR" property="impTime" />
+    <result column="CHECK_FLAG" jdbcType="CHAR" property="checkFlag" />
+    <result column="CHECK_DESC" jdbcType="VARCHAR" property="checkDesc" />
+    <result column="NEXT_ACTION" jdbcType="CHAR" property="nextAction" />
+    <result column="DATA_STATUS" jdbcType="CHAR" property="dataStatus" />
+    <result column="DATA_FLAG" jdbcType="CHAR" property="dataFlag" />
+    <result column="DATA_SOURCE" jdbcType="CHAR" property="dataSource" />
+    <result column="DATA_VERSION" jdbcType="NUMERIC" property="dataVersion" />
+    <result column="DATA_REJ_DESC" jdbcType="VARCHAR" property="dataRejDesc" />
+    <result column="DATA_DEL_DESC" jdbcType="VARCHAR" property="dataDelDesc" />
+    <result column="DATA_CRT_USER" jdbcType="VARCHAR" property="dataCrtUser" />
+    <result column="DATA_CRT_DATE" jdbcType="CHAR" property="dataCrtDate" />
+    <result column="DATA_CRT_TIME" jdbcType="CHAR" property="dataCrtTime" />
+    <result column="DATA_CHG_USER" jdbcType="VARCHAR" property="dataChgUser" />
+    <result column="DATA_CHG_DATE" jdbcType="CHAR" property="dataChgDate" />
+    <result column="DATA_CHG_TIME" jdbcType="CHAR" property="dataChgTime" />
+    <result column="DATA_APV_USER" jdbcType="VARCHAR" property="dataApvUser" />
+    <result column="DATA_APV_DATE" jdbcType="CHAR" property="dataApvDate" />
+    <result column="DATA_APV_TIME" jdbcType="CHAR" property="dataApvTime" />
+    <result column="RSV1" jdbcType="VARCHAR" property="rsv1" />
+    <result column="RSV2" jdbcType="VARCHAR" property="rsv2" />
+    <result column="RSV3" jdbcType="VARCHAR" property="rsv3" />
+    <result column="RSV4" jdbcType="VARCHAR" property="rsv4" />
+    <result column="RSV5" jdbcType="VARCHAR" property="rsv5" />
+    <result column="CHECK_ERR_TYPE" jdbcType="CHAR" property="checkErrType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DATA_ID, DATA_DATE, CORP_ID, ORG_ID, GROUP_ID, INQ_ORG_ID, INQ_GROUP_ID, HS_NO, HS_OWER, 
+    HS_LOCATION, HS_BUL_AREA, HS_USE_AREA, REG_DATE, HS_USAGE, HS_RENT_AMT, HS_ORG_AMT, 
+    HS_LEFT_AMT, HS_FLOOR, HS_TYPE, TAX_RATE, REF_ID, IMP_FILE_NAME, IMP_TIME, CHECK_FLAG, 
+    CHECK_DESC, NEXT_ACTION, DATA_STATUS, DATA_FLAG, DATA_SOURCE, DATA_VERSION, DATA_REJ_DESC, 
+    DATA_DEL_DESC, DATA_CRT_USER, DATA_CRT_DATE, DATA_CRT_TIME, DATA_CHG_USER, DATA_CHG_DATE, 
+    DATA_CHG_TIME, DATA_APV_USER, DATA_APV_DATE, DATA_APV_TIME, RSV1, RSV2, RSV3, RSV4, 
+    RSV5, CHECK_ERR_TYPE
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.HisHptReqExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from HIS_HPT_REQ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HIS_HPT_REQ
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from HIS_HPT_REQ
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.HisHptReqExample">
+    delete from HIS_HPT_REQ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.HisHptReq">
+    insert into HIS_HPT_REQ (DATA_ID, DATA_DATE, CORP_ID, 
+      ORG_ID, GROUP_ID, INQ_ORG_ID, 
+      INQ_GROUP_ID, HS_NO, HS_OWER, 
+      HS_LOCATION, HS_BUL_AREA, HS_USE_AREA, 
+      REG_DATE, HS_USAGE, HS_RENT_AMT, 
+      HS_ORG_AMT, HS_LEFT_AMT, HS_FLOOR, 
+      HS_TYPE, TAX_RATE, REF_ID, 
+      IMP_FILE_NAME, IMP_TIME, CHECK_FLAG, 
+      CHECK_DESC, NEXT_ACTION, DATA_STATUS, 
+      DATA_FLAG, DATA_SOURCE, DATA_VERSION, 
+      DATA_REJ_DESC, DATA_DEL_DESC, DATA_CRT_USER, 
+      DATA_CRT_DATE, DATA_CRT_TIME, DATA_CHG_USER, 
+      DATA_CHG_DATE, DATA_CHG_TIME, DATA_APV_USER, 
+      DATA_APV_DATE, DATA_APV_TIME, RSV1, 
+      RSV2, RSV3, RSV4, RSV5, 
+      CHECK_ERR_TYPE)
+    values (#{dataId,jdbcType=CHAR}, #{dataDate,jdbcType=CHAR}, #{corpId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{inqOrgId,jdbcType=CHAR}, 
+      #{inqGroupId,jdbcType=CHAR}, #{hsNo,jdbcType=VARCHAR}, #{hsOwer,jdbcType=VARCHAR}, 
+      #{hsLocation,jdbcType=VARCHAR}, #{hsBulArea,jdbcType=NUMERIC}, #{hsUseArea,jdbcType=NUMERIC}, 
+      #{regDate,jdbcType=VARCHAR}, #{hsUsage,jdbcType=VARCHAR}, #{hsRentAmt,jdbcType=NUMERIC}, 
+      #{hsOrgAmt,jdbcType=NUMERIC}, #{hsLeftAmt,jdbcType=NUMERIC}, #{hsFloor,jdbcType=VARCHAR}, 
+      #{hsType,jdbcType=VARCHAR}, #{taxRate,jdbcType=NUMERIC}, #{refId,jdbcType=VARCHAR}, 
+      #{impFileName,jdbcType=VARCHAR}, #{impTime,jdbcType=VARCHAR}, #{checkFlag,jdbcType=CHAR}, 
+      #{checkDesc,jdbcType=VARCHAR}, #{nextAction,jdbcType=CHAR}, #{dataStatus,jdbcType=CHAR}, 
+      #{dataFlag,jdbcType=CHAR}, #{dataSource,jdbcType=CHAR}, #{dataVersion,jdbcType=NUMERIC}, 
+      #{dataRejDesc,jdbcType=VARCHAR}, #{dataDelDesc,jdbcType=VARCHAR}, #{dataCrtUser,jdbcType=VARCHAR}, 
+      #{dataCrtDate,jdbcType=CHAR}, #{dataCrtTime,jdbcType=CHAR}, #{dataChgUser,jdbcType=VARCHAR}, 
+      #{dataChgDate,jdbcType=CHAR}, #{dataChgTime,jdbcType=CHAR}, #{dataApvUser,jdbcType=VARCHAR}, 
+      #{dataApvDate,jdbcType=CHAR}, #{dataApvTime,jdbcType=CHAR}, #{rsv1,jdbcType=VARCHAR}, 
+      #{rsv2,jdbcType=VARCHAR}, #{rsv3,jdbcType=VARCHAR}, #{rsv4,jdbcType=VARCHAR}, #{rsv5,jdbcType=VARCHAR}, 
+      #{checkErrType,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.HisHptReq">
+    insert into HIS_HPT_REQ
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        DATA_ID,
+      </if>
+      <if test="dataDate != null">
+        DATA_DATE,
+      </if>
+      <if test="corpId != null">
+        CORP_ID,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="groupId != null">
+        GROUP_ID,
+      </if>
+      <if test="inqOrgId != null">
+        INQ_ORG_ID,
+      </if>
+      <if test="inqGroupId != null">
+        INQ_GROUP_ID,
+      </if>
+      <if test="hsNo != null">
+        HS_NO,
+      </if>
+      <if test="hsOwer != null">
+        HS_OWER,
+      </if>
+      <if test="hsLocation != null">
+        HS_LOCATION,
+      </if>
+      <if test="hsBulArea != null">
+        HS_BUL_AREA,
+      </if>
+      <if test="hsUseArea != null">
+        HS_USE_AREA,
+      </if>
+      <if test="regDate != null">
+        REG_DATE,
+      </if>
+      <if test="hsUsage != null">
+        HS_USAGE,
+      </if>
+      <if test="hsRentAmt != null">
+        HS_RENT_AMT,
+      </if>
+      <if test="hsOrgAmt != null">
+        HS_ORG_AMT,
+      </if>
+      <if test="hsLeftAmt != null">
+        HS_LEFT_AMT,
+      </if>
+      <if test="hsFloor != null">
+        HS_FLOOR,
+      </if>
+      <if test="hsType != null">
+        HS_TYPE,
+      </if>
+      <if test="taxRate != null">
+        TAX_RATE,
+      </if>
+      <if test="refId != null">
+        REF_ID,
+      </if>
+      <if test="impFileName != null">
+        IMP_FILE_NAME,
+      </if>
+      <if test="impTime != null">
+        IMP_TIME,
+      </if>
+      <if test="checkFlag != null">
+        CHECK_FLAG,
+      </if>
+      <if test="checkDesc != null">
+        CHECK_DESC,
+      </if>
+      <if test="nextAction != null">
+        NEXT_ACTION,
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS,
+      </if>
+      <if test="dataFlag != null">
+        DATA_FLAG,
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE,
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION,
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC,
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC,
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER,
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE,
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME,
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER,
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE,
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME,
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER,
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE,
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME,
+      </if>
+      <if test="rsv1 != null">
+        RSV1,
+      </if>
+      <if test="rsv2 != null">
+        RSV2,
+      </if>
+      <if test="rsv3 != null">
+        RSV3,
+      </if>
+      <if test="rsv4 != null">
+        RSV4,
+      </if>
+      <if test="rsv5 != null">
+        RSV5,
+      </if>
+      <if test="checkErrType != null">
+        CHECK_ERR_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=CHAR},
+      </if>
+      <if test="dataDate != null">
+        #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="inqOrgId != null">
+        #{inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="inqGroupId != null">
+        #{inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="hsNo != null">
+        #{hsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="hsOwer != null">
+        #{hsOwer,jdbcType=VARCHAR},
+      </if>
+      <if test="hsLocation != null">
+        #{hsLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="hsBulArea != null">
+        #{hsBulArea,jdbcType=NUMERIC},
+      </if>
+      <if test="hsUseArea != null">
+        #{hsUseArea,jdbcType=NUMERIC},
+      </if>
+      <if test="regDate != null">
+        #{regDate,jdbcType=VARCHAR},
+      </if>
+      <if test="hsUsage != null">
+        #{hsUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="hsRentAmt != null">
+        #{hsRentAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="hsOrgAmt != null">
+        #{hsOrgAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="hsLeftAmt != null">
+        #{hsLeftAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="hsFloor != null">
+        #{hsFloor,jdbcType=VARCHAR},
+      </if>
+      <if test="hsType != null">
+        #{hsType,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=NUMERIC},
+      </if>
+      <if test="refId != null">
+        #{refId,jdbcType=VARCHAR},
+      </if>
+      <if test="impFileName != null">
+        #{impFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="impTime != null">
+        #{impTime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null">
+        #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="checkDesc != null">
+        #{checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="nextAction != null">
+        #{nextAction,jdbcType=CHAR},
+      </if>
+      <if test="dataStatus != null">
+        #{dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="dataFlag != null">
+        #{dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="rsv1 != null">
+        #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        #{rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="checkErrType != null">
+        #{checkErrType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.HisHptReqExample" resultType="java.lang.Integer">
+    select count(*) from HIS_HPT_REQ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HIS_HPT_REQ
+    <set>
+      <if test="record.dataId != null">
+        DATA_ID = #{record.dataId,jdbcType=CHAR},
+      </if>
+      <if test="record.dataDate != null">
+        DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      </if>
+      <if test="record.corpId != null">
+        CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupId != null">
+        GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inqOrgId != null">
+        INQ_ORG_ID = #{record.inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="record.inqGroupId != null">
+        INQ_GROUP_ID = #{record.inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="record.hsNo != null">
+        HS_NO = #{record.hsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hsOwer != null">
+        HS_OWER = #{record.hsOwer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hsLocation != null">
+        HS_LOCATION = #{record.hsLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hsBulArea != null">
+        HS_BUL_AREA = #{record.hsBulArea,jdbcType=NUMERIC},
+      </if>
+      <if test="record.hsUseArea != null">
+        HS_USE_AREA = #{record.hsUseArea,jdbcType=NUMERIC},
+      </if>
+      <if test="record.regDate != null">
+        REG_DATE = #{record.regDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hsUsage != null">
+        HS_USAGE = #{record.hsUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hsRentAmt != null">
+        HS_RENT_AMT = #{record.hsRentAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="record.hsOrgAmt != null">
+        HS_ORG_AMT = #{record.hsOrgAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="record.hsLeftAmt != null">
+        HS_LEFT_AMT = #{record.hsLeftAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="record.hsFloor != null">
+        HS_FLOOR = #{record.hsFloor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hsType != null">
+        HS_TYPE = #{record.hsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxRate != null">
+        TAX_RATE = #{record.taxRate,jdbcType=NUMERIC},
+      </if>
+      <if test="record.refId != null">
+        REF_ID = #{record.refId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impFileName != null">
+        IMP_FILE_NAME = #{record.impFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.impTime != null">
+        IMP_TIME = #{record.impTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkFlag != null">
+        CHECK_FLAG = #{record.checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.checkDesc != null">
+        CHECK_DESC = #{record.checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextAction != null">
+        NEXT_ACTION = #{record.nextAction,jdbcType=CHAR},
+      </if>
+      <if test="record.dataStatus != null">
+        DATA_STATUS = #{record.dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.dataFlag != null">
+        DATA_FLAG = #{record.dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.dataSource != null">
+        DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      </if>
+      <if test="record.dataVersion != null">
+        DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="record.dataRejDesc != null">
+        DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataDelDesc != null">
+        DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtUser != null">
+        DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtDate != null">
+        DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataCrtTime != null">
+        DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgUser != null">
+        DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataChgDate != null">
+        DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgTime != null">
+        DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvUser != null">
+        DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataApvDate != null">
+        DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvTime != null">
+        DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="record.rsv1 != null">
+        RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv2 != null">
+        RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv3 != null">
+        RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv4 != null">
+        RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv5 != null">
+        RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkErrType != null">
+        CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HIS_HPT_REQ
+    set DATA_ID = #{record.dataId,jdbcType=CHAR},
+      DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      INQ_ORG_ID = #{record.inqOrgId,jdbcType=CHAR},
+      INQ_GROUP_ID = #{record.inqGroupId,jdbcType=CHAR},
+      HS_NO = #{record.hsNo,jdbcType=VARCHAR},
+      HS_OWER = #{record.hsOwer,jdbcType=VARCHAR},
+      HS_LOCATION = #{record.hsLocation,jdbcType=VARCHAR},
+      HS_BUL_AREA = #{record.hsBulArea,jdbcType=NUMERIC},
+      HS_USE_AREA = #{record.hsUseArea,jdbcType=NUMERIC},
+      REG_DATE = #{record.regDate,jdbcType=VARCHAR},
+      HS_USAGE = #{record.hsUsage,jdbcType=VARCHAR},
+      HS_RENT_AMT = #{record.hsRentAmt,jdbcType=NUMERIC},
+      HS_ORG_AMT = #{record.hsOrgAmt,jdbcType=NUMERIC},
+      HS_LEFT_AMT = #{record.hsLeftAmt,jdbcType=NUMERIC},
+      HS_FLOOR = #{record.hsFloor,jdbcType=VARCHAR},
+      HS_TYPE = #{record.hsType,jdbcType=VARCHAR},
+      TAX_RATE = #{record.taxRate,jdbcType=NUMERIC},
+      REF_ID = #{record.refId,jdbcType=VARCHAR},
+      IMP_FILE_NAME = #{record.impFileName,jdbcType=VARCHAR},
+      IMP_TIME = #{record.impTime,jdbcType=VARCHAR},
+      CHECK_FLAG = #{record.checkFlag,jdbcType=CHAR},
+      CHECK_DESC = #{record.checkDesc,jdbcType=VARCHAR},
+      NEXT_ACTION = #{record.nextAction,jdbcType=CHAR},
+      DATA_STATUS = #{record.dataStatus,jdbcType=CHAR},
+      DATA_FLAG = #{record.dataFlag,jdbcType=CHAR},
+      DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      CHECK_ERR_TYPE = #{record.checkErrType,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.HisHptReq">
+    update HIS_HPT_REQ
+    <set>
+      <if test="dataDate != null">
+        DATA_DATE = #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        CORP_ID = #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="inqOrgId != null">
+        INQ_ORG_ID = #{inqOrgId,jdbcType=CHAR},
+      </if>
+      <if test="inqGroupId != null">
+        INQ_GROUP_ID = #{inqGroupId,jdbcType=CHAR},
+      </if>
+      <if test="hsNo != null">
+        HS_NO = #{hsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="hsOwer != null">
+        HS_OWER = #{hsOwer,jdbcType=VARCHAR},
+      </if>
+      <if test="hsLocation != null">
+        HS_LOCATION = #{hsLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="hsBulArea != null">
+        HS_BUL_AREA = #{hsBulArea,jdbcType=NUMERIC},
+      </if>
+      <if test="hsUseArea != null">
+        HS_USE_AREA = #{hsUseArea,jdbcType=NUMERIC},
+      </if>
+      <if test="regDate != null">
+        REG_DATE = #{regDate,jdbcType=VARCHAR},
+      </if>
+      <if test="hsUsage != null">
+        HS_USAGE = #{hsUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="hsRentAmt != null">
+        HS_RENT_AMT = #{hsRentAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="hsOrgAmt != null">
+        HS_ORG_AMT = #{hsOrgAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="hsLeftAmt != null">
+        HS_LEFT_AMT = #{hsLeftAmt,jdbcType=NUMERIC},
+      </if>
+      <if test="hsFloor != null">
+        HS_FLOOR = #{hsFloor,jdbcType=VARCHAR},
+      </if>
+      <if test="hsType != null">
+        HS_TYPE = #{hsType,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRate != null">
+        TAX_RATE = #{taxRate,jdbcType=NUMERIC},
+      </if>
+      <if test="refId != null">
+        REF_ID = #{refId,jdbcType=VARCHAR},
+      </if>
+      <if test="impFileName != null">
+        IMP_FILE_NAME = #{impFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="impTime != null">
+        IMP_TIME = #{impTime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null">
+        CHECK_FLAG = #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="checkDesc != null">
+        CHECK_DESC = #{checkDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="nextAction != null">
+        NEXT_ACTION = #{nextAction,jdbcType=CHAR},
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS = #{dataStatus,jdbcType=CHAR},
+      </if>
+      <if test="dataFlag != null">
+        DATA_FLAG = #{dataFlag,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="rsv1 != null">
+        RSV1 = #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        RSV2 = #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        RSV3 = #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        RSV4 = #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        RSV5 = #{rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="checkErrType != null">
+        CHECK_ERR_TYPE = #{checkErrType,jdbcType=CHAR},
+      </if>
+    </set>
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.HisHptReq">
+    update HIS_HPT_REQ
+    set DATA_DATE = #{dataDate,jdbcType=CHAR},
+      CORP_ID = #{corpId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      INQ_ORG_ID = #{inqOrgId,jdbcType=CHAR},
+      INQ_GROUP_ID = #{inqGroupId,jdbcType=CHAR},
+      HS_NO = #{hsNo,jdbcType=VARCHAR},
+      HS_OWER = #{hsOwer,jdbcType=VARCHAR},
+      HS_LOCATION = #{hsLocation,jdbcType=VARCHAR},
+      HS_BUL_AREA = #{hsBulArea,jdbcType=NUMERIC},
+      HS_USE_AREA = #{hsUseArea,jdbcType=NUMERIC},
+      REG_DATE = #{regDate,jdbcType=VARCHAR},
+      HS_USAGE = #{hsUsage,jdbcType=VARCHAR},
+      HS_RENT_AMT = #{hsRentAmt,jdbcType=NUMERIC},
+      HS_ORG_AMT = #{hsOrgAmt,jdbcType=NUMERIC},
+      HS_LEFT_AMT = #{hsLeftAmt,jdbcType=NUMERIC},
+      HS_FLOOR = #{hsFloor,jdbcType=VARCHAR},
+      HS_TYPE = #{hsType,jdbcType=VARCHAR},
+      TAX_RATE = #{taxRate,jdbcType=NUMERIC},
+      REF_ID = #{refId,jdbcType=VARCHAR},
+      IMP_FILE_NAME = #{impFileName,jdbcType=VARCHAR},
+      IMP_TIME = #{impTime,jdbcType=VARCHAR},
+      CHECK_FLAG = #{checkFlag,jdbcType=CHAR},
+      CHECK_DESC = #{checkDesc,jdbcType=VARCHAR},
+      NEXT_ACTION = #{nextAction,jdbcType=CHAR},
+      DATA_STATUS = #{dataStatus,jdbcType=CHAR},
+      DATA_FLAG = #{dataFlag,jdbcType=CHAR},
+      DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      RSV1 = #{rsv1,jdbcType=VARCHAR},
+      RSV2 = #{rsv2,jdbcType=VARCHAR},
+      RSV3 = #{rsv3,jdbcType=VARCHAR},
+      RSV4 = #{rsv4,jdbcType=VARCHAR},
+      RSV5 = #{rsv5,jdbcType=VARCHAR},
+      CHECK_ERR_TYPE = #{checkErrType,jdbcType=CHAR}
+    where DATA_ID = #{dataId,jdbcType=CHAR}
+  </update>
+</mapper>

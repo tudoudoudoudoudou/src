@@ -1,0 +1,1432 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gingkoo.vat.server.VatCommonSql">
+
+	<!-- 重空发票批量出库 -->
+	<update id="bVocExportBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, out_user = #{out_user,jdbcType=VARCHAR}, out_date = #{out_date,jdbcType=CHAR} 
+		where data_id = #{data_id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 重空发票整本出库 -->
+	<update id="bVocExportAll" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, out_user = #{out_user,jdbcType=VARCHAR}, out_date = #{out_date,jdbcType=CHAR} 
+		where voc_no = #{voc_no,jdbcType=VARCHAR} and voc_code = #{voc_code,jdbcType=VARCHAR} and voc_status in ('12') and SITE_NO is null and data_flag != 'D'
+	</update>
+	
+	<!-- 重空发票批量调拨 -->
+	<update id="bVocAllotReviseBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, src_org_id = #{src_org_id,jdbcType=VARCHAR}, site_org_id = #{target_org_id,jdbcType=CHAR}, src_site_no = #{src_site_no,jdbcType=VARCHAR}, site_no = #{target_site_no,jdbcType=CHAR} 
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>
+	
+	<!-- 重空发票整本调拨 -->
+	<update id="bVocAllotReviseAll" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, src_org_id = #{src_org_id,jdbcType=VARCHAR}, site_org_id = #{target_org_id,jdbcType=CHAR}, src_site_no = #{src_site_no,jdbcType=VARCHAR}, site_no = #{target_site_no,jdbcType=CHAR}  
+		where VOC_NO = #{VOC_NO,jdbcType=VARCHAR} and VOC_CODE =#{VOC_CODE,jdbcType=VARCHAR} and voc_status in ('12','03') and data_flag != 'D'
+	</update>
+	
+	
+	<!-- 重空发票批量领用 -->
+	<update id="bVocCheckoutBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set 
+		next_action = #{next_action,jdbcType=CHAR}
+		, get_user = #{get_user,jdbcType=VARCHAR}
+		, get_date = #{get_date,jdbcType=CHAR} 
+		,data_chg_user  = #{data_chg_user,jdbcType=VARCHAR} ,data_chg_date  = #{data_chg_date,jdbcType=VARCHAR} ,data_chg_time  = #{data_chg_time,jdbcType=VARCHAR}
+		<if test="SITE_NO != null">
+	      ,SITE_NO = #{SITE_NO,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="SITE_ORG_ID != null">
+	      ,SITE_ORG_ID = #{SITE_ORG_ID,jdbcType=VARCHAR} 
+	    </if>
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>
+	
+	<update id="udpdateBVocAfterBack" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set 
+		get_user = null, get_date = null ,
+		DATA_APV_USER  = #{DATA_APV_USER,jdbcType=VARCHAR} ,DATA_APV_DATE  = #{DATA_APV_DATE,jdbcType=VARCHAR} ,DATA_APV_TIME  = #{DATA_APV_TIME,jdbcType=VARCHAR}
+		where DATA_ID = #{DATA_ID,jdbcType=VARCHAR} 
+	</update>
+	<!-- author zhihao.yang -->
+	<update id="udpdatefexi_aa" parameterType="java.util.HashMap">
+		update fexi_aa set amt=amt+1
+	</update>
+	
+	<select id="bVocBeforeCheckoutAllGetSiteNo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select SITE_NO from  PM_VAT_B_VOC 
+		where VOC_NO &gt;= #{START_VOC_NO,jdbcType=VARCHAR} and VOC_NO &lt;= #{END_VOC_NO,jdbcType=VARCHAR} and VOC_CODE =#{VOC_CODE,jdbcType=VARCHAR} 
+		group by  SITE_NO 
+	</select>
+	
+	<!-- 重空发票批量下发 -->
+	<update id="bVocHandoutReviseBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, site_org_id = #{org_id,jdbcType=VARCHAR}, src_site_no = #{site_no,jdbcType=VARCHAR}  
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>
+	
+	<!-- 重空发票整本下发 -->
+	<update id="bVocHandoutReviseAll" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, site_org_id = #{org_id,jdbcType=VARCHAR}, src_site_no = #{site_no,jdbcType=VARCHAR}  
+		where voc_no = #{VOC_NO,jdbcType=VARCHAR} and voc_code = #{VOC_CODE,jdbcType=VARCHAR} and voc_status in ('12') and data_flag != 'D'
+	</update>
+	
+	<!-- 重空发票批量归还 -->
+	<update id="bVocBackBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, back_user = get_user, back_date = #{back_date,jdbcType=CHAR},
+		DATA_CHG_USER  = #{DATA_CHG_USER,jdbcType=VARCHAR} ,DATA_CHG_DATE  = #{DATA_CHG_DATE,jdbcType=VARCHAR} ,DATA_CHG_TIME  = #{DATA_CHG_TIME,jdbcType=VARCHAR}   
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>
+	
+	<!-- 重空发票批量作废 -->
+	<update id="bVocDiscardBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set voc_status = #{voc_status,jdbcType=CHAR}, discard_type = #{discard_type,jdbcType=CHAR}, discard_desc = #{discard_desc,jdbcType=VARCHAR}    
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>
+	
+	<!-- 获取重空发票整本作废发票 -->
+	<select id="getBVocDiscardAll" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select *   
+		from PM_VAT_B_VOC 
+		where VOC_NO = #{VOC_NO,jdbcType=VARCHAR} and VOC_CODE =#{VOC_CODE,jdbcType=VARCHAR} and voc_status in ('12','02','03') and data_flag != 'D' 
+	</select>
+	
+	<!-- 重空发票批量封存 -->
+	<update id="bVocDiscardReviseBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR},
+		DATA_CHG_USER  = #{DATA_CHG_USER,jdbcType=VARCHAR} ,DATA_CHG_DATE  = #{DATA_CHG_DATE,jdbcType=VARCHAR} ,DATA_CHG_TIME  = #{DATA_CHG_TIME,jdbcType=VARCHAR}    
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>
+	
+	<!-- 重空发票整本封存 -->
+	<update id="bVocDiscardReviseAll" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}    
+		where VOC_NO = #{VOC_NO,jdbcType=VARCHAR} and VOC_CODE =#{VOC_CODE,jdbcType=VARCHAR} and voc_status = '05' and data_flag != 'D'
+	</update>
+	
+	<!--  发票作废 -->
+	<update id="vatDrop" parameterType="java.util.HashMap">
+		update PM_VAT_B_VOC set voc_status = #{voc_status,jdbcType=CHAR}
+		where voc_no = #{voc_no,jdbcType=VARCHAR}
+	</update>
+	
+	<!--  查询数据 -->
+	<select id="selectDATA" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	${SQL}
+    </select>
+    
+	<!-- 更新PM_VAT_O_VOC -->	
+	<update id="updatePM_VAT_O_VOC" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set voc_no = #{voc_no,jdbcType=VARCHAR}, voc_stat = #{voc_stat,jdbcType=CHAR}
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>
+	
+	<!--  发票打印 -->
+	<update id="vatPrint" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set voc_stat = #{voc_stat,jdbcType=CHAR}
+		where data_id = #{data_id,jdbcType=CHAR}
+	</update>	
+	
+	<!-- 发票合并更新主表 -->	
+	<update id="oVocReviceMergeUpdateVoc" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set AMOUNT=#{AMOUNT,jdbcType=DECIMAL}, TAX_AMT=#{TAX_AMT,jdbcType=DECIMAL}, SUM_AMT=#{SUM_AMT,jdbcType=DECIMAL}, 
+		       DATA_CHG_USER=#{DATA_CHG_USER,jdbcType=VARCHAR},DATA_CHG_DATE=#{DATA_CHG_DATE,jdbcType=CHAR},DATA_CHG_TIME=#{DATA_CHG_TIME,jdbcType=CHAR}   
+		where  DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 发票合并更新DTL表 -->	
+	<update id="oVocReviceMergeUpdateVocDtl" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_DTL set PDATA_ID=#{PDATA_ID,jdbcType=CHAR} where  PDATA_ID in (${PDATA_IDS}) 
+	</update>
+	
+	<!-- 发票合并更新主表(删除) -->	
+	<update id="oVocReviceMergeUpdateVocForDel" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set DATA_FLAG='D' where DATA_ID in (${DATA_IDS})
+	</update>
+	
+	<!-- 发票明细合并更新明细表 -->	
+	<update id="oVocReviceMergeUpdateVocForDtl" parameterType="java.util.HashMap">
+		update pm_vat_o_voc_dtl set GOOD_NUM=#{GOOD_NUM,jdbcType=DECIMAL}, GOOD_AMT=#{GOOD_AMT,jdbcType=DECIMAL}, AMOUNT=#{AMOUNT,jdbcType=DECIMAL},INS_AMT=#{INS_AMT,jdbcType=DECIMAL},TAX_AMT=#{TAX_AMT,jdbcType=DECIMAL},
+		       DATA_CHG_USER=#{DATA_CHG_USER,jdbcType=VARCHAR},DATA_CHG_DATE=#{DATA_CHG_DATE,jdbcType=CHAR},DATA_CHG_TIME=#{DATA_CHG_TIME,jdbcType=CHAR}   
+		where  DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 发票明细合并更新LIST表 -->	
+	<update id="oVocReviceMergeUpdateVocList" parameterType="java.util.HashMap">
+		update pm_vat_o_voc_list set PDATA_ID=#{PDATA_ID,jdbcType=CHAR} where  PDATA_ID in (${PDATA_IDS}) 
+	</update>
+	
+	<!-- 发票明细合并删除明细表 -->	
+	<delete id="oVocReviceMergeUpdateVocDtlForDel" parameterType="java.util.HashMap">
+		delete from pm_vat_o_voc_dtl where DATA_ID in (${DATA_IDS})
+	</delete>
+	
+	<!-- 发票拆分更新主表 -->	
+	<update id="oVocReviceSplitUpdateVoc" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set AMOUNT=AMOUNT-#{AMOUNT,jdbcType=DECIMAL}, TAX_AMT=TAX_AMT-#{TAX_AMT,jdbcType=DECIMAL},SUM_AMT=SUM_AMT-#{SUM_AMT,jdbcType=DECIMAL}, 
+		       DATA_CHG_USER=#{DATA_CHG_USER,jdbcType=VARCHAR},DATA_CHG_DATE=#{DATA_CHG_DATE,jdbcType=CHAR},DATA_CHG_TIME=#{DATA_CHG_TIME,jdbcType=CHAR}
+        where DATA_ID=#{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 发票拆分更新DTL表 -->	
+	<update id="oVocReviceSplitUpdateVocDtl" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_DTL set PDATA_ID=#{DATA_ID,jdbcType=CHAR} where DATA_ID in (${DATA_IDS})
+	</update>
+	
+	<!-- 发票明细退回删除发票 -->
+	<delete id="oVocReviceBackDeleteVoc" parameterType="java.lang.String">
+	    delete from pm_vat_o_voc
+	    where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	  </delete>
+		<!-- 关联发票删除发票 -->
+	<delete id="ITxReviceBackDeleteVoc" parameterType="java.util.HashMap">
+	delete from PM_VAT_I_VOC
+	    where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	    </delete>
+
+	<!-- 发票明细退回删除发票明细 -->
+	<delete id="oVocReviceBackDeleteVocDtl" parameterType="java.lang.String">
+	    delete from pm_vat_o_voc_dtl
+	    where PDATA_ID = #{DATA_ID,jdbcType=CHAR}
+	  </delete>
+	
+	<!-- 发票明细退回删除发票认定明细 PDATA_ID-->
+	<update id="oVocReviceBackDeleteVocDtlList" parameterType="java.lang.String">
+	    update PM_VAT_O_VOC_LIST set PDATA_ID = '' , NEXT_ACTION= '00' , MADE_TYPE = ''
+	    where PDATA_ID in (select data_id from pm_vat_o_voc_dtl where pdata_id = #{DATA_ID,jdbcType=CHAR})
+	</update>
+	  
+	<!-- 手工、提前开票明细删除 -->
+	<delete id="OvocDtlList" parameterType="java.lang.String">
+	    delete from pm_vat_o_voc_dtl
+	    where PDATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 合并开票删除客户明细 -->
+	<delete id="SysVocMRuleDeleteCustList" parameterType="java.lang.String">
+	    delete from pm_vat_rule_custs
+	    where PDATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</delete>
+	<!-- 批量作业删除明细 -->
+	<delete id="BatchJobDeleteCfg" parameterType="java.lang.String">
+	    delete from bms_ctl_cfg
+	    where BATCH_ID = #{DATA_ID,jdbcType=CHAR}
+	</delete>
+	<!-- 合并开票删除交易代码明细 -->
+	<delete id="SysVocMRuleDeleteTxCodeList" parameterType="java.lang.String">
+	    delete from pm_vat_rule_txcodes
+	    where PDATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 发票明细退回更新业务表 -->
+	<update id="oVocReviceBackUpdTx" parameterType="java.util.HashMap">
+		update pm_vat_tx set next_action = '00',data_status='01'  
+		where tx_id in (select b.tx_id from pm_vat_o_voc_dtl a left join pm_vat_o_voc_list b on b.pdata_id = a.data_id where a.pdata_id = #{DATA_ID,jdbcType=CHAR} )
+	</update>
+	
+	<!-- 查询发票明细 -->
+	<select id="selectVocDtl" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select 
+			DATA_ID,GOOD_CODE,DTL_NAME,TX_CODE,GOOD_TYPE, CNT_UNIT, (0-GOOD_NUM) GOOD_NUM, GOOD_AMT, (0-AMOUNT) AMOUNT, (0-INS_AMT) INS_AMT, TAX_RATE, (0-TAX_AMT) TAX_AMT, GOOD_CODE, DISCOUNT_FLAG, DISCOUNT_DESC, TAX_RATE_FLAG, DEDUCT_AMT   
+		from PM_VAT_O_VOC_DTL 
+		where PDATA_ID=#{data_id,jdbcType=CHAR}
+	</select>
+	<!-- 发票打印界面查询发票明细 -->
+	<select id="selectVocDtlToPrint" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select 
+			DATA_ID,DTL_NAME,GOOD_TYPE, CNT_UNIT, GOOD_NUM, GOOD_NUM as NEW_GOOD_NUM, GOOD_AMT, (INS_AMT+TAX_AMT) as AMOUNT,AMOUNT as NEW_AMOUNT, INS_AMT, TAX_RATE,TAX_AMT,GOOD_CODE,DISCOUNT_FLAG,DISCOUNT_DESC,TAX_RATE_FLAG      
+		from PM_VAT_O_VOC_DTL 
+		where PDATA_ID=#{data_id,jdbcType=CHAR}
+	</select>
+	
+	<select id="selectRedVocDtlToPrint" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select 
+			DATA_ID,GOOD_CODE,DTL_NAME,TX_CODE,GOOD_TYPE, CNT_UNIT, GOOD_NUM, GOOD_NUM as NEW_GOOD_NUM, GOOD_AMT, (INS_AMT+TAX_AMT) as AMOUNT,AMOUNT as NEW_AMOUNT, INS_AMT, TAX_RATE,TAX_AMT    
+		from PM_VAT_O_RED_VOC_REQ_DTL 
+		where PDATA_ID=#{data_id,jdbcType=CHAR}
+	</select>
+	
+	<select id="selectRedIVocDtlToPrint" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select 
+			DATA_ID,GOOD_CODE,DTL_NAME,TX_CODE,GOOD_TYPE, CNT_UNIT, GOOD_NUM, GOOD_NUM as NEW_GOOD_NUM, GOOD_AMT, (INS_AMT+TAX_AMT) as AMOUNT,AMOUNT as NEW_AMOUNT, INS_AMT, TAX_RATE,TAX_AMT    
+		from PM_VAT_I_RED_VOC_REQ_DTL 
+		where PDATA_ID=#{data_id,jdbcType=CHAR}
+	</select>
+	
+	<!-- 执行交易认定存储过程 -->
+    <select id="spCall" parameterType="java.util.HashMap"  resultType="java.util.HashMap" statementType="CALLABLE">
+    	${SQL}
+	</select>
+    
+    <!-- 生成报表数据 -->	
+	<update id="reportGenerage" parameterType="java.util.HashMap">
+		update PM_VAT_TAX_RPT_CTL set RPT_STATUS = '01' where RPT_ID = #{RPT_ID,jdbcType=VARCHAR}
+	</update>
+    
+    <!-- 更新明细税率统一为6%、税金=(交易金额*税率) -->	
+	<update id="updateVocTaxDtl" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_DTL set TAX_RATE = 6, TAX_AMT = AMOUNT * 0.06 where PDATA_ID = #{PDATA_ID,jdbcType=CHAR}
+	</update>
+    
+    <!-- 汇总明细税务信息 -->	
+    <select id="getTaxInfoByDtl" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select sum(INS_AMT) AS TOTAL_AMT, sum(TAX_AMT) AS TOTAL_TAX, (sum(INS_AMT)+sum(TAX_AMT)) AS TOTAL_ALL    
+		from PM_VAT_O_VOC_DTL 
+		where PDATA_ID=#{PDATA_ID,jdbcType=CHAR}
+	</select>
+    
+    <!-- 更新发票的合计税金、合计税额、价税合计字段值 -->	
+	<update id="updateVocTaxInfo" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set AMOUNT = #{AMOUNT,jdbcType=DECIMAL}, TAX_AMT = #{TAX_AMT,jdbcType=DECIMAL}, SUM_AMT=#{SUM_AMT,jdbcType=DECIMAL}  where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+    
+    
+    
+    <!-- 根据ORG_ID查询开票点信息（开票机税号、开票机号） -->	
+    <select id="getVocSiteInfoByOrgid" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select a.MAC_TYPE,a.TAX_MAC_TYPE,a.MACHINE_NO,a.TAX_ENTITY,b.TAX_NO,a.SITE_NO from PM_VAT_VOC_SITE a left join PM_VAT_TAX_ENTITY b on a.tax_entity = b.org_id where a.org_id = #{ORG_ID,jdbcType=VARCHAR} 
+	</select>
+    
+    <select id="getUserById" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select * from tb_user where user_id = #{USER_ID,jdbcType=VARCHAR} 
+	</select>
+    
+    
+	
+	<!-- 将发票的发票状态 -->	
+    <update id="updateVocListAfterCreateVoc" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_LIST 
+		set DATA_ID = DATA_ID 
+	    <if test="voc_code != null">
+	      ,voc_code = #{voc_code,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="voc_no != null">
+	      ,voc_no = #{voc_no,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="data_status != null">
+	      ,data_status = #{data_status,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="next_action != null">
+	      ,next_action = #{next_action,jdbcType=VARCHAR} 
+	    </if>
+	    
+		where PDATA_ID in (select DATA_ID from PM_VAT_O_VOC_DTL where PDATA_ID = #{data_id,jdbcType=CHAR}) 
+		
+	</update>
+    
+    <!-- 更新空白票据状态 -->	
+    <update id="updateBlankVoc" parameterType="java.util.HashMap">
+		update PM_VAT_B_VOC 
+		set VOC_NO=VOC_NO   
+		<if test="voc_status != null">
+	      ,VOC_STATUS = #{voc_status,jdbcType=CHAR} 
+	    </if> 
+	    <if test="next_action != null">
+	      ,NEXT_ACTION = #{next_action,jdbcType=CHAR} 
+	    </if> 
+		<if test="discard_type != null">
+	      ,discard_type = #{discard_type,jdbcType=CHAR} 
+	    </if>
+	    <if test="discard_desc != null">
+	      ,discard_desc = #{discard_desc,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="DATA_REJ_DESC != null">
+	      ,DATA_REJ_DESC = #{DATA_REJ_DESC,jdbcType=VARCHAR} 
+	    </if>
+		where VOC_CODE = #{voc_code,jdbcType=VARCHAR} and VOC_NO = #{voc_no,jdbcType=VARCHAR} 
+		
+	</update>
+	
+	<!-- 重控按本 操作出库等-->
+	<update id="bVocVolumeEx" parameterType="java.util.HashMap">
+		update PM_VAT_B_VOC set
+		<if test="NEXT_ACTION != null">
+			NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR}
+		</if>
+		<if test="out_user != null">
+			,out_user = #{out_user,jdbcType=VARCHAR}
+		</if>
+		<if test="out_date != null">
+			,out_date = #{out_date,jdbcType=CHAR}
+		</if>
+		<if test="SITE_ORG_ID != null">
+			,site_org_id = #{SITE_ORG_ID,jdbcType=VARCHAR}
+		</if>
+		<if test="SITE_NO != null">
+			,src_site_no = #{SITE_NO,jdbcType=VARCHAR}
+		</if>
+		<if test="SRC_ORG_ID != null">
+			,src_org_id = #{SRC_ORG_ID,jdbcType=VARCHAR}
+		</if>
+		<if test="SRC_SITE_NO != null">
+			,src_site_no = #{SRC_SITE_NO,jdbcType=VARCHAR}
+		</if>
+		<if test='TARGET_ORG_ID != null '>
+			,src_org_id = org_id
+			,site_org_id = #{TARGET_ORG_ID,jdbcType=CHAR}
+		</if>
+		<if test='TARGET_SITE_NO != null '>
+		    ,src_site_no = site_no 
+			,site_no = #{TARGET_SITE_NO,jdbcType=CHAR}
+		</if>
+		<if test="S_ORG_ID != null">
+			,ORG_ID = #{S_ORG_ID,jdbcType=VARCHAR}
+		</if>
+		<if test="GET_USER != null">
+			,get_user = #{GET_USER,jdbcType=VARCHAR}
+		</if>
+		<if test="GET_DATE != null">
+			, get_date = #{GET_DATE,jdbcType=CHAR}
+		</if>
+		<if test="DISCARD_TYPE != null">
+			,discard_type = #{DISCARD_TYPE,jdbcType=CHAR}
+		</if>
+		<if test="DISCARD_DESC != null">
+			,discard_desc = #{DISCARD_DESC,jdbcType=VARCHAR}
+		</if>
+		<if test="BACK_USER != null">
+			,back_user = #{BACK_USER,jdbcType=VARCHAR}
+		</if>
+		<if test='BACK_DATE != null '>
+			,back_date = #{BACK_DATE,jdbcType=CHAR} 
+		</if>
+		<if test="DATA_CHG_USER !=null ">
+			,DATA_CHG_USER  = #{DATA_CHG_USER,jdbcType=VARCHAR} 
+		</if>
+		<if test="DATA_CHG_DATE !=null ">
+			,DATA_CHG_DATE  = #{DATA_CHG_DATE,jdbcType=VARCHAR} 
+		</if>
+		<if test="DATA_CHG_TIME !=null">
+			,DATA_CHG_TIME  = #{DATA_CHG_TIME,jdbcType=VARCHAR}
+		</if>
+		where VOLUME_NO = #{VOLUME_NO,jdbcType=VARCHAR}
+		  and VOC_CODE =#{VOC_CODE,jdbcType=VARCHAR}
+		  and NEXT_ACTION =#{NEXT_ACT,jdbcType=VARCHAR}
+		<if test='VOC_STATUS != null and VOC_STATUS != "" '>
+			and VOC_STATUS in ('03','12')
+		</if>
+		<if test='VOC_STATUS == null and VOC_STATUS == "" '>
+			and VOC_STATUS in ('12','11') and SITE_NO is null
+		</if>
+		<if test='VOC_STATUS_CFG != null '>
+			and voc_status = '02'
+		</if>
+		<if test='A_VOC_STATUS != null and A_VOC_STATUS != "" '>
+			and VOC_STATUS in ('12','02','03')
+		</if>
+		<if test='S_VOC_STATUS !=null '>
+			and VOC_STATUS ='05'
+		</if>
+		 	and DATA_FLAG !='D'
+	</update>
+	
+	<update id="bVocVolumeCheckOut" parameterType="java.util.HashMap">
+		update PM_VAT_B_VOC set
+		<if test="NEXT_ACTION != null">
+			NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR}
+		</if>
+		<if test="SITE_ORG_ID != null">
+			,site_org_id = #{SITE_ORG_ID,jdbcType=VARCHAR}
+		</if>
+		<if test="SITE_NO != null">
+			,site_no = #{SITE_NO,jdbcType=VARCHAR}
+		</if>
+		<if test="GET_USER != null">
+			,get_user = #{GET_USER,jdbcType=VARCHAR}
+		</if>
+		<if test="GET_DATE != null">
+			, get_date = #{GET_DATE,jdbcType=CHAR}
+		</if>
+		<if test="DATA_CHG_USER !=null ">
+			,DATA_CHG_USER  = #{DATA_CHG_USER,jdbcType=VARCHAR} 
+		</if>
+		<if test="DATA_CHG_DATE !=null ">
+			,DATA_CHG_DATE  = #{DATA_CHG_DATE,jdbcType=VARCHAR} 
+		</if>
+		<if test="DATA_CHG_TIME !=null">
+			,DATA_CHG_TIME  = #{DATA_CHG_TIME,jdbcType=VARCHAR}
+		</if>
+		where VOLUME_NO = #{VOLUME_NO,jdbcType=VARCHAR}
+		  and VOC_CODE =#{VOC_CODE,jdbcType=VARCHAR}
+		  and VOC_STATUS in ('03','12')
+	 	  and DATA_FLAG !='D'
+	 	<if test="bizSql != null">
+			${bizSql}
+		</if>
+	</update>
+	
+	<!-- 发票入库按本审核 -->	
+    <update id="bVocVolumeApv" parameterType="java.util.HashMap">
+		update PM_VAT_B_VOC 
+		set NEXT_ACTION='00'
+		<if test="SITE_NO != null">
+	      ,SITE_NO = #{SITE_NO,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="SITE_ORG_ID != null">
+	      ,SITE_ORG_ID = #{SITE_ORG_ID,jdbcType=VARCHAR} 
+	    </if>
+		<if test="VOC_STATUS != null">
+	      ,VOC_STATUS = #{VOC_STATUS,jdbcType=CHAR} 
+	    </if> 
+	    <if test="ORG_ID != null">
+	      ,ORG_ID = #{ORG_ID,jdbcType=VARCHAR} 
+	    </if> 
+	    <if test="DATA_APV_USER != null">
+	      ,DATA_APV_USER = #{DATA_APV_USER,jdbcType=VARCHAR} 
+	    </if> 
+	    <if test="DATA_APV_DATE != null">
+	      ,DATA_APV_DATE = #{DATA_APV_DATE,jdbcType=CHAR} 
+	    </if> 
+	    <if test="DATA_APV_TIME != null">
+	      ,DATA_APV_TIME = #{DATA_APV_TIME,jdbcType=CHAR} 
+	    </if>
+	    <if test="DATA_REJ_DESC != null">
+	      ,DATA_REJ_DESC = #{DATA_REJ_DESC,jdbcType=CHAR} 
+	    </if>
+		where VOLUME_NO = #{VOLUME_NO,jdbcType=VARCHAR} and VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR} and ORG_ID =#{ORG_ID,jdbcType=VARCHAR} and DATA_FLAG != 'D'
+	</update>
+	
+	<update id="updateBVocAfterVolumeBack" parameterType="java.util.HashMap">
+		update PM_VAT_B_VOC 
+		set get_user = null, get_date = null
+		where VOLUME_NO = #{VOLUME_NO,jdbcType=VARCHAR} and VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR} and ORG_ID =#{ORG_ID,jdbcType=VARCHAR} and DATA_FLAG != 'D'
+	</update>
+	
+	
+	<!-- 重控管理入库按本审核拒绝 -->
+	<delete id="bVocImportVolumeRej" parameterType="java.lang.String">
+	    delete from pm_vat_b_voc
+	    where VOLUME_NO = #{VOLUME_NO,jdbcType=VARCHAR} and ORG_ID = #{ORG_ID,jdbcType=VARCHAR} and NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR} and DATA_FLAG != 'D'
+	  </delete>
+	  
+	  
+	<!-- 作业执行计划删除-->
+	<delete id="bmsRunPlanDel" parameterType="java.lang.String">
+	    delete from BMS_RUN_PLAN
+	    where DATA_ID = #{DATA_ID,jdbcType=CHAR} 
+	  </delete>
+	  
+	  <!-- 批量作业管理删除-->
+	<delete id="bmsBatchDel" parameterType="java.lang.String">
+	    delete from BMS_BATCH
+	    where DATA_ID = #{DATA_ID,jdbcType=CHAR} 
+	  </delete>
+	  
+	  <!-- 批量作业管理删除2-->
+	<delete id="bmsCtlCfgDel" parameterType="java.lang.String">
+	    delete from BMS_CTL_CFG
+	    where BATCH_ID = #{BATCH_ID,jdbcType=CHAR} 
+	  </delete>
+	  
+	  <!-- 发票按本拒绝 -->	
+    <update id="bVocVolumeRej" parameterType="java.util.HashMap">
+		update PM_VAT_B_VOC 
+		set NEXT_ACTION='00'
+		<if test="VOC_STATUS != null">
+	      ,VOC_STATUS = #{VOC_STATUS,jdbcType=CHAR} 
+	    </if> 
+	    <if test="DATA_APV_USER != null">
+	      ,DATA_APV_USER = #{DATA_APV_USER,jdbcType=VARCHAR} 
+	    </if> 
+	    <if test="DATA_APV_DATE != null">
+	      ,DATA_APV_DATE = #{DATA_APV_DATE,jdbcType=CHAR} 
+	    </if> 
+	    <if test="DATA_APV_TIME != null">
+	      ,DATA_APV_TIME = #{DATA_APV_TIME,jdbcType=CHAR} 
+	    </if>
+	    <if test="SITE_ORG_ID != null">
+	      ,SITE_ORG_ID = #{SITE_ORG_ID,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="SRC_ORG_ID != null">
+	      ,SRC_ORG_ID = #{SRC_ORG_ID,jdbcType=VARCHAR} 
+	    </if>
+	     <if test="DATA_REJ_DESC != null">
+	      ,DATA_REJ_DESC = #{DATA_REJ_DESC,jdbcType=VARCHAR} 
+	    </if>
+	    <!-- //暂时加上VOC_CODE -->
+		where VOLUME_NO = #{VOLUME_NO,jdbcType=VARCHAR} and VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and ORG_ID = #{ORG_ID,jdbcType=VARCHAR} and NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR} and DATA_FLAG != 'D'
+		
+	</update>
+	
+	
+	<!-- 重控管理入库批量审核拒绝 -->
+	<delete id="bVocAllImportApvRej" parameterType="java.lang.String">
+	    delete from PM_VAT_B_VOC
+	    where VOC_NO = #{VOC_NO,jdbcType=VARCHAR} and VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and VOC_FLAG = #{VOC_FLAG,jdbcType=VARCHAR}
+	     and ORG_ID = #{ORG_ID,jdbcType=VARCHAR} and NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR} and DATA_FLAG != 'D'
+	  </delete>
+	
+	
+	<!-- 发票整本回收 -->
+	<update id="bVocReturnAll" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, org_id=#{org_id,jdbcType=VARCHAR} 
+		where VOC_NO = #{VOC_NO,jdbcType=VARCHAR} and VOC_CODE =#{VOC_CODE,jdbcType=VARCHAR} and voc_status in ('03','12','11') and data_flag != 'D'
+	</update>
+    
+    <!-- 发票批量回收 -->
+    <update id="bVocReturnBatch" parameterType="java.util.HashMap">
+		update  PM_VAT_B_VOC set next_action = #{next_action,jdbcType=CHAR}, org_id=#{org_id,jdbcType=VARCHAR} 
+		where data_id = #{data_id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 自动开票界面新增一笔交易后更新交易表 -->
+	<update id="OVocReviseListAddUpdTx">
+		update PM_VAT_TX set NEXT_ACTION = '04' where TX_ID = #{TX_ID,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 自动开票界面增加计税详情信息 -->
+	<update id="OVocReviseListAdd" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_LIST set PDATA_ID = #{DTL_DATA_ID,jdbcType=CHAR},NEXT_ACTION = '04' where DATA_ID = #{LIST_DATA_ID,jdbcType=CHAR} 
+	</update>
+	
+	<!-- 自动开票界面增加计税详情信息后更新发票明细信息 路 -->
+	<update id="OVocReviseListAddUpdDtl" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_DTL set TAX_AMT = TAX_AMT + #{TAX_AMT,jdbcType=DECIMAL}, 
+									INS_AMT = INS_AMT + #{INS_AMT,jdbcType=DECIMAL},
+									AMOUNT = AMOUNT + #{AMOUNT,jdbcType=DECIMAL} ,
+									GOOD_AMT = INS_AMT+#{INS_AMT,jdbcType=DECIMAL},
+									<!-- GOOD_NUM = GOOD_NUM+#{INS_AMT,jdbcType=DECIMAL}/GOOD_AMT -->
+									  GOOD_NUM = 1
+		where DATA_ID = #{DTL_DATA_ID,jdbcType=CHAR} 
+	</update>
+	
+	<!-- 自动开票界面增加计税详情信息后更新发票信息 -->
+	<update id="OVocReviseListAddUpdVoc" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set TAX_AMT = TAX_AMT + #{TAX_AMT,jdbcType=DECIMAL}, 
+								SUM_AMT = SUM_AMT + #{AMOUNT,jdbcType=DECIMAL},
+								AMOUNT = AMOUNT + #{INS_AMT,jdbcType=DECIMAL}   
+		where DATA_ID = #{VOC_DATA_ID,jdbcType=CHAR} 
+	</update>
+	
+	<!-- 自动开票界面删除一笔交易后更新交易表 -->
+	<update id="OVocReviseListDelUpdTx">
+		update PM_VAT_TX set NEXT_ACTION = '02' where TX_ID = #{TX_ID,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 自动开票界面删除计税详情信息 -->
+	<update id="OVocReviseListDel" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_LIST set PDATA_ID = null, NEXT_ACTION = '02' where DATA_ID = #{LIST_DATA_ID,jdbcType=CHAR} 
+	</update>
+	
+	<!-- 自动开票界面删除计税详情信息后更新发票明细信息 路-->
+	<update id="OVocReviseListDelUpdDtl" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC_DTL set TAX_AMT = TAX_AMT - #{TAX_AMT,jdbcType=DECIMAL}, 
+									INS_AMT = INS_AMT - #{INS_AMT,jdbcType=DECIMAL},
+									AMOUNT = AMOUNT - #{AMOUNT,jdbcType=DECIMAL},
+									GOOD_AMT = INS_AMT - #{INS_AMT,jdbcType=DECIMAL},
+									<!-- GOOD_NUM = GOOD_NUM-#{INS_AMT,jdbcType=DECIMAL}*GOOD_AMT -->   
+									GOOD_NUM = 1									
+		where DATA_ID = #{DTL_DATA_ID,jdbcType=CHAR} 
+	</update>
+	
+	<!-- 自动开票界面删除计税详情信息后更新发票信息 -->
+	<update id="OVocReviseListDelUpdVoc" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set TAX_AMT = TAX_AMT - #{TAX_AMT,jdbcType=DECIMAL}, 
+								SUM_AMT = SUM_AMT - #{AMOUNT,jdbcType=DECIMAL},
+								AMOUNT = AMOUNT - #{INS_AMT,jdbcType=DECIMAL}   
+		where DATA_ID = #{VOC_DATA_ID,jdbcType=CHAR} 
+	</update>
+	
+	<!-- 重控管理入库审核拒绝 -->
+	<delete id="bVocImportAvpRej" parameterType="java.lang.String">
+	    delete from pm_vat_b_voc
+	    where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	  </delete>
+	
+	<!-- 发票传递更新发票信息 -->
+	<update id="oVocTranReviseUpdate" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set SEND_TYPE = #{SEND_TYPE,jdbcType=CHAR}, 
+								SEND_STATUS = #{SEND_STATUS,jdbcType=CHAR}
+		where DATA_ID = #{data_id,jdbcType=CHAR} 
+	</update>
+	<!-- 更新schedule 表的状态 -->
+	<update id="SJobManagementUpdateStatus" parameterType="java.util.HashMap">
+		update TB_SCHEDULES set STATUS = #{STATUS,jdbcType=VARCHAR}
+		where JOB_ID = #{JOB_ID,jdbcType=VARCHAR} 
+	</update>
+	<!-- 更新schedules表的 信息 -->
+	<update id="SJobManagementUpdateTbSchedule" parameterType="java.util.HashMap">
+		update TB_SCHEDULES set STATUS = #{STATUS,jdbcType=VARCHAR},
+								NAME   = #{NAME,jdbcType=VARCHAR},
+                                RUN_SECOND = #{RUN_SECOND,jdbcType=VARCHAR},
+                                RUN_MINUTE = #{RUN_MINUTE,jdbcType=VARCHAR},
+                                RUN_HOUR = #{RUN_HOUR,jdbcType=VARCHAR},
+								RUN_DAY_IN_MONTH = #{RUN_DAY_IN_MONTH,jdbcType=VARCHAR},
+								RUN_MONTH =  #{RUN_MONTH,jdbcType=VARCHAR},
+								RUN_DAY_IN_WEEK =  #{RUN_DAY_IN_WEEK,jdbcType=VARCHAR},
+								RUN_YEAR =  #{RUN_YEAR,jdbcType=VARCHAR},
+								DESCRIPTION =  #{DESCRIPTION,jdbcType=VARCHAR} 
+		where JOB_ID = #{JOB_ID,jdbcType=VARCHAR} 
+	</update>
+	<!-- 更新tbjob -->
+	<update id="SJobManagementUpdateTbJobs" parameterType="java.util.HashMap">
+		update TB_JOBS set 	NAME =  #{NAME,jdbcType=VARCHAR}
+		where ID = #{ID,jdbcType=VARCHAR} 
+	</update>	
+	<!-- 更新快递状态 -->
+	<update id="updateExpressStatus" parameterType="java.util.HashMap">
+		update PM_VAT_EXPRESS set STATUS= #{STATUS,jdbcType=VARCHAR}
+		 where EXPRESS_NO= #{EXPRESS_NO,jdbcType=VARCHAR} 
+	</update>
+	<!-- 查询待更新的快递信息 -->
+    <select id="getExpressNoList" parameterType="java.util.HashMap" resultType="java.util.HashMap"> 
+        select EXPRESS_NO,EXPRESS from PM_VAT_EXPRESS where STATUS!='3' and (EXPRESS_NO IS NOT NULL or EXPRESS_NO!='') 
+    </select>
+	<!-- 通过lineNo 和快递单号查询当前快递信息是否存在   -->
+	<select id="getExpressLogByExNoAndLineno" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select * from PM_VAT_EXPRESS_LOG where EXPRESS_NO=#{EXPRESS_NO,jdbcType=VARCHAR} AND LINE_NO=#{LINE_NO,jdbcType=VARCHAR}
+	</select>
+	<!-- 保存快递追踪信息 -->
+	 <insert id="saveExpressLogInfo" parameterType="java.util.HashMap">
+		insert into PM_VAT_EXPRESS_LOG
+		 ( LINE_NO,
+		   EXPRESS_NO,
+		   CONTENTS)
+		VALUES
+		  (#{LINE_NO,jdbcType=VARCHAR},
+		   #{EXPRESS_NO,jdbcType=VARCHAR},
+		   #{CONTENTS,jdbcType=VARCHAR}
+		   )
+    </insert>
+    <!-- 自动生成快递单的时候，查看此发票代码和发票号码是否已存在其他快递单中   -->
+	<select id="oVocReviseGenExpressFindVoc" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select count(*) CNT from pm_vat_express_details where VOC_NO=#{VOC_NO,jdbcType=VARCHAR} AND VOC_CODE=#{VOC_CODE,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 更新发票传递性 -->	
+    <update id="updateVocTransStatus" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC 
+		set DATA_ID = DATA_ID    
+		<if test="SEND_TYPE != null">
+	      ,SEND_TYPE = #{SEND_TYPE,jdbcType=CHAR} 
+	    </if> 
+	    <if test="SEND_STATUS != null">
+	      ,SEND_STATUS = #{SEND_STATUS,jdbcType=CHAR} 
+	    </if> 
+		where VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and VOC_NO = #{VOC_NO,jdbcType=VARCHAR} 
+		
+	</update>
+	
+		<!-- 视图销售取消更新 -->
+	<update id="updateoVocToSaleReviseCancel" parameterType="java.util.HashMap">
+		update pm_vat_tx set NEXT_ACTION='00',IS_LIKESALE='N'
+		WHERE TX_ID=#{TX_ID,jdbcType=VARCHAR} 
+	</update>
+	
+	<!-- 视图销售取消删除 -->
+	<delete id="daleteoVocToSaleReviseCancel" parameterType="java.util.HashMap">
+	delete from PM_VAT_O_LIKESALE_DTL
+	WHERE DATA_ID=#{DATA_ID,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 通过快件状态为已丢失获取快件单号后得到发票号码 -->
+	<select id="selectOVocRevFlagExpressLog" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select a.voc_no from pm_vat_express_details a left join pm_vat_express b on a.data_id=b.data_id   where b.EXPRESS_NO=#{EXPRESS_NO,jdbcType=VARCHAR}
+	</select>	
+	
+	<!-- 通过快件状态为已丢失获取快件单号后得到发票号码 -->
+	<select id="selectExpressDtlByPDataId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from pm_vat_express_details   where PDATA_ID=#{PDATA_ID,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<!-- 更新发票的开票日期状态 -->
+	<update id="updateOVocRevFlagByExpressRevFlag" parameterType="java.util.HashMap" >
+		update pm_vat_o_voc set REV_FLAG=#{REV_FLAG,jdbcType=CHAR}  
+		where VOC_CODE=#{VOC_CODE,jdbcType=VARCHAR} and VOC_NO=#{VOC_NO,jdbcType=VARCHAR}
+	</update>
+	
+
+    <!-- 作废审核后将发票LIST信息加入作废发票LIST表 -->
+	 <insert id="oVocDiscardApvInsertDiscardVocList" parameterType="java.util.HashMap">
+		insert into PM_VAT_O_DIS_VOC_LIST select * from PM_VAT_O_VOC_LIST where PDATA_ID in (select DATA_ID from PM_VAT_O_VOC_DTL where PDATA_ID = #{DATA_ID,jdbcType=CHAR})
+    </insert>
+    
+    <!-- 发票入库审核拒绝，直接从数据库删除该条记录 -->
+	<delete id="deleteBVocItem" parameterType="java.lang.String">
+		delete from pm_vat_b_voc where DATA_ID=#{DATA_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 其他报表配置删除，直接从数据库删除该条记录 -->
+	<delete id="deleteTbReportCfg" parameterType="java.lang.String">
+		delete from tb_report_cfg where DATA_ID=#{DATA_ID,jdbcType=CHAR}
+	</delete>
+    
+    <!-- 更新客户信息 -->	
+    <update id="updateCustInfo" parameterType="java.util.HashMap">
+		update PM_VAT_CUSTOMER 
+		set DATA_ID = DATA_ID
+		<if test="CUST_NO != null">
+	      ,CUST_NO = #{CUST_NO,jdbcType=VARCHAR} 
+	    </if>
+		<if test="NATIONAL_TAX_NO != null">
+	      ,NATIONAL_TAX_NO = #{NATIONAL_TAX_NO,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="CUST_NAME != null">
+	      ,CUST_NAME = #{CUST_NAME,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="BR_ACTNO != null">
+	      ,BR_ACTNO = #{BR_ACTNO,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="NEED_VOC_FLAG != null">
+	      ,NEED_VOC_FLAG = #{NEED_VOC_FLAG,jdbcType=CHAR} 
+	    </if> 
+		<if test="TAX_ENT_TYPE != null">
+	      ,TAX_ENT_TYPE = #{TAX_ENT_TYPE,jdbcType=CHAR} 
+	    </if> 
+		<if test="CUST_TYPE != null">
+	      ,CUST_TYPE = #{CUST_TYPE,jdbcType=CHAR} 
+	    </if> 
+		<if test="OF_FLAG != null">
+	      ,OF_FLAG = #{OF_FLAG,jdbcType=CHAR} 
+	    </if> 
+		<if test="ADDR != null">
+	      ,ADDR = #{ADDR,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="TEL != null">
+	      ,TEL = #{TEL,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="BR_NAME != null">
+	      ,BR_NAME = #{BR_NAME,jdbcType=VARCHAR} 
+	    </if>
+	    <where>
+	    	<if test="CUST_NO != null">
+	    		CUST_NO = #{CUST_NO,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="NATIONAL_TAX_NO != null">
+	    		or NATIONAL_TAX_NO = #{NATIONAL_TAX_NO,jdbcType=VARCHAR}
+	    	</if>
+	    </where> 
+	</update>
+   
+   <!-- 新增客户信息查询数据 -->
+	<select id="selectCustData" parameterType="java.util.HashMap" resultType="java.lang.String">
+    	${SQL}
+    </select>
+    
+    
+    
+    <!-- 更新交易信息 -->	
+    <update id="updateTxData" parameterType="java.util.HashMap">
+		update PM_VAT_TX
+		set DATA_ID=DATA_ID
+		<if test="AMOUNT != null">
+	      ,AMOUNT = #{AMOUNT,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="TX_AMT != null">
+	      ,TX_AMT = #{TX_AMT,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="O_AMT != null">
+	      ,O_AMT = #{O_AMT,jdbcType=VARCHAR} 
+	    </if> 
+		<if test="NEXT_ACTION != null">
+	      ,NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR} 
+	    </if> 
+		<if test="DATA_STATUS != null">
+	      ,DATA_STATUS = #{DATA_STATUS,jdbcType=CHAR} 
+	    </if> 
+		<if test="REV_FLAG != null">
+	      ,REV_FLAG = #{REV_FLAG,jdbcType=CHAR} 
+	    </if> 
+	    WHERE TX_ID = #{TX_ID,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 更新发票明细表 -->
+	<update id="updateVocList" parameterType="java.util.HashMap">
+		update  PM_VAT_O_VOC_LIST 
+		set DATA_ID=DATA_ID
+		<if test="NEXT_ACTION != null">
+		,next_action = #{NEXT_ACTION,jdbcType=CHAR}
+		</if>
+		<if test="PDATA_ID != null">
+		,PDATA_ID = #{PDATA_ID,jdbcType=VARCHAR}
+		</if>
+		where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 按照PDataID更新发票LIST表 -->
+	<update id="updateVocListByPDataId" parameterType="java.util.HashMap">
+		update  PM_VAT_O_VOC_LIST 
+		set DATA_ID=DATA_ID
+		<if test="NEXT_ACTION != null">
+		,next_action = #{NEXT_ACTION,jdbcType=CHAR}
+		</if>
+		<if test="PDATA_ID != null">
+		,PDATA_ID = #{PDATA_ID,jdbcType=VARCHAR}
+		</if>
+		where PDATA_ID = #{ORIPDATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 更新行内金额 -->
+	<update id="updateVocCoreAmt" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC 
+    set CORE_TAX_AMT = 
+      (select sum(TAX_AMT) 
+       from pm_vat_o_voc_list 
+       where pdata_id in 
+             (select data_id 
+              from pm_vat_o_voc_dtl 
+              where pdata_id = #{DATA_ID,jdbcType=CHAR} 
+              )
+       ),CORE_INC_AMT = 
+      (select sum(INS_AMT) 
+       from pm_vat_o_voc_list 
+       where pdata_id in 
+             (select data_id 
+              from pm_vat_o_voc_dtl 
+              where pdata_id = #{DATA_ID,jdbcType=CHAR} 
+              )
+       )
+		where data_id = #{DATA_ID,jdbcType=CHAR} 
+	</update>
+	
+	<!-- 更新行内尾差 -->
+	<update id="updateVocCoreDivAmt" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set CORE_DEVI_AMT = TAX_AMT - CORE_TAX_AMT where data_id = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 更新发票表状态 -->
+	<update id="updateVocStatus" parameterType="java.util.HashMap">
+		update  PM_VAT_O_VOC set REV_FLAG = #{REV_FLAG,jdbcType=CHAR}  where DATA_ID = (select a.data_id from pm_vat_o_voc a left join pm_vat_o_voc_dtl b 
+		on a.data_id=b.pdata_id left join pm_vat_o_voc_list c on b.data_id =c.pdata_id where c.TX_ID = #{TX_ID,jdbcType=VARCHAR})
+	</update>
+	
+	<!-- 申报数据维护更新报表状态 -->
+	<update id="updateReportRevise" parameterType="java.util.HashMap">
+		update  PM_VAT_TAX_RPT_CTL set RPT_STATUS = #{RPT_STATUS,jdbcType=CHAR}
+		where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 申报审核通过更新报表状态 -->
+	<update id="updateVatReportReviseApvForSuccees" parameterType="java.util.HashMap">
+		update  PM_VAT_TAX_RPT_CTL set RPT_STATUS = #{RPT_STATUS,jdbcType=CHAR}
+		where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 申报审核拒绝更新报表状态 -->
+	<update id="updateVatReportReviseApvForFail" parameterType="java.util.HashMap">
+		update  PM_VAT_TAX_RPT_CTL set RPT_STATUS = #{RPT_STATUS,jdbcType=CHAR},DATA_REJ_DESC = #{DATA_REJ_DESC,jdbcType=VARCHAR}
+		where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 报表管理导出更新报表状态 -->
+	<update id="updateReportManage" parameterType="java.util.HashMap">
+		update  PM_VAT_TAX_RPT_CTL set RPT_STATUS = #{RPT_STATUS,jdbcType=CHAR}
+		where DATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 发票业务关联删除 -->
+	<delete id="deleteText" parameterType="java.util.HashMap">
+		delete from pm_vat_i_mapping where voc_code = #{VOC_CODE,jdbcType=VARCHAR} and voc_no = #{VOC_NO,jdbcType=VARCHAR} and tx_id = #{TX_ID,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 更新临时客户信息 -->
+	<update id="updateTmpCustData" parameterType="java.util.HashMap">
+		update  PM_VAT_CUSTOMER set next_action = #{NEXT_ACTION,jdbcType=CHAR}, DATA_STATUS = #{DATA_STATUS,jdbcType=VARCHAR}
+		<where>
+	    	<if test="CUST_NO != null">
+	    		CUST_NO = #{CUST_NO,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="NATIONAL_TAX_NO != null">
+	    		or NATIONAL_TAX_NO = #{NATIONAL_TAX_NO,jdbcType=VARCHAR}
+	    	</if>
+	    </where> 
+	</update>
+	
+<!--客户信息自动更新到销项表中去 -->
+<update id="UpdatePmVatOVoc" parameterType="java.util.HashMap">
+	update PM_VAT_O_VOC set BUY_TAX_NO = #{BUY_TAX_NO,jdbcType=VARCHAR},BUY_BANK_NO = #{BUY_BANK_NO,jdbcType=VARCHAR},BUY_NAME = #{BUY_NAME,jdbcType=VARCHAR},BUY_ACT_NO = #{BUY_ACT_NO,jdbcType=VARCHAR},BUY_ADDR = #{BUY_ADDR,jdbcType=VARCHAR},BUY_TEL = #{BUY_TEL,jdbcType=VARCHAR}
+	<where> 1=1 
+		and ((next_action ='00' and MADE_TYPE != '0') or (MADE_TYPE ='0' and VOC_STAT ='0'))
+   	<if test="CUST_NO == null and BUY_TAX_NO == null">
+   		and CUST_NO = #{CUST_NO,jdbcType=VARCHAR}
+   	</if>
+   	<if test="CUST_NO != null">
+   		and CUST_NO = #{CUST_NO,jdbcType=VARCHAR}
+   	</if>
+   	<if test="BUY_TAX_NO != null">
+   		and BUY_TAX_NO = #{BUY_TAX_NO,jdbcType=VARCHAR}
+   	</if>
+	</where>
+</update>
+	
+	
+	
+	<!-- 查询销项发票明细 -->
+	<select id="selectVocDtl3" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from PM_VAT_O_VOC_DTL where PDATA_ID=#{PDATA_ID,jdbcType=CHAR}
+	</select>
+	<!-- 更新交易状态 -->
+	<update id="disApvTxStatus" parameterType="java.util.HashMap">
+		update  PM_VAT_TX set NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR}, DATA_STATUS = #{DATA_STATUS,jdbcType=VARCHAR}
+		where TX_ID in (select tx_id from pm_vat_o_voc_list where pdata_id in (select data_id from pm_vat_o_voc_dtl where pdata_id = #{DATA_ID,jdbcType=CHAR}))
+	</update>
+	
+	<!-- 更新发票的上传状态信息 -->
+	<update id="vocUploadStatusUpdate" parameterType="java.util.HashMap">
+		update PM_VAT_O_VOC set UPLOAD_STATUS = #{UPLOAD_STATUS,jdbcType=CHAR} where DATA_ID=#{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 生成发票前删除tm_vat_o_tx表中的数据 -->
+	<update id="deleteTmVatTxBeforeGen" parameterType="java.util.HashMap">
+		delete from TM_VAT_O_TX where CORP_ID = #{CORP_ID,jdbcType=VARCHAR} AND ORG_ID = #{ORG_ID,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 根据pm_vat_tx表中的记录插入到tm_vat_o_tx表中 -->
+        <insert id="insertTmVatTxByTx" parameterType="java.util.HashMap">
+                INSERT INTO TM_VAT_O_TX(DATA_ID,DATA_DATE,CORP_ID,ORG_ID,
+                  GROUP_ID , INQ_ORG_ID ,INQ_GROUP_ID ,
+          TX_ID ,TX_CODE, TX_TYPE ,SEQ_NO ,
+          TX_DATE,TX_AMT,AMOUNT ,O_AMT ,
+          CCY , CUST_NO,CUST_ID,VOC_FLAG,
+          CHECK_FLAG ,CHECK_DESC ,NEXT_ACTION ,
+          DATA_STATUS,DATA_CRT_USER,DATA_CRT_DATE,DATA_CRT_TIME)
+        VALUES(#{DATA_ID,jdbcType=CHAR}, #{DATA_DATE,jdbcType=CHAR}, #{CORP_ID,jdbcType=VARCHAR}, #{ORG_ID,jdbcType=VARCHAR}, 
+          #{GROUP_ID,jdbcType=VARCHAR}, #{INQ_ORG_ID,jdbcType=VARCHAR} ,#{INQ_GROUP_ID,jdbcType=VARCHAR},
+          #{TX_ID,jdbcType=VARCHAR} ,#{TX_CODE,jdbcType=VARCHAR},#{TX_TYPE,jdbcType=VARCHAR} ,#{SEQ_NO,jdbcType=VARCHAR} ,
+          #{TX_DATE,jdbcType=CHAR},#{TX_AMT,jdbcType=DECIMAL},#{AMOUNT,jdbcType=DECIMAL} ,#{O_AMT,jdbcType=DECIMAL} ,
+          #{CCY,jdbcType=VARCHAR},#{CUST_NO,jdbcType=VARCHAR},#{CUST_ID,jdbcType=VARCHAR},#{VOC_FLAG,jdbcType=CHAR},
+          #{CHECK_FLAG,jdbcType=CHAR} ,#{CHECK_DESC,jdbcType=VARCHAR} ,#{NEXT_ACTION,jdbcType=CHAR} ,
+          #{DATA_STATUS,jdbcType=CHAR}, 'SYS',#{DATA_CRT_DATE,jdbcType=VARCHAR}, #{DATA_CRT_TIME,jdbcType=VARCHAR}
+        )
+        </insert>
+	
+	<!-- 公告维护 -->	
+	<delete id="insertNoticeScopeDeleteScope" parameterType="java.util.HashMap">
+		delete from PM_VAT_NOTICE_SCOPE where NOTICE_ID = #{NOTICE_ID}
+	</delete>
+	
+	<!-- 手工开票删除发票明细 -->	
+	<delete id="oVocManMadeBeforeInsertDelDtl" parameterType="java.util.HashMap">
+		delete from pm_vat_o_voc_dtl where PDATA_ID = #{VOC_DATA_ID,jdbcType=CHAR}
+	</delete>
+	
+    <!-- 手工开票更新发票LIST -->   
+    <update id="oVocManMadeUpdateVocList1" parameterType="java.util.HashMap">
+        update pm_vat_o_voc_list set next_action = '02',made_type = '' where PDATA_ID in (select data_id from pm_vat_o_voc_dtl where PDATA_ID = #{VOC_DATA_ID,jdbcType=CHAR})
+    </update>
+	
+	<!-- 手工开票更新发票LIST -->	
+	<update id="oVocManMadeUpdateVocList2" parameterType="java.util.HashMap">
+		update pm_vat_o_voc_list set next_action = '04',made_type = '1',pdata_id = #{LIST_PDATA_ID,jdbcType=CHAR} where DATA_ID in (${LIST_PDATA_IDS})
+	</update>
+	
+	<!-- 手工开票更新发票LIST -->	
+	<select id="oVocManMadeGetVocList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from pm_vat_o_voc_list where PDATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</select>
+	
+	
+	<!-- 手工开票更新发票LIST -->	
+	<update id="nextActionStatus" parameterType="java.util.HashMap">
+		update pm_vat_o_voc_list set next_action = '02',made_type = '' where PDATA_ID = #{PDATA_ID,jdbcType=CHAR}
+	</update>
+	
+	
+	<!-- 手工开票更新交易表 -->	
+	<update id="oVocManMadeUpdateVocTx2" parameterType="java.util.HashMap">
+		update pm_vat_tx set next_action = '02' where TX_ID = (select TX_ID from PM_VAT_O_VOC_LIST where PDATA_ID = #{PDATA_ID,jdbcType=CHAR})
+	</update>
+	                               
+	<!-- 手工开票更新交易表 -->	
+	<update id="oVocManMadeUpdateVocTx" parameterType="java.util.HashMap">
+		update pm_vat_tx set next_action = '04' where TX_ID = #{TX_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 根据发票LIST来更新交易表 -->	
+	<update id="updTxIsPrintStatusByList" parameterType="java.util.HashMap">
+		update pm_vat_tx set next_action = '04' where TX_ID = (select TX_ID from PM_VAT_O_VOC_LIST where data_id = #{DATA_ID,jdbcType=CHAR})
+	</update>
+	
+	<!-- 提前开票删除发票List -->	
+	<delete id="oVocAheadMadeBeforeInsertDelList" parameterType="java.util.HashMap">
+		delete from pm_vat_o_voc_list where PDATA_ID in (select DATA_ID from pm_vat_o_voc_dtl where PDATA_ID = #{VOC_DATA_ID,jdbcType=CHAR})
+	</delete>
+	
+	<!-- 提前开票删除发票明细 -->	
+	<delete id="oVocAheadMadeBeforeInsertDelDtl" parameterType="java.util.HashMap">
+		delete from pm_vat_o_voc_dtl where PDATA_ID = #{VOC_DATA_ID,jdbcType=CHAR} 
+	</delete>
+	
+	<!-- 红字发票申请录入删除发票明细 -->	
+	<delete id="PmVatIRedVocReqDtlInsertDelDtl" parameterType="java.util.HashMap">
+		delete from PM_VAT_I_RED_VOC_REQ_DTL where PDATA_ID = #{PDATA_ID,jdbcType=CHAR} 
+	</delete>
+	
+	<!-- 提前开票补充 -->	
+	<update id="OVocAheadReviseRef" parameterType="java.util.HashMap">
+		update pm_vat_o_voc_list set TX_ID = #{TX_ID,jdbcType=VARCHAR},TX_DATE = #{TX_DATE,jdbcType=VARCHAR},SEQ_NO = #{SEQ_NO,jdbcType=VARCHAR} where PDATA_ID = #{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+    <!-- 查询父类编码 -->
+	<select id="selectParent" parameterType="java.util.HashMap" resultType="com.gingkoo.rpt.privilege.DataPrivilegeTree">
+		select a.code_value as codeValue,b.field_id as fieldId,p_code_value as pCodeValue
+		from tb_code_list a 
+		LEFT JOIN TB_PRIV_F_MAP b on
+		(a.code_schema=b.code_schema and a.code_item=b.code_item)
+		where a.code_value=#{codeValue,jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 查询子类编码 -->
+	<select id="selectChildren" parameterType="java.util.HashMap" resultType="com.gingkoo.rpt.privilege.DataPrivilegeTree">
+		select a.code_value as codeValue,b.field_id as fieldId,p_code_value as pCodeValue
+		from tb_code_list a 
+		LEFT JOIN TB_PRIV_F_MAP b on
+		(a.code_schema=b.code_schema and a.code_item=b.code_item)
+		where a.p_code_value=#{codeValue,jdbcType=VARCHAR}
+    </select>
+    
+       <!-- 查询角色 -->
+    <select id="selectRoleId" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select role_id as roleId from TB_USER_ROLE where user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    
+     <!-- 查询角色 -->
+    <select id="selectRoleId1" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select role_id as roleId,user_id as userId from TB_USER_ROLE where user_id = (select USER_ID from tb_user where USER_NAME=#{userName,jdbcType=VARCHAR})
+    </select>
+    
+     <!-- 查询角色 -->
+    <select id="selectRoleId2" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select role_id as roleId from tb_role where role_name = #{roleName,jdbcType=VARCHAR} and ROLE_ID not in (select ROLE_ID from TB_ROLE_PENDING t)
+    </select>
+    
+     <!-- 查询用户ID -->
+    <select id="selectUserId" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select USER_ID as userId from tb_user where USER_NAME=#{userName,jdbcType=VARCHAR}
+    </select>
+    
+    
+    <!-- 按照发票号码和发票代码查询发票信息 -->
+    <select id="selectVocByVocCodeAndVOcNo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from pm_vat_o_voc where voc_no = #{VOC_NO,jdbcType=VARCHAR} and voc_code = #{VOC_CODE,jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 按照发票号码和发票代码查询发票明细信息 -->
+    <select id="selectVocDtlByVocCodeAndVOcNo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from pm_vat_o_voc_dtl where pdata_id in (select DATA_ID from pm_vat_o_voc where voc_no = #{VOC_NO,jdbcType=VARCHAR} and voc_code = #{VOC_CODE,jdbcType=VARCHAR})
+    </select>
+    
+    <!-- 成本回摊记录删除，直接从数据库删除该条记录 -->
+	<delete id="deletePmVatPayB" parameterType="java.lang.String">
+		delete from pm_vat_pay_b where DATA_ID=#{DATA_ID_B,jdbcType=CHAR}
+	</delete>
+	
+	 <!-- 成本回摊记录更新，直接从数据库更新该条记录 -->
+	<update id="updatePmVatPayB" parameterType="java.lang.String">
+		update pm_vat_pay_b set b_brno=#{R_BRNO,jdbcType=VARCHAR}, b_unit=#{DEPT_ID,jdbcType=VARCHAR},B_PERCENT=#{R_PERCENT,jdbcType=DECIMAL},B_AMT=#{R_AMT,jdbcType=DECIMAL} where DATA_ID=#{DATA_ID,jdbcType=CHAR}
+	</update>
+	
+	<!-- 快递单明细记录删除，直接从数据库删除该条记录 -->
+	<delete id="deleteExpressDtl" parameterType="java.lang.String">
+		delete from pm_vat_express_details where DATA_ID=#{DATA_ID_D,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 发票退回审核通过后更新发票状态 -->
+	<update id="updateIVocStatus" parameterType="java.lang.String">
+		update pm_vat_i_voc set voc_status = #{VOC_STATUS,jdbcType=CHAR} where data_id = #{DATA_ID_I,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 发票退回审核拒绝后更新发票状态 -->
+	<update id="updateIVocBackRejStatus" parameterType="java.lang.String">
+		update pm_vat_i_voc set voc_status = #{VOC_STATUS,jdbcType=CHAR}, voc_back_inst = '', voc_back_type = '', voc_back_date = '' where data_id = #{DATA_ID_I,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 快递单明细记录删除，直接从数据库删除该条记录 -->
+	<delete id="sysWorkFlowAddFlowDefineDelDtl" parameterType="java.lang.String">
+		delete from TB_FLOW_DEFINE where FLOW_ID=#{FLOW_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 快递单明细记录删除，直接从数据库删除该条记录 -->
+	<delete id="sysVocSiteReviseAddDtlDelDtl" parameterType="java.lang.String">
+		delete from pm_vat_voc_site_dtl where ORG_ID=#{PORG_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 发票业务关联删除原有关联 -->
+	<delete id="iVocRelatReviseAddMappingDelMap" parameterType="java.util.HashMap">
+		delete from PM_VAT_I_MAPPING where VOC_CODE=#{VOC_CODE,jdbcType=CHAR} and VOC_NO = #{VOC_NO,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 快递单明细记录删除，直接从数据库删除该条记录 -->
+	<delete id="sysWorkFlowAddFlowApplyDelDtl" parameterType="java.lang.String">
+		delete from TB_FLOW_APPLY where FLOW_ID=#{FLOW_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 进项交易认定配置明细记录删除，直接从数据库删除该条记录 -->
+	<delete id="iTxCodeAddPmVatIIdRuleListDelDtl" parameterType="java.lang.String">
+		delete FROM PM_VAT_I_ID_RULE_LIST where PDATA_ID=#{DATA_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 数据字典新增查重 -->
+    <select id="selectGroupCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*) from TB_DICT where GROUP_CODE=#{groupCode,jdbcType=VARCHAR}
+    </select>
+	
+	
+	
+	<!-- 数据字典新增 -->
+	 <insert id="saveDatadicInsert" parameterType="java.util.HashMap" >
+		insert into TB_DICT
+		(BANK,APPLICATION,GROUP_CODE,GROUP_NAME,META_VAL,META_NAME,CREATOR,CREATE_TIME,MOD_USER,MOD_DATE,ENABLE,REMARK,MOD_ABLE) 
+		VALUES ('0000','RPT',#{GROUP_CODE,jdbcType=VARCHAR},#{GROUP_NAME,jdbcType=VARCHAR},#{META_VAL,jdbcType=VARCHAR},#{META_NAME,jdbcType=VARCHAR},
+		#{CREATOR,jdbcType=VARCHAR},#{CREATE_TIME,jdbcType=VARCHAR},#{MOD_USER,jdbcType=VARCHAR},#{MOD_DATE,jdbcType=VARCHAR},
+		#{ENABLE,jdbcType=CHAR},#{REMARK,jdbcType=VARCHAR},#{MOD_ABLE,jdbcType=CHAR})
+    </insert>
+	
+	
+	
+	<!-- 保存数据字典维护信息 -->
+	 <insert id="saveDatadicRevise" parameterType="java.util.HashMap" >
+		insert into TB_DICT
+		(BANK,APPLICATION,GROUP_CODE,GROUP_NAME,META_VAL,META_NAME,CREATOR,CREATE_TIME,MOD_USER,MOD_DATE,ENABLE,REMARK,MOD_ABLE) 
+		VALUES ('0000','RPT',#{GROUP_CODE,jdbcType=VARCHAR},#{GROUP_NAME,jdbcType=VARCHAR},#{META_VAL,jdbcType=VARCHAR},#{META_NAME,jdbcType=VARCHAR},
+		#{CREATOR,jdbcType=VARCHAR},#{CREATE_TIME,jdbcType=VARCHAR},#{MOD_USER,jdbcType=VARCHAR},#{MOD_DATE,jdbcType=VARCHAR},
+		#{ENABLE,jdbcType=CHAR},#{REMARK,jdbcType=VARCHAR},#{MOD_ABLE,jdbcType=CHAR})
+    </insert>
+    <!-- 数据字典维护删除一条记录 -->
+	<delete id="deleteDatadicRevise" parameterType="java.util.HashMap">
+		delete FROM TB_DICT where GROUP_CODE = #{GROUP_CODE,jdbcType=VARCHAR} AND GROUP_NAME = #{GROUP_NAME,jdbcType=VARCHAR}  
+		AND META_VAL = #{META_VAL,jdbcType=VARCHAR} AND META_NAME = #{META_NAME,jdbcType=VARCHAR} 
+		AND CREATOR = #{CREATOR,jdbcType=VARCHAR} 
+	</delete>
+	<!-- 数据字典维护更新一条记录 -->
+	<update id="updateDatadicRevise" parameterType="java.util.HashMap">
+		update TB_DICT set GROUP_CODE = #{GROUP_CODE,jdbcType=VARCHAR},GROUP_NAME = #{GROUP_NAME,jdbcType=VARCHAR},META_VAL = #{META_VAL,jdbcType=VARCHAR},
+		META_NAME = #{META_NAME,jdbcType=VARCHAR},CREATOR = #{CREATOR,jdbcType=VARCHAR}
+		where GROUP_CODE = #{GROUP_CODE,jdbcType=VARCHAR} and META_VAL = #{META_VAL,jdbcType=VARCHAR}
+	</update>
+	
+	
+	<!-- 税控设备查询获取票点信息 -->
+    <select id="taxMacStatusQueryGetSiteInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<!-- select * from pm_vat_voc_site where TAX_KEY_SN = #{TAX_KEY_SN,jdbcType=VARCHAR} -->
+		select * from pm_vat_voc_site where site_no = (select site_no from pm_vat_tax_key where TAX_KEY_SN = #{TAX_KEY_SN,jdbcType=VARCHAR} )
+    </select>
+    
+    <!-- 税控设备查询获取票点信息 -->
+    <select id="taxMacStatusQueryCnt" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select COUNT(*) CNT from pm_vat_gts_mac_status where JSPBH = #{TAX_KEY_SN,jdbcType=VARCHAR}
+    </select>
+	
+	<!-- 查询后插入税控设备表 -->
+	<insert id="taxMacStatusQueryInsert" parameterType="java.util.HashMap">
+		INSERT INTO pm_vat_gts_mac_status(NSRSBH, BKPJLX, FKPJSM, KPDH, JSSBDQRQ, FPSFYW, 
+			SCJZRQ, LXSX, QDCXBBH, DCCXBBH, JSPBH, BSPBH, BSPDCBBH, HZFWSQ, FXSQXX, BSPRL, 
+			SFDCSQ, SFDSSQ, ZYFPLXXE, PTFPLXXE, ZYFPLXSYJE, PTFPLXSYJE, ZYFPKPXE, PTFPKPXE, 
+			SSRQ, SCCBRQ, CSQSRQ, BSZL, BSCGBZ, GRFPXX, THFPXX,JQBH, KFPZSJ, DQSZ, GZZT, 
+			ZYFSLJXE, ZYFSFPBZ, ZYFSFPTS, ZYLXKPZS, ZYLXFSLJJE, ZYDZKPXE, ZYLXKZXX, PTFSLJXE, 
+			PTFSFPBZ, PTFSFPTS, PTLXKPZS, PTLXFSLJJE, PTDZKPXE, PTLXKZXX) 
+		VALUES(#{NSRSBH,jdbcType=VARCHAR}, #{BKPJLX,jdbcType=CHAR}, #{FKPJSM,jdbcType=VARCHAR}, 
+			#{KPDH,jdbcType=VARCHAR}, #{JSSBDQRQ,jdbcType=CHAR}, #{FPSFYW,jdbcType=CHAR}, 
+			#{SCJZRQ,jdbcType=VARCHAR}, #{LXSX,jdbcType=VARCHAR}, #{QDCXBBH,jdbcType=VARCHAR}, 
+			#{DCCXBBH,jdbcType=VARCHAR}, #{JSPBH,jdbcType=VARCHAR}, #{BSPBH,jdbcType=VARCHAR}, 
+			#{BSPDCBBH,jdbcType=VARCHAR}, #{HZFWSQ,jdbcType=CHAR}, #{FXSQXX,jdbcType=CHAR}, 
+			#{BSPRL,jdbcType=VARCHAR}, #{SFDCSQ,jdbcType=CHAR}, #{SFDSSQ,jdbcType=CHAR}, 
+			#{ZYFPLXXE,jdbcType=DECIMAL}, #{PTFPLXXE,jdbcType=DECIMAL}, #{ZYFPLXSYJE,jdbcType=DECIMAL}, 
+			#{PTFPLXSYJE,jdbcType=DECIMAL}, #{ZYFPKPXE,jdbcType=DECIMAL}, #{PTFPKPXE,jdbcType=DECIMAL}, 
+			#{SSRQ,jdbcType=CHAR}, #{SCCBRQ,jdbcType=CHAR}, #{CSQSRQ,jdbcType=CHAR}, 
+			#{BSZL,jdbcType=CHAR}, #{BSCGBZ,jdbcType=CHAR}, #{GRFPXX,jdbcType=CHAR}, #{THFPXX,jdbcType=CHAR},
+			#{JQBH,jdbcType=VARCHAR}, #{KFPZSJ,jdbcType=VARCHAR}, #{DQSZ,jdbcType=VARCHAR}, #{GZZT,jdbcType=VARCHAR}, 
+			#{ZYFSLJXE,jdbcType=DECIMAL}, #{ZYFSFPBZ,jdbcType=VARCHAR}, #{ZYFSFPTS,jdbcType=DECIMAL}, 
+			#{ZYLXKPZS,jdbcType=DECIMAL}, #{ZYLXFSLJJE,jdbcType=DECIMAL}, #{ZYDZKPXE,jdbcType=DECIMAL}, 
+			#{ZYLXKZXX,jdbcType=VARCHAR}, #{PTFSLJXE,jdbcType=DECIMAL}, #{PTFSFPBZ,jdbcType=VARCHAR}, 
+			#{PTFSFPTS,jdbcType=DECIMAL}, #{PTLXKPZS,jdbcType=DECIMAL}, #{PTLXFSLJJE,jdbcType=DECIMAL}, 
+			#{PTDZKPXE,jdbcType=DECIMAL}, #{PTLXKZXX,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 查询后更新税控设备表 -->
+	<update id="taxMacStatusQueryUpdate" parameterType="java.util.HashMap">
+		UPDATE pm_vat_gts_mac_status 
+		SET 
+			NSRSBH = #{NSRSBH,jdbcType=VARCHAR}, BKPJLX = #{BKPJLX,jdbcType=CHAR}, 
+			FKPJSM = #{FKPJSM,jdbcType=VARCHAR}, KPDH = #{KPDH,jdbcType=VARCHAR}, 
+			JSSBDQRQ = #{JSSBDQRQ,jdbcType=CHAR}, FPSFYW = #{FPSFYW,jdbcType=CHAR}, 
+			SCJZRQ = #{SCJZRQ,jdbcType=VARCHAR}, LXSX = #{LXSX,jdbcType=VARCHAR}, 
+			QDCXBBH = #{QDCXBBH,jdbcType=VARCHAR}, DCCXBBH = #{DCCXBBH,jdbcType=VARCHAR}, 
+			JSPBH = #{JSPBH,jdbcType=VARCHAR}, BSPBH = #{BSPBH,jdbcType=VARCHAR}, 
+			BSPDCBBH = #{BSPDCBBH,jdbcType=VARCHAR}, HZFWSQ = #{HZFWSQ,jdbcType=CHAR}, 
+			FXSQXX = #{FXSQXX,jdbcType=CHAR}, BSPRL = #{BSPRL,jdbcType=VARCHAR}, 
+			SFDCSQ = #{SFDCSQ,jdbcType=CHAR}, SFDSSQ = #{SFDSSQ,jdbcType=CHAR}, 
+			ZYFPLXXE = #{ZYFPLXXE,jdbcType=DECIMAL}, PTFPLXXE = #{PTFPLXXE,jdbcType=DECIMAL}, 
+			ZYFPLXSYJE = #{ZYFPLXSYJE,jdbcType=DECIMAL}, PTFPLXSYJE = #{PTFPLXSYJE,jdbcType=DECIMAL}, 
+			ZYFPKPXE = #{ZYFPKPXE,jdbcType=DECIMAL}, PTFPKPXE = #{PTFPKPXE,jdbcType=DECIMAL}, 
+			SSRQ = #{SSRQ,jdbcType=CHAR}, SCCBRQ = #{SCCBRQ,jdbcType=CHAR}, CSQSRQ = #{CSQSRQ,jdbcType=CHAR}, 
+			BSZL = #{BSZL,jdbcType=CHAR}, BSCGBZ = #{BSCGBZ,jdbcType=CHAR}, GRFPXX = #{GRFPXX,jdbcType=CHAR}, 
+			THFPXX = #{THFPXX,jdbcType=CHAR}, JQBH = #{JQBH,jdbcType=VARCHAR}, KFPZSJ = #{KFPZSJ,jdbcType=VARCHAR},
+			DQSZ = #{DQSZ,jdbcType=VARCHAR}, GZZT = #{GZZT,jdbcType=VARCHAR}, ZYFSLJXE = #{ZYFSLJXE,jdbcType=DECIMAL},
+			ZYFSFPBZ = #{ZYFSFPBZ,jdbcType=VARCHAR}, ZYFSFPTS = #{ZYFSFPTS,jdbcType=DECIMAL}, ZYLXKPZS = #{ZYLXKPZS,jdbcType=DECIMAL},
+			ZYLXFSLJJE = #{ZYLXFSLJJE,jdbcType=DECIMAL}, ZYDZKPXE = #{ZYDZKPXE,jdbcType=DECIMAL}, ZYLXKZXX = #{ZYLXKZXX,jdbcType=VARCHAR},
+			PTFSLJXE = #{PTFSLJXE,jdbcType=DECIMAL}, PTFSFPBZ = #{PTFSFPBZ,jdbcType=VARCHAR}, PTFSFPTS = #{PTFSFPTS,jdbcType=DECIMAL},
+			PTLXKPZS = #{PTLXKPZS,jdbcType=DECIMAL}, PTLXFSLJJE = #{PTLXFSLJJE,jdbcType=DECIMAL}, PTDZKPXE = #{PTDZKPXE,jdbcType=DECIMAL},
+			PTLXKZXX = #{PTLXKZXX,jdbcType=VARCHAR}
+		WHERE JSPBH = #{TAX_KEY_SN,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 进项转出明细记录删除，直接从数据库删除该条记录 -->
+	<delete id="iPmVatPayBDel" parameterType="java.lang.String">
+		delete from pm_vat_pay_b where OUT_ID=#{DATA_ID,jdbcType=CHAR}
+	</delete>
+	
+	<!-- 税控设备查询获取票点信息 -->
+    <select id="syncBVocDataGetBVoc" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select VOC_FLAG,VOC_CODE,VOC_NO from PM_VAT_B_VOC where VOC_FLAG = #{VOC_FLAG,jdbcType=CHAR} AND VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} AND VOC_NO &gt;= #{START_VOC_NO,jdbcType=VARCHAR} AND VOC_NO &lt;= #{END_VOC_NO,jdbcType=VARCHAR}
+    </select>
+    <!-- 进项业务处理关联发票删除，直接从数据库删除该条记录 -->
+	<delete id="iTxPmVatIMapping" parameterType="java.lang.String">
+		delete FROM PM_VAT_I_MAPPING where TX_ID = #{TX_ID,jdbcType=CHAR}
+	</delete>
+	
+	<select id="getTaxMacTypeInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select b.* from pm_vat_tax_entity a left join pm_vat_voc_site b on b.tax_entity = a.org_id where a.org_id = #{ORG_ID,jdbcType=VARCHAR}
+    </select>
+	
+	<select id="getBVocInfoBeforePrint" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from pm_vat_b_voc where voc_no = #{VOC_NO,jdbcType=VARCHAR} and voc_code = #{VOC_CODE,jdbcType=VARCHAR} and next_action = 'A7' 
+    </select>
+    
+    <select id="oVocRevisePrintCheckGetTaxEntityInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select a.* from pm_vat_tax_entity a left join pm_vat_voc_site b on a.org_id = b.tax_entity where b.site_no = #{SITE_NO,jdbcType=VARCHAR} 
+    </select>
+    
+    <select id="oVocRevisePrintCheckGetVocSiteInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from pm_vat_voc_site where site_no = #{SITE_NO,jdbcType=VARCHAR} 
+    </select>
+    
+	<select id="getVocSiteInfoVocCodeAndVocNo" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select a.MAC_TYPE,a.TAX_MAC_TYPE,a.MACHINE_NO,a.TAX_ENTITY,b.TAX_NO,a.SITE_NO from PM_VAT_O_VOC c left join PM_VAT_VOC_SITE a on c.site_no = a.site_no left join PM_VAT_TAX_ENTITY b on a.tax_entity = b.org_id where c.VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and c.VOC_NO = #{VOC_NO,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="getVocSiteInfoBySiteNo" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select a.MAC_TYPE,a.TAX_MAC_TYPE,a.MACHINE_NO,a.TAX_ENTITY,b.TAX_NO,a.SITE_NO from PM_VAT_VOC_SITE a left join PM_VAT_TAX_ENTITY b on a.TAX_ENTITY = b.ORG_ID where a.SITE_NO = #{SITE_NO,jdbcType=VARCHAR}  
+	</select>
+	
+	<select id="getVocSiteInfoByOrgId" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select a.MAC_TYPE,a.TAX_MAC_TYPE,a.MACHINE_NO,a.TAX_ENTITY,b.TAX_NO,a.SITE_NO from PM_VAT_VOC_SITE a left join PM_VAT_TAX_ENTITY b on a.tax_entity = b.org_id where  a.ORG_ID = #{ORG_ID,jdbcType=VARCHAR} 
+	</select>
+	
+	<!--  通过发票表的ID，查找发票明细      -->
+	<select id="getVocDtlByPdataId" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select * from PM_VAT_O_VOC_DTL where 1=1 and PDATA_ID = #{DATA_ID,jdbcType=VARCHAR} 
+	</select>
+<!-- 	<select id="getVocDtlByPdataId" parameterType="java.util.HashMap" resultType="java.util.HashMap">	 -->
+<!-- 		select * from PM_VAT_O_VOC_DTL where 1=1 and PDATA_ID = #{DATA_ID,jdbcType=VARCHAR}  -->
+<!-- 	</select> -->
+	<delete id="delVocDtlByPdataId" parameterType="java.util.HashMap">
+		delete from pm_vat_o_voc_dtl where PDATA_ID = #{DATA_ID,jdbcType=VARCHAR}
+	</delete>
+	<!-- 手工开票更新发票LIST -->	
+	<update id="nextActionStatusDel" parameterType="java.util.HashMap">
+		update pm_vat_o_voc_list set next_action = '02', made_type = '' , pdata_id = (select b.data_id from pm_vat_tx b where pm_vat_o_voc_list.tx_id = b.tx_id) where PDATA_ID in (select DATA_ID FROM PM_VAT_O_VOC_DTL WHERE PDATA_ID = #{DATA_ID,jdbcType=CHAR})
+	</update>
+	
+	<select id="getVocByVoc"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from pm_vat_b_voc where voc_code=#{VOC_CODE,jdbcType=VARCHAR} and voc_no=#{VOC_NO_START,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="bVocVolumeByVoc"  parameterType="java.util.HashMap" resultType="java.util.HashMap" > 
+		select * from pm_vat_b_voc where VOLUME_NO = #{VOLUME_NO,jdbcType=VARCHAR} and voc_code=#{VOC_CODE,jdbcType=VARCHAR} and NEXT_ACTION = #{NEXT_ACTION,jdbcType=CHAR} and ORG_ID =#{ORG_ID,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getVocInfoByVocCodeVocNo" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+		select * from pm_vat_b_voc where  VOC_CODE = #{voc_code,jdbcType=VARCHAR} and VOC_NO = #{voc_no,jdbcType=VARCHAR} and voc_status in ('12','02')
+	</select>
+	
+	<!-- 红字发票删除 -->
+	<delete id="deletePmVatOVocList"  parameterType="java.util.HashMap">
+		delete pm_vat_o_voc_list where pdata_id in (select data_id from pm_vat_o_voc_dtl where pdata_id= #{DATA_ID,jdbcType=VARCHAR} )
+	</delete>
+		<delete id="deletePmVatOVocDtl"  parameterType="java.util.HashMap">
+		delete pm_vat_o_voc_dtl where pdata_id = #{DATA_ID,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deletePmVatOVoc"  parameterType="java.util.HashMap">
+		delete pm_vat_o_voc where data_id = #{DATA_ID,jdbcType=VARCHAR}
+	</delete>
+	<select id= "oVocInsertHis"   parameterType="java.util.HashMap">
+<!-- 		select * into his_vat_o_voc from pm_vat_o_voc  where data_id = #{DATA_ID,jdbcType=VARCHAR} -->
+		insert into his_vat_o_voc select * from pm_vat_o_voc where  data_id = #{DATA_ID,jdbcType=VARCHAR}
+	</select>
+	<select id= "oVocDtlInsertHis"   parameterType="java.util.HashMap">
+		insert into his_vat_o_voc_dtl select * from pm_vat_o_voc_dtl where  pdata_id = #{DATA_ID,jdbcType=VARCHAR} 
+	</select>
+	<select id= "oVocListInsertHis"   parameterType="java.util.HashMap">
+<!-- 		select * into his_vat_o_voc_list from pm_vat_o_voc_list  where pdata_id  in (select data_id from pm_vat_o_voc_dtl where pdata_id= #{DATA_ID,jdbcType=VARCHAR} ) -->
+		insert  into  his_vat_o_voc_list  select * from  pm_vat_o_voc_list where pdata_id  in (select data_id from pm_vat_o_voc_dtl where pdata_id= #{DATA_ID,jdbcType=VARCHAR} )
+	</select>
+	<select id="selectByVocListId"   parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+		select * from pm_vat_o_voc_list where pdata_id  in (select data_id from pm_vat_o_voc_dtl where pdata_id= #{DATA_ID,jdbcType=VARCHAR} )
+	</select>
+	
+	<!-- 申报  BEGIN  -->
+	<select id="selectByTaxRptEntityList"  parameterType="java.util.HashMap"  resultType="java.util.HashMap" > 
+		select * from pm_vat_tax_entity
+	</select>
+	<select id="selectByTaxRptCtlList"   parameterType="java.util.HashMap"  resultType="java.util.HashMap"  >
+		select * from pm_vat_tax_rpt_ctl where org_id = #{ORG_ID,jdbcType=VARCHAR} and bouc_month = #{DATE_DATE,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByTaxRptCfgList"  parameterType="java.util.HashMap"  resultType="java.util.HashMap"  >
+		select * from pm_vat_tax_rpt_cfg where TAX_ENT_TYPE = #{TAX_ENT_TYPE,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertTaxRptCtl"  parameterType="java.util.HashMap" >
+		insert into pm_vat_tax_rpt_ctl(DATA_ID,DATA_DATE,CORP_ID,ORG_ID,GROUP_ID,BOUC_MONTH,RPT_ID,RPT_NAME,TEMPLATE_NAME,RPT_STATUS,NEXT_ACTION,DEPENDS_ID)
+		values ( 
+		#{DATA_ID,jdbcType=VARCHAR},
+		#{DATA_DATE,jdbcType=VARCHAR},
+		#{CORP_ID,jdbcType=VARCHAR},
+		#{ORG_ID,jdbcType=VARCHAR},
+		#{GROUP_ID,jdbcType=VARCHAR},
+		#{BOUC_MONTH,jdbcType=VARCHAR},
+		#{RPT_ID,jdbcType=VARCHAR},
+		#{RPT_NAME,jdbcType=VARCHAR},
+		#{TEMPLATE_NAME,jdbcType=VARCHAR},
+		#{RPT_STATUS,jdbcType=VARCHAR},
+		#{NEXT_ACTION,jdbcType=VARCHAR},
+		#{DEPENDS_ID,jdbcType=VARCHAR} )
+	</insert>
+	<select id="getBVocListByUserId"  parameterType="java.util.HashMap"  resultType="java.util.HashMap"  >
+		select * from pm_vat_b_voc where get_user = #{USER_ID,jdbcType=VARCHAR} 
+	</select>
+	
+	<!--  -->
+	<delete id="deleteLogIEstate"   parameterType="java.util.HashMap">
+		delete PM_VAT_I_ESTATE_LOG where pdata_id = #{DATA_ID,jdbcType=VARCHAR}
+	</delete>
+	
+	<!--开票点明细删除-->
+	<delete id="vocSiteDtlDel"   parameterType="java.util.HashMap">
+		delete from pm_vat_voc_site_dtl where org_id in (${IDS})
+	</delete>
+	
+	<!-- 进项发票管理删除明细-->	
+	<delete id="iVocReviseInsertBeforDelDtl" parameterType="java.util.HashMap">
+		delete from pm_vat_i_voc_dtl where PDATA_ID = #{VOC_DATA_ID,jdbcType=CHAR} 
+	</delete>
+	
+	<!-- 通过转出表的发票号码和代码查询发票信息  -->
+	<select id="selectVocByCode"  parameterType="java.util.HashMap"   resultType="java.util.HashMap"> 
+		select * from pm_vat_i_voc where VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 更新发票表的转出金额 -->	
+	<update id="updataOutAmt" parameterType="java.util.HashMap">
+		update pm_vat_i_voc set OUT_AMT =#{OUT_AMT,jdbcType=VARCHAR} where VOC_CODE = #{VOC_CODE,jdbcType=VARCHAR} and VOC_NO = #{VOC_NO,jdbcType=VARCHAR}
+	</update>
+
+		<!-- 将发票的交易状态 -->
+    <update id="updateVatTxAfterCreateVoc" parameterType="java.util.HashMap">
+		update PM_VAT_TX
+		set DATA_ID = DATA_ID
+	    <if test="data_status != null">
+	      ,data_status = #{data_status,jdbcType=VARCHAR}
+	    </if>
+	    <if test="next_action != null">
+	      ,next_action = #{next_action,jdbcType=VARCHAR}
+	    </if>
+
+		where TX_ID in (SELECT TX_ID FROM PM_VAT_O_VOC_LIST WHERE PDATA_ID IN (select DATA_ID from PM_VAT_O_VOC_DTL where PDATA_ID = #{data_id,jdbcType=CHAR}))
+
+	</update>
+</mapper>

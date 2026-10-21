@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.OdsVatGoodCodeMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCode">
+    <id column="GOOD_CODE" jdbcType="VARCHAR" property="goodCode" />
+    <result column="GOOD_NAME" jdbcType="VARCHAR" property="goodName" />
+    <result column="GOOD_INSTRU" jdbcType="VARCHAR" property="goodInstru" />
+    <result column="GOOD_KEYWORD" jdbcType="VARCHAR" property="goodKeyword" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    GOOD_CODE, GOOD_NAME, GOOD_INSTRU, GOOD_KEYWORD
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ODS_VAT_GOOD_CODE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_VAT_GOOD_CODE
+    where GOOD_CODE = #{goodCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ODS_VAT_GOOD_CODE
+    where GOOD_CODE = #{goodCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCodeExample">
+    delete from ODS_VAT_GOOD_CODE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCode">
+    insert into ODS_VAT_GOOD_CODE (GOOD_CODE, GOOD_NAME, GOOD_INSTRU, 
+      GOOD_KEYWORD)
+    values (#{goodCode,jdbcType=VARCHAR}, #{goodName,jdbcType=VARCHAR}, #{goodInstru,jdbcType=VARCHAR}, 
+      #{goodKeyword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCode">
+    insert into ODS_VAT_GOOD_CODE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodCode != null">
+        GOOD_CODE,
+      </if>
+      <if test="goodName != null">
+        GOOD_NAME,
+      </if>
+      <if test="goodInstru != null">
+        GOOD_INSTRU,
+      </if>
+      <if test="goodKeyword != null">
+        GOOD_KEYWORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodCode != null">
+        #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null">
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodInstru != null">
+        #{goodInstru,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKeyword != null">
+        #{goodKeyword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCodeExample" resultType="java.lang.Integer">
+    select count(*) from ODS_VAT_GOOD_CODE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ODS_VAT_GOOD_CODE
+    <set>
+      <if test="record.goodCode != null">
+        GOOD_CODE = #{record.goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodName != null">
+        GOOD_NAME = #{record.goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodInstru != null">
+        GOOD_INSTRU = #{record.goodInstru,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodKeyword != null">
+        GOOD_KEYWORD = #{record.goodKeyword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ODS_VAT_GOOD_CODE
+    set GOOD_CODE = #{record.goodCode,jdbcType=VARCHAR},
+      GOOD_NAME = #{record.goodName,jdbcType=VARCHAR},
+      GOOD_INSTRU = #{record.goodInstru,jdbcType=VARCHAR},
+      GOOD_KEYWORD = #{record.goodKeyword,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCode">
+    update ODS_VAT_GOOD_CODE
+    <set>
+      <if test="goodName != null">
+        GOOD_NAME = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodInstru != null">
+        GOOD_INSTRU = #{goodInstru,jdbcType=VARCHAR},
+      </if>
+      <if test="goodKeyword != null">
+        GOOD_KEYWORD = #{goodKeyword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where GOOD_CODE = #{goodCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.OdsVatGoodCode">
+    update ODS_VAT_GOOD_CODE
+    set GOOD_NAME = #{goodName,jdbcType=VARCHAR},
+      GOOD_INSTRU = #{goodInstru,jdbcType=VARCHAR},
+      GOOD_KEYWORD = #{goodKeyword,jdbcType=VARCHAR}
+    where GOOD_CODE = #{goodCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

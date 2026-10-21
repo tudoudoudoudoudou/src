@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.BmsCtlSessionMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSession">
+    <id column="DATA_ID" jdbcType="VARCHAR" property="dataId" />
+    <result column="DATA_DATE" jdbcType="CHAR" property="dataDate" />
+    <result column="CORP_ID" jdbcType="VARCHAR" property="corpId" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+    <result column="SESSION_ID" jdbcType="VARCHAR" property="sessionId" />
+    <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+    <result column="JOB_ID" jdbcType="VARCHAR" property="jobId" />
+    <result column="P_JOB_ID" jdbcType="VARCHAR" property="pJobId" />
+    <result column="P_C_CODE" jdbcType="CHAR" property="pCCode" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="C_CODE" jdbcType="CHAR" property="cCode" />
+    <result column="E_CODE" jdbcType="VARCHAR" property="eCode" />
+    <result column="E_MSG" jdbcType="VARCHAR" property="eMsg" />
+    <result column="START_TIME" jdbcType="CHAR" property="startTime" />
+    <result column="END_TIME" jdbcType="CHAR" property="endTime" />
+    <result column="NEXT_JOB_ID" jdbcType="VARCHAR" property="nextJobId" />
+    <result column="OUTPUT_1" jdbcType="VARCHAR" property="output1" />
+    <result column="OUTPUT_2" jdbcType="VARCHAR" property="output2" />
+    <result column="OUTPUT_3" jdbcType="VARCHAR" property="output3" />
+    <result column="OUTPUT_4" jdbcType="VARCHAR" property="output4" />
+    <result column="OUTPUT_5" jdbcType="VARCHAR" property="output5" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="DATA_VERSION" jdbcType="NUMERIC" property="dataVersion" />
+    <result column="DATA_REJ_DESC" jdbcType="VARCHAR" property="dataRejDesc" />
+    <result column="DATA_DEL_DESC" jdbcType="VARCHAR" property="dataDelDesc" />
+    <result column="DATA_CRT_USER" jdbcType="VARCHAR" property="dataCrtUser" />
+    <result column="DATA_CRT_DATE" jdbcType="CHAR" property="dataCrtDate" />
+    <result column="DATA_CRT_TIME" jdbcType="CHAR" property="dataCrtTime" />
+    <result column="DATA_CHG_USER" jdbcType="VARCHAR" property="dataChgUser" />
+    <result column="DATA_CHG_DATE" jdbcType="CHAR" property="dataChgDate" />
+    <result column="DATA_CHG_TIME" jdbcType="CHAR" property="dataChgTime" />
+    <result column="DATA_APV_USER" jdbcType="VARCHAR" property="dataApvUser" />
+    <result column="DATA_APV_DATE" jdbcType="CHAR" property="dataApvDate" />
+    <result column="DATA_APV_TIME" jdbcType="CHAR" property="dataApvTime" />
+    <result column="RSV1" jdbcType="VARCHAR" property="rsv1" />
+    <result column="RSV2" jdbcType="VARCHAR" property="rsv2" />
+    <result column="RSV3" jdbcType="VARCHAR" property="rsv3" />
+    <result column="RSV4" jdbcType="VARCHAR" property="rsv4" />
+    <result column="RSV5" jdbcType="VARCHAR" property="rsv5" />
+    <result column="RUN_ORDER" jdbcType="NUMERIC" property="runOrder" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DATA_ID, DATA_DATE, CORP_ID, ORG_ID, GROUP_ID, SESSION_ID, BATCH_ID, JOB_ID, P_JOB_ID, 
+    P_C_CODE, STATUS, C_CODE, E_CODE, E_MSG, START_TIME, END_TIME, NEXT_JOB_ID, OUTPUT_1, 
+    OUTPUT_2, OUTPUT_3, OUTPUT_4, OUTPUT_5, REMARKS, DATA_VERSION, DATA_REJ_DESC, DATA_DEL_DESC, 
+    DATA_CRT_USER, DATA_CRT_DATE, DATA_CRT_TIME, DATA_CHG_USER, DATA_CHG_DATE, DATA_CHG_TIME, 
+    DATA_APV_USER, DATA_APV_DATE, DATA_APV_TIME, RSV1, RSV2, RSV3, RSV4, RSV5, RUN_ORDER
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSessionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BMS_CTL_SESSION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BMS_CTL_SESSION
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from BMS_CTL_SESSION
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSessionExample">
+    delete from BMS_CTL_SESSION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSession">
+    insert into BMS_CTL_SESSION (DATA_ID, DATA_DATE, CORP_ID, 
+      ORG_ID, GROUP_ID, SESSION_ID, 
+      BATCH_ID, JOB_ID, P_JOB_ID, 
+      P_C_CODE, STATUS, C_CODE, E_CODE, 
+      E_MSG, START_TIME, END_TIME, 
+      NEXT_JOB_ID, OUTPUT_1, OUTPUT_2, 
+      OUTPUT_3, OUTPUT_4, OUTPUT_5, 
+      REMARKS, DATA_VERSION, DATA_REJ_DESC, 
+      DATA_DEL_DESC, DATA_CRT_USER, DATA_CRT_DATE, 
+      DATA_CRT_TIME, DATA_CHG_USER, DATA_CHG_DATE, 
+      DATA_CHG_TIME, DATA_APV_USER, DATA_APV_DATE, 
+      DATA_APV_TIME, RSV1, RSV2, 
+      RSV3, RSV4, RSV5, RUN_ORDER
+      )
+    values (#{dataId,jdbcType=VARCHAR}, #{dataDate,jdbcType=CHAR}, #{corpId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{sessionId,jdbcType=VARCHAR}, 
+      #{batchId,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}, #{pJobId,jdbcType=VARCHAR}, 
+      #{pCCode,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{cCode,jdbcType=CHAR}, #{eCode,jdbcType=VARCHAR}, 
+      #{eMsg,jdbcType=VARCHAR}, #{startTime,jdbcType=CHAR}, #{endTime,jdbcType=CHAR}, 
+      #{nextJobId,jdbcType=VARCHAR}, #{output1,jdbcType=VARCHAR}, #{output2,jdbcType=VARCHAR}, 
+      #{output3,jdbcType=VARCHAR}, #{output4,jdbcType=VARCHAR}, #{output5,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{dataVersion,jdbcType=NUMERIC}, #{dataRejDesc,jdbcType=VARCHAR}, 
+      #{dataDelDesc,jdbcType=VARCHAR}, #{dataCrtUser,jdbcType=VARCHAR}, #{dataCrtDate,jdbcType=CHAR}, 
+      #{dataCrtTime,jdbcType=CHAR}, #{dataChgUser,jdbcType=VARCHAR}, #{dataChgDate,jdbcType=CHAR}, 
+      #{dataChgTime,jdbcType=CHAR}, #{dataApvUser,jdbcType=VARCHAR}, #{dataApvDate,jdbcType=CHAR}, 
+      #{dataApvTime,jdbcType=CHAR}, #{rsv1,jdbcType=VARCHAR}, #{rsv2,jdbcType=VARCHAR}, 
+      #{rsv3,jdbcType=VARCHAR}, #{rsv4,jdbcType=VARCHAR}, #{rsv5,jdbcType=VARCHAR}, #{runOrder,jdbcType=NUMERIC}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSession">
+    insert into BMS_CTL_SESSION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        DATA_ID,
+      </if>
+      <if test="dataDate != null">
+        DATA_DATE,
+      </if>
+      <if test="corpId != null">
+        CORP_ID,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="groupId != null">
+        GROUP_ID,
+      </if>
+      <if test="sessionId != null">
+        SESSION_ID,
+      </if>
+      <if test="batchId != null">
+        BATCH_ID,
+      </if>
+      <if test="jobId != null">
+        JOB_ID,
+      </if>
+      <if test="pJobId != null">
+        P_JOB_ID,
+      </if>
+      <if test="pCCode != null">
+        P_C_CODE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="cCode != null">
+        C_CODE,
+      </if>
+      <if test="eCode != null">
+        E_CODE,
+      </if>
+      <if test="eMsg != null">
+        E_MSG,
+      </if>
+      <if test="startTime != null">
+        START_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+      <if test="nextJobId != null">
+        NEXT_JOB_ID,
+      </if>
+      <if test="output1 != null">
+        OUTPUT_1,
+      </if>
+      <if test="output2 != null">
+        OUTPUT_2,
+      </if>
+      <if test="output3 != null">
+        OUTPUT_3,
+      </if>
+      <if test="output4 != null">
+        OUTPUT_4,
+      </if>
+      <if test="output5 != null">
+        OUTPUT_5,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION,
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC,
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC,
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER,
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE,
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME,
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER,
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE,
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME,
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER,
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE,
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME,
+      </if>
+      <if test="rsv1 != null">
+        RSV1,
+      </if>
+      <if test="rsv2 != null">
+        RSV2,
+      </if>
+      <if test="rsv3 != null">
+        RSV3,
+      </if>
+      <if test="rsv4 != null">
+        RSV4,
+      </if>
+      <if test="rsv5 != null">
+        RSV5,
+      </if>
+      <if test="runOrder != null">
+        RUN_ORDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDate != null">
+        #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobId != null">
+        #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="pJobId != null">
+        #{pJobId,jdbcType=VARCHAR},
+      </if>
+      <if test="pCCode != null">
+        #{pCCode,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="cCode != null">
+        #{cCode,jdbcType=CHAR},
+      </if>
+      <if test="eCode != null">
+        #{eCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eMsg != null">
+        #{eMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=CHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=CHAR},
+      </if>
+      <if test="nextJobId != null">
+        #{nextJobId,jdbcType=VARCHAR},
+      </if>
+      <if test="output1 != null">
+        #{output1,jdbcType=VARCHAR},
+      </if>
+      <if test="output2 != null">
+        #{output2,jdbcType=VARCHAR},
+      </if>
+      <if test="output3 != null">
+        #{output3,jdbcType=VARCHAR},
+      </if>
+      <if test="output4 != null">
+        #{output4,jdbcType=VARCHAR},
+      </if>
+      <if test="output5 != null">
+        #{output5,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="rsv1 != null">
+        #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        #{rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="runOrder != null">
+        #{runOrder,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSessionExample" resultType="java.lang.Integer">
+    select count(*) from BMS_CTL_SESSION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update BMS_CTL_SESSION
+    <set>
+      <if test="record.dataId != null">
+        DATA_ID = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataDate != null">
+        DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      </if>
+      <if test="record.corpId != null">
+        CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupId != null">
+        GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sessionId != null">
+        SESSION_ID = #{record.sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchId != null">
+        BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobId != null">
+        JOB_ID = #{record.jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pJobId != null">
+        P_JOB_ID = #{record.pJobId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pCCode != null">
+        P_C_CODE = #{record.pCCode,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.cCode != null">
+        C_CODE = #{record.cCode,jdbcType=CHAR},
+      </if>
+      <if test="record.eCode != null">
+        E_CODE = #{record.eCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eMsg != null">
+        E_MSG = #{record.eMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        START_TIME = #{record.startTime,jdbcType=CHAR},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=CHAR},
+      </if>
+      <if test="record.nextJobId != null">
+        NEXT_JOB_ID = #{record.nextJobId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output1 != null">
+        OUTPUT_1 = #{record.output1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output2 != null">
+        OUTPUT_2 = #{record.output2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output3 != null">
+        OUTPUT_3 = #{record.output3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output4 != null">
+        OUTPUT_4 = #{record.output4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output5 != null">
+        OUTPUT_5 = #{record.output5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataVersion != null">
+        DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="record.dataRejDesc != null">
+        DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataDelDesc != null">
+        DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtUser != null">
+        DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCrtDate != null">
+        DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataCrtTime != null">
+        DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgUser != null">
+        DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataChgDate != null">
+        DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataChgTime != null">
+        DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvUser != null">
+        DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataApvDate != null">
+        DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="record.dataApvTime != null">
+        DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="record.rsv1 != null">
+        RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv2 != null">
+        RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv3 != null">
+        RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv4 != null">
+        RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv5 != null">
+        RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runOrder != null">
+        RUN_ORDER = #{record.runOrder,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update BMS_CTL_SESSION
+    set DATA_ID = #{record.dataId,jdbcType=VARCHAR},
+      DATA_DATE = #{record.dataDate,jdbcType=CHAR},
+      CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{record.groupId,jdbcType=VARCHAR},
+      SESSION_ID = #{record.sessionId,jdbcType=VARCHAR},
+      BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      JOB_ID = #{record.jobId,jdbcType=VARCHAR},
+      P_JOB_ID = #{record.pJobId,jdbcType=VARCHAR},
+      P_C_CODE = #{record.pCCode,jdbcType=CHAR},
+      STATUS = #{record.status,jdbcType=CHAR},
+      C_CODE = #{record.cCode,jdbcType=CHAR},
+      E_CODE = #{record.eCode,jdbcType=VARCHAR},
+      E_MSG = #{record.eMsg,jdbcType=VARCHAR},
+      START_TIME = #{record.startTime,jdbcType=CHAR},
+      END_TIME = #{record.endTime,jdbcType=CHAR},
+      NEXT_JOB_ID = #{record.nextJobId,jdbcType=VARCHAR},
+      OUTPUT_1 = #{record.output1,jdbcType=VARCHAR},
+      OUTPUT_2 = #{record.output2,jdbcType=VARCHAR},
+      OUTPUT_3 = #{record.output3,jdbcType=VARCHAR},
+      OUTPUT_4 = #{record.output4,jdbcType=VARCHAR},
+      OUTPUT_5 = #{record.output5,jdbcType=VARCHAR},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      DATA_VERSION = #{record.dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{record.dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{record.dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{record.dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{record.dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{record.dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{record.dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{record.dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{record.dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{record.dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{record.dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{record.dataApvTime,jdbcType=CHAR},
+      RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      RUN_ORDER = #{record.runOrder,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSession">
+    update BMS_CTL_SESSION
+    <set>
+      <if test="dataDate != null">
+        DATA_DATE = #{dataDate,jdbcType=CHAR},
+      </if>
+      <if test="corpId != null">
+        CORP_ID = #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        SESSION_ID = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null">
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobId != null">
+        JOB_ID = #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="pJobId != null">
+        P_JOB_ID = #{pJobId,jdbcType=VARCHAR},
+      </if>
+      <if test="pCCode != null">
+        P_C_CODE = #{pCCode,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="cCode != null">
+        C_CODE = #{cCode,jdbcType=CHAR},
+      </if>
+      <if test="eCode != null">
+        E_CODE = #{eCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eMsg != null">
+        E_MSG = #{eMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        START_TIME = #{startTime,jdbcType=CHAR},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=CHAR},
+      </if>
+      <if test="nextJobId != null">
+        NEXT_JOB_ID = #{nextJobId,jdbcType=VARCHAR},
+      </if>
+      <if test="output1 != null">
+        OUTPUT_1 = #{output1,jdbcType=VARCHAR},
+      </if>
+      <if test="output2 != null">
+        OUTPUT_2 = #{output2,jdbcType=VARCHAR},
+      </if>
+      <if test="output3 != null">
+        OUTPUT_3 = #{output3,jdbcType=VARCHAR},
+      </if>
+      <if test="output4 != null">
+        OUTPUT_4 = #{output4,jdbcType=VARCHAR},
+      </if>
+      <if test="output5 != null">
+        OUTPUT_5 = #{output5,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      </if>
+      <if test="dataRejDesc != null">
+        DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDelDesc != null">
+        DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtUser != null">
+        DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCrtDate != null">
+        DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      </if>
+      <if test="dataCrtTime != null">
+        DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      </if>
+      <if test="dataChgUser != null">
+        DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataChgDate != null">
+        DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      </if>
+      <if test="dataChgTime != null">
+        DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      </if>
+      <if test="dataApvUser != null">
+        DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dataApvDate != null">
+        DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      </if>
+      <if test="dataApvTime != null">
+        DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      </if>
+      <if test="rsv1 != null">
+        RSV1 = #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        RSV2 = #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        RSV3 = #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        RSV4 = #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        RSV5 = #{rsv5,jdbcType=VARCHAR},
+      </if>
+      <if test="runOrder != null">
+        RUN_ORDER = #{runOrder,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.BmsCtlSession">
+    update BMS_CTL_SESSION
+    set DATA_DATE = #{dataDate,jdbcType=CHAR},
+      CORP_ID = #{corpId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      SESSION_ID = #{sessionId,jdbcType=VARCHAR},
+      BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      JOB_ID = #{jobId,jdbcType=VARCHAR},
+      P_JOB_ID = #{pJobId,jdbcType=VARCHAR},
+      P_C_CODE = #{pCCode,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      C_CODE = #{cCode,jdbcType=CHAR},
+      E_CODE = #{eCode,jdbcType=VARCHAR},
+      E_MSG = #{eMsg,jdbcType=VARCHAR},
+      START_TIME = #{startTime,jdbcType=CHAR},
+      END_TIME = #{endTime,jdbcType=CHAR},
+      NEXT_JOB_ID = #{nextJobId,jdbcType=VARCHAR},
+      OUTPUT_1 = #{output1,jdbcType=VARCHAR},
+      OUTPUT_2 = #{output2,jdbcType=VARCHAR},
+      OUTPUT_3 = #{output3,jdbcType=VARCHAR},
+      OUTPUT_4 = #{output4,jdbcType=VARCHAR},
+      OUTPUT_5 = #{output5,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DATA_VERSION = #{dataVersion,jdbcType=NUMERIC},
+      DATA_REJ_DESC = #{dataRejDesc,jdbcType=VARCHAR},
+      DATA_DEL_DESC = #{dataDelDesc,jdbcType=VARCHAR},
+      DATA_CRT_USER = #{dataCrtUser,jdbcType=VARCHAR},
+      DATA_CRT_DATE = #{dataCrtDate,jdbcType=CHAR},
+      DATA_CRT_TIME = #{dataCrtTime,jdbcType=CHAR},
+      DATA_CHG_USER = #{dataChgUser,jdbcType=VARCHAR},
+      DATA_CHG_DATE = #{dataChgDate,jdbcType=CHAR},
+      DATA_CHG_TIME = #{dataChgTime,jdbcType=CHAR},
+      DATA_APV_USER = #{dataApvUser,jdbcType=VARCHAR},
+      DATA_APV_DATE = #{dataApvDate,jdbcType=CHAR},
+      DATA_APV_TIME = #{dataApvTime,jdbcType=CHAR},
+      RSV1 = #{rsv1,jdbcType=VARCHAR},
+      RSV2 = #{rsv2,jdbcType=VARCHAR},
+      RSV3 = #{rsv3,jdbcType=VARCHAR},
+      RSV4 = #{rsv4,jdbcType=VARCHAR},
+      RSV5 = #{rsv5,jdbcType=VARCHAR},
+      RUN_ORDER = #{runOrder,jdbcType=NUMERIC}
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>

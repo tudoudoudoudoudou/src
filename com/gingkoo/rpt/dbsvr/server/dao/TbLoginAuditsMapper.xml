@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.TbLoginAuditsMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.TbLoginAudits">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="SESSION_ID" jdbcType="VARCHAR" property="sessionId" />
+    <result column="CREATED" jdbcType="VARCHAR" property="created" />
+    <result column="AUDIT_TYPE" jdbcType="VARCHAR" property="auditType" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="AUDIT_POSITION" jdbcType="VARCHAR" property="auditPosition" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, IP, SESSION_ID, CREATED, AUDIT_TYPE, MESSAGE, USER_ID, AUDIT_POSITION
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbLoginAuditsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TB_LOGIN_AUDITS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbLoginAuditsExample">
+    delete from TB_LOGIN_AUDITS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbLoginAudits">
+    insert into TB_LOGIN_AUDITS (ID, IP, SESSION_ID, 
+      CREATED, AUDIT_TYPE, MESSAGE, 
+      USER_ID, AUDIT_POSITION)
+    values (#{id,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{sessionId,jdbcType=VARCHAR}, 
+      #{created,jdbcType=VARCHAR}, #{auditType,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{auditPosition,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbLoginAudits">
+    insert into TB_LOGIN_AUDITS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="sessionId != null">
+        SESSION_ID,
+      </if>
+      <if test="created != null">
+        CREATED,
+      </if>
+      <if test="auditType != null">
+        AUDIT_TYPE,
+      </if>
+      <if test="message != null">
+        MESSAGE,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="auditPosition != null">
+        AUDIT_POSITION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=VARCHAR},
+      </if>
+      <if test="auditType != null">
+        #{auditType,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPosition != null">
+        #{auditPosition,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbLoginAuditsExample" resultType="java.lang.Integer">
+    select count(*) from TB_LOGIN_AUDITS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update TB_LOGIN_AUDITS
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null">
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sessionId != null">
+        SESSION_ID = #{record.sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null">
+        CREATED = #{record.created,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditType != null">
+        AUDIT_TYPE = #{record.auditType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.message != null">
+        MESSAGE = #{record.message,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditPosition != null">
+        AUDIT_POSITION = #{record.auditPosition,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update TB_LOGIN_AUDITS
+    set ID = #{record.id,jdbcType=VARCHAR},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      SESSION_ID = #{record.sessionId,jdbcType=VARCHAR},
+      CREATED = #{record.created,jdbcType=VARCHAR},
+      AUDIT_TYPE = #{record.auditType,jdbcType=VARCHAR},
+      MESSAGE = #{record.message,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      AUDIT_POSITION = #{record.auditPosition,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

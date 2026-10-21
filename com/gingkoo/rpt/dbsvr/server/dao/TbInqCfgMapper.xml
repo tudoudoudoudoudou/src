@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gingkoo.rpt.dbsvr.server.dao.TbInqCfgMapper">
+  <resultMap id="BaseResultMap" type="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfg">
+    <id column="CORP_ID" jdbcType="VARCHAR" property="corpId" />
+    <id column="SQL_ID" jdbcType="VARCHAR" property="sqlId" />
+    <result column="SQL_STRING" jdbcType="VARCHAR" property="sqlString" />
+    <result column="DETAIL_SQL_STRING" jdbcType="VARCHAR" property="detailSqlString" />
+    <result column="SYSTEM" jdbcType="VARCHAR" property="system" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="UPD_TIME" jdbcType="CHAR" property="updTime" />
+    <result column="ADD_TIME" jdbcType="CHAR" property="addTime" />
+    <result column="RSV1" jdbcType="VARCHAR" property="rsv1" />
+    <result column="RSV2" jdbcType="VARCHAR" property="rsv2" />
+    <result column="RSV3" jdbcType="VARCHAR" property="rsv3" />
+    <result column="RSV4" jdbcType="VARCHAR" property="rsv4" />
+    <result column="RSV5" jdbcType="VARCHAR" property="rsv5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CORP_ID, SQL_ID, SQL_STRING, DETAIL_SQL_STRING, SYSTEM, REMARKS, UPD_TIME, ADD_TIME, 
+    RSV1, RSV2, RSV3, RSV4, RSV5
+  </sql>
+  <select id="selectByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfgExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TB_INQ_CFG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfgKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TB_INQ_CFG
+    where CORP_ID = #{corpId,jdbcType=VARCHAR}
+      and SQL_ID = #{sqlId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfgKey">
+    delete from TB_INQ_CFG
+    where CORP_ID = #{corpId,jdbcType=VARCHAR}
+      and SQL_ID = #{sqlId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfgExample">
+    delete from TB_INQ_CFG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfg">
+    insert into TB_INQ_CFG (CORP_ID, SQL_ID, SQL_STRING, 
+      DETAIL_SQL_STRING, SYSTEM, REMARKS, 
+      UPD_TIME, ADD_TIME, RSV1, RSV2, 
+      RSV3, RSV4, RSV5)
+    values (#{corpId,jdbcType=VARCHAR}, #{sqlId,jdbcType=VARCHAR}, #{sqlString,jdbcType=VARCHAR}, 
+      #{detailSqlString,jdbcType=VARCHAR}, #{system,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{updTime,jdbcType=CHAR}, #{addTime,jdbcType=CHAR}, #{rsv1,jdbcType=VARCHAR}, #{rsv2,jdbcType=VARCHAR}, 
+      #{rsv3,jdbcType=VARCHAR}, #{rsv4,jdbcType=VARCHAR}, #{rsv5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfg">
+    insert into TB_INQ_CFG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="corpId != null">
+        CORP_ID,
+      </if>
+      <if test="sqlId != null">
+        SQL_ID,
+      </if>
+      <if test="sqlString != null">
+        SQL_STRING,
+      </if>
+      <if test="detailSqlString != null">
+        DETAIL_SQL_STRING,
+      </if>
+      <if test="system != null">
+        SYSTEM,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="updTime != null">
+        UPD_TIME,
+      </if>
+      <if test="addTime != null">
+        ADD_TIME,
+      </if>
+      <if test="rsv1 != null">
+        RSV1,
+      </if>
+      <if test="rsv2 != null">
+        RSV2,
+      </if>
+      <if test="rsv3 != null">
+        RSV3,
+      </if>
+      <if test="rsv4 != null">
+        RSV4,
+      </if>
+      <if test="rsv5 != null">
+        RSV5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="corpId != null">
+        #{corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="sqlId != null">
+        #{sqlId,jdbcType=VARCHAR},
+      </if>
+      <if test="sqlString != null">
+        #{sqlString,jdbcType=VARCHAR},
+      </if>
+      <if test="detailSqlString != null">
+        #{detailSqlString,jdbcType=VARCHAR},
+      </if>
+      <if test="system != null">
+        #{system,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="updTime != null">
+        #{updTime,jdbcType=CHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=CHAR},
+      </if>
+      <if test="rsv1 != null">
+        #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        #{rsv5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfgExample" resultType="java.lang.Integer">
+    select count(*) from TB_INQ_CFG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update TB_INQ_CFG
+    <set>
+      <if test="record.corpId != null">
+        CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqlId != null">
+        SQL_ID = #{record.sqlId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqlString != null">
+        SQL_STRING = #{record.sqlString,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailSqlString != null">
+        DETAIL_SQL_STRING = #{record.detailSqlString,jdbcType=VARCHAR},
+      </if>
+      <if test="record.system != null">
+        SYSTEM = #{record.system,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updTime != null">
+        UPD_TIME = #{record.updTime,jdbcType=CHAR},
+      </if>
+      <if test="record.addTime != null">
+        ADD_TIME = #{record.addTime,jdbcType=CHAR},
+      </if>
+      <if test="record.rsv1 != null">
+        RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv2 != null">
+        RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv3 != null">
+        RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv4 != null">
+        RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rsv5 != null">
+        RSV5 = #{record.rsv5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update TB_INQ_CFG
+    set CORP_ID = #{record.corpId,jdbcType=VARCHAR},
+      SQL_ID = #{record.sqlId,jdbcType=VARCHAR},
+      SQL_STRING = #{record.sqlString,jdbcType=VARCHAR},
+      DETAIL_SQL_STRING = #{record.detailSqlString,jdbcType=VARCHAR},
+      SYSTEM = #{record.system,jdbcType=VARCHAR},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      UPD_TIME = #{record.updTime,jdbcType=CHAR},
+      ADD_TIME = #{record.addTime,jdbcType=CHAR},
+      RSV1 = #{record.rsv1,jdbcType=VARCHAR},
+      RSV2 = #{record.rsv2,jdbcType=VARCHAR},
+      RSV3 = #{record.rsv3,jdbcType=VARCHAR},
+      RSV4 = #{record.rsv4,jdbcType=VARCHAR},
+      RSV5 = #{record.rsv5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfg">
+    update TB_INQ_CFG
+    <set>
+      <if test="sqlString != null">
+        SQL_STRING = #{sqlString,jdbcType=VARCHAR},
+      </if>
+      <if test="detailSqlString != null">
+        DETAIL_SQL_STRING = #{detailSqlString,jdbcType=VARCHAR},
+      </if>
+      <if test="system != null">
+        SYSTEM = #{system,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="updTime != null">
+        UPD_TIME = #{updTime,jdbcType=CHAR},
+      </if>
+      <if test="addTime != null">
+        ADD_TIME = #{addTime,jdbcType=CHAR},
+      </if>
+      <if test="rsv1 != null">
+        RSV1 = #{rsv1,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv2 != null">
+        RSV2 = #{rsv2,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv3 != null">
+        RSV3 = #{rsv3,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv4 != null">
+        RSV4 = #{rsv4,jdbcType=VARCHAR},
+      </if>
+      <if test="rsv5 != null">
+        RSV5 = #{rsv5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CORP_ID = #{corpId,jdbcType=VARCHAR}
+      and SQL_ID = #{sqlId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gingkoo.rpt.dbsvr.server.bean.TbInqCfg">
+    update TB_INQ_CFG
+    set SQL_STRING = #{sqlString,jdbcType=VARCHAR},
+      DETAIL_SQL_STRING = #{detailSqlString,jdbcType=VARCHAR},
+      SYSTEM = #{system,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      UPD_TIME = #{updTime,jdbcType=CHAR},
+      ADD_TIME = #{addTime,jdbcType=CHAR},
+      RSV1 = #{rsv1,jdbcType=VARCHAR},
+      RSV2 = #{rsv2,jdbcType=VARCHAR},
+      RSV3 = #{rsv3,jdbcType=VARCHAR},
+      RSV4 = #{rsv4,jdbcType=VARCHAR},
+      RSV5 = #{rsv5,jdbcType=VARCHAR}
+    where CORP_ID = #{corpId,jdbcType=VARCHAR}
+      and SQL_ID = #{sqlId,jdbcType=VARCHAR}
+  </update>
+</mapper>
